@@ -29,7 +29,6 @@ define(function(require, exports, module) {
                 win: "Ctrl-I"
             },
             exec: function() {
-                alert('Pipeline test success');
                 if (dropletEditor) dropletEditor.toggleBlocks();
             }
         }, plugin);
@@ -81,12 +80,12 @@ define(function(require, exports, module) {
                 activateDroplet(aceEditor, aceEditor.session);
         }
         function activateDroplet(aceEditor) {
-            if (!dropletEditor) {
-                var currentValue = aceEditor.getValue();
-                dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: []});
-                dropletEditor.setValue(currentValue);
-            }
-            dropletEditor.setEditorState(true);
+            //if (!dropletEditor) {
+            var currentValue = aceEditor.getValue();
+            dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: []});
+            dropletEditor.setValue(currentValue);
+            //}
+            //dropletEditor.setEditorState(true);
         }
         function deactivateDroplet(aceEditor) {
             if (dropletEditor)
