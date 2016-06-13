@@ -82,7 +82,16 @@ define(function(require, exports, module) {
         function activateDroplet(aceEditor) {
             if (!dropletEditor) {
                 var currentValue = aceEditor.getValue();
-                dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: []});
+                dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: [
+                  {
+                    'name': 'Palette option 1',
+                    'blocks': [
+                      {
+                        'block': 'fd 10'
+                      }
+                    ]
+                  }
+                ]});
                 dropletEditor.setValue(currentValue);
             }
             dropletEditor.setEditorState(true);
