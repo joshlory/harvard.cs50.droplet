@@ -64,42 +64,42 @@ define(function(require, exports, module) {
         /***** Methods *****/
 
         function attachToAce(aceEditor) {
+            var currentValue = aceEditor.getValue();
+            aceEditor._dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: [
+              {
+                'name': 'Palette option 1',
+                'blocks': [
+                  {
+                    'block': 'fd 10'
+                  }
+                ]
+              }
+            ]});
+            aceEditor._dropletEditor.setValue(currentValue);
+
             // here we get an instance of ace
             // we can listen for setSession
             // and create droplet editor attached to this ace instance
             // it can work similar to http://pencilcode.net/edit/first
             // where there is a widget on the gutter displayed for all coffee files
             aceEditor.on("changeSession", function(e) {
-                if (e.session && e.session.$modeId == "ace/mode/coffee")
-                    activateDroplet(aceEditor, e.session);
-                else
-                    deactivateDroplet(aceEditor, e.oldSession);
-                if (dropletEditor) dropletEditor.setValue(e.session.getValue());
+                if (!aceEditor._dropletEditor.hasSessionFor(e.session)) {
+                    if (e.session.$modeId == 'ace/mode/coffee') {
+                        aceEditor._dropletEditor.bindNewSession(e.session, {mode: 'coffeescript', palette: [
+                            {
+                                'name': 'Palette option 1',
+                                'blocks': [
+                                    {
+                                        'block': 'fd 10'
+                                    }
+                                ]
+                            }
+                        ]});
+                    }
+                }
             });
-            if (aceEditor.session && aceEditor.session.$modeId == "ace/mode/coffee")
-                activateDroplet(aceEditor, aceEditor.session);
         }
-        function activateDroplet(aceEditor) {
-            if (!dropletEditor) {
-                var currentValue = aceEditor.getValue();
-                dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: [
-                  {
-                    'name': 'Palette option 1',
-                    'blocks': [
-                      {
-                        'block': 'fd 10'
-                      }
-                    ]
-                  }
-                ]});
-                dropletEditor.setValue(currentValue);
-            }
-            dropletEditor.setEditorState(true);
-        }
-        function deactivateDroplet(aceEditor) {
-            if (dropletEditor)
-                dropletEditor.setEditorState(false);
-        }
+
         function detachFromAce(ace) {
 
         }
