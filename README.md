@@ -1,1 +1,1 @@
-This is the Cloud9 simple plugin example
+Droplet plugin for Cloud 9
