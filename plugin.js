@@ -10,8 +10,8 @@ define(function(require, exports, module) {
         var tabManager = imports.tabManager;
         var ace = imports.ace;
         var ui = imports.ui;
-	var commands = imports.commands;
-	var menus = imports.menus;
+        var commands = imports.commands;
+        var menus = imports.menus;
 
         /***** Initialization *****/
 
@@ -23,19 +23,19 @@ define(function(require, exports, module) {
         var dropletEditor = null;
 
         commands.addCommand({
-	    name: "droplet_toggle",
-	    bindKey: {
-	        mac: "Command-I",
-		win: "Ctrl-I"
-	    },
-	    exec: function() {
-	        if (dropletEditor) dropletEditor.toggleBlocks();
-	    }
-	}, plugin);
+            name: "droplet_toggle",
+            bindKey: {
+                mac: "Command-I",
+                win: "Ctrl-I"
+            },
+            exec: function() {
+                if (dropletEditor) dropletEditor.toggleBlocks();
+            }
+        }, plugin);
 
-	menus.addItemByPath('View/Toggle Blocks', {
-	    command: "droplet_toggle"
-	}, 0, plugin);
+        menus.addItemByPath('View/Toggle Blocks', {
+            command: "droplet_toggle"
+        }, 0, plugin);
 
         function load() {
             tabManager.once("ready", function() {
@@ -80,12 +80,12 @@ define(function(require, exports, module) {
                 activateDroplet(aceEditor, aceEditor.session);
         }
         function activateDroplet(aceEditor) {
-	    if (!dropletEditor) {
+            if (!dropletEditor) {
                 var currentValue = aceEditor.getValue();
                 dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: []});
                 dropletEditor.setValue(currentValue);
-	    }
-	    dropletEditor.setEditorState(true);
+            }
+            dropletEditor.setEditorState(true);
         }
         function deactivateDroplet(aceEditor) {
             if (dropletEditor)
