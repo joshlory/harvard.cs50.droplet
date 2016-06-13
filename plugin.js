@@ -81,6 +81,10 @@ define(function(require, exports, module) {
         }
         function activateDroplet(aceEditor) {
             //if (!dropletEditor) {
+            //Remove the old droplet editor
+            if (dropletEditor)
+              dropletEditor.dropletElement.parentElement.removeChild(dropletEditor.dropletElement);
+            //Create a new droplet editor
             var currentValue = aceEditor.getValue();
             dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: []});
             dropletEditor.setValue(currentValue);
