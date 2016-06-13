@@ -29,7 +29,6 @@ define(function(require, exports, module) {
                 win: "Ctrl-I"
             },
             exec: function() {
-                alert('Pipeline test success');
                 if (dropletEditor) dropletEditor.toggleBlocks();
             }
         }, plugin);
