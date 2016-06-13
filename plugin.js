@@ -29,7 +29,7 @@ define(function(require, exports, module) {
                 win: "Ctrl-I"
             },
             exec: function() {
-                if (dropletEditor) dropletEditor.toggleBlocks();
+                if (dropletEditor && dropletEditor.hasSessionFor(dropletEditor.aceEditor.getSession())) dropletEditor.toggleBlocks();
             }
         }, plugin);
 
@@ -64,18 +64,20 @@ define(function(require, exports, module) {
         /***** Methods *****/
 
         function attachToAce(aceEditor) {
-            var currentValue = aceEditor.getValue();
-            aceEditor._dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: [
-              {
-                'name': 'Palette option 1',
-                'blocks': [
-                  {
-                    'block': 'fd 10'
-                  }
-                ]
-              }
-            ]});
-            aceEditor._dropletEditor.setValue(currentValue);
+	    if (!dropletEditor) {
+		    var currentValue = aceEditor.getValue();
+		    dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: [
+		      {
+			'name': 'Palette option 1',
+			'blocks': [
+			  {
+			    'block': 'fd 10'
+			  }
+			]
+		      }
+		    ]});
+		    aceEditor._dropletEditor.setValue(currentValue);
+	    }
 
             // here we get an instance of ace
             // we can listen for setSession
@@ -85,7 +87,7 @@ define(function(require, exports, module) {
             aceEditor.on("changeSession", function(e) {
                 if (!aceEditor._dropletEditor.hasSessionFor(e.session)) {
                     if (e.session.$modeId == 'ace/mode/coffee') {
-                        aceEditor._dropletEditor.bindNewSession(e.session, {mode: 'coffeescript', palette: [
+                        aceEditor._dropletEditor.bindNewSession({mode: 'coffeescript', palette: [
                             {
                                 'name': 'Palette option 1',
                                 'blocks': [
