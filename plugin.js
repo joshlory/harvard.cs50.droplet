@@ -83,6 +83,7 @@ define(function(require, exports, module) {
         button.style.position = 'absolute';
         button.style.top = '0px';
         button.style.right = '0px';
+        button.style.zIndex = '9999';
         dropletEditor.wrapperElement.appendChild(button);
 
         button.addEventListener('click', function() {
