@@ -2,6 +2,18 @@ define(function(require, exports, module) {
   var droplet = require('./droplet/dist/droplet-full.js');
 
   var OPT_MAP = {
+    'ace/mode/c_cpp': {
+      mode: 'c',
+      palette: [
+        {
+          'name': 'Control Flow',
+          'color': 'orange'
+          'blocks': [
+          {'block': 'int main(int n, char *args[]) {\n  printf("%d", n);\n}'}
+          ]
+        }
+      ]
+    },
     'ace/mode/coffee': {
       mode: 'coffeescript',
       palette: [
