@@ -107,18 +107,7 @@ define(function(require, exports, module) {
 
     ui.insertCss(require("text!./droplet/css/droplet.css"), plugin);
 
-    window.dropletEditor = null;
-
-    commands.addCommand({
-      name: "droplet_toggle",
-      bindKey: {
-        mac: "Command-I",
-        win: "Ctrl-I"
-      },
-      exec: function() {
-        if (dropletEditor && dropletEditor.hasSessionFor(dropletEditor.aceEditor.getSession())) dropletEditor.toggleBlocks();
-      }
-    }, plugin);
+    window._lastEditor = null;
 
     menus.addItemByPath('View/Toggle Blocks', {
       command: "droplet_toggle"
@@ -153,7 +142,8 @@ define(function(require, exports, module) {
     function attachToAce(aceEditor) {
       if (!aceEditor._dropletEditor) {
         var currentValue = aceEditor.getValue();
-        dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId));
+        var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId));
+        _lastEditor = dropletEditor;
         aceEditor._dropletEditor.setValue(currentValue);
 
         var button = document.createElement('button');
@@ -189,6 +179,15 @@ define(function(require, exports, module) {
           }
         });
 
+        // Bind to the associated resize event
+        tabManager.getTabs().forEach(function(tab) {
+          var ace = tab.path && tab.editor.ace;
+          if (ace == aceEditor && tab.editorType == 'ace') {
+            tab.editor.on('resize', function() {
+              dropletEditor.resize();
+            });
+          }
+        });
       }
 
       function lookupOptions(mode) {
