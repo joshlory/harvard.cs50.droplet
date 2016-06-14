@@ -64,7 +64,7 @@ define(function(require, exports, module) {
         /***** Methods *****/
 
         function attachToAce(aceEditor) {
-	    if (!dropletEditor) {
+	    if (!aceEditor._dropletEditor) {
 		    var currentValue = aceEditor.getValue();
 		    dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: [
 		      {
