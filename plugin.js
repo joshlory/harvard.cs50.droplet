@@ -4,7 +4,7 @@ define(function(require, exports, module) {
   var OPT_MAP = {
     'ace/mode/c_cpp': {
       "mode": "c",
-      "startInTextMode": true,
+      "textModeAtStart": true,
 
       "palette": [
         {
@@ -186,7 +186,7 @@ define(function(require, exports, module) {
     },
     'ace/mode/coffee': {
       mode: 'coffeescript',
-      startInTextMode: true,
+      textModeAtStart: true,
       palette: [
         {
           'name': 'Output',
@@ -260,7 +260,7 @@ define(function(require, exports, module) {
     },
     'ace/mode/javascript': {
       mode: 'javascript',
-      startInTextMode: true,
+      textModeAtStart: true,
       palette: [
       {
         'name': 'Output',
