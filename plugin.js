@@ -154,15 +154,24 @@ define(function(require, exports, module) {
       if (!aceEditor._dropletEditor) {
         var currentValue = aceEditor.getValue();
         dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId));
+        aceEditor._dropletEditor.setEditorState(false);
         aceEditor._dropletEditor.setValue(currentValue);
 
-        var button = document.createElement('button');
-        button.innerText = 'Toggle!';
+        var button = document.createElement('div');
+        button.className = 'c9-droplet-toggle-button';
+        button.innerText = '';
         button.style.position = 'absolute';
-        button.style.top = '0px';
-        button.style.right = '0px';
-        button.style.zIndex = '9999';
-        dropletEditor.wrapperElement.appendChild(button);
+        button.style.right = '-30px';
+        button.style.width = '30px';
+        button.style.height = '50px';
+        button.style.top = '50%';
+        button.style.bottom='50%';
+        button.style.marginTop = '-25px';
+        button.style.cursor = 'pointer';
+        button.style.boxShadow = '0 0 6px gray';
+        button.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+        button.style.borderTopRightRadius = button.style.borderBottomRightRadius = '5px';
+        dropletEditor.paletteElement.appendChild(button);
 
         button.addEventListener('click', function() {
           aceEditor._dropletEditor.toggleBlocks();
@@ -205,6 +214,10 @@ define(function(require, exports, module) {
     function detachFromAce(ace) {
 
     }
+
+    plugin.on("resize", function() {
+      alert('hello');
+    })
 
     /***** Lifecycle *****/
 
