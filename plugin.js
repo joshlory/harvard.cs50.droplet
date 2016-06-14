@@ -177,7 +177,7 @@ define(function(require, exports, module) {
           }
           else {
             var option = lookupOptions(e.session.$modeId);
-            if (option) {
+            if (option != null) {
               aceEditor._dropletEditor.bindNewSession(option);
               button.style.display = 'block';
             }
@@ -185,7 +185,42 @@ define(function(require, exports, module) {
               button.style.display = 'none';
             }
           }
+          window.lastBoundSession = e.session;
+          e.session.on('changeMode', function(e) {
+          if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
+	    aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId));
+	    aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+	  }
+	  else {
+	    var option = lookupOptions(aceEditor.getSession().$modeId);
+	    if (option != null) {
+	      aceEditor._dropletEditor.bindNewSession(option);
+	      button.style.display = 'block';
+	    }
+	    else {
+	      button.style.display = 'none';
+	    }
+	  }
+        })
         });
+
+        // Bind to mode changes
+        aceEditor.getSession().on('changeMode', function(e) {
+          if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
+	    aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId));
+	    aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+	  }
+	  else {
+	    var option = lookupOptions(aceEditor.getSession().$modeId);
+	    if (option != null) {
+	      aceEditor._dropletEditor.bindNewSession(option);
+	      button.style.display = 'block';
+	    }
+	    else {
+	      button.style.display = 'none';
+	    }
+	  }
+        })
 
         // Bind to the associated resize event
         tabManager.getTabs().forEach(function(tab) {
@@ -205,6 +240,14 @@ define(function(require, exports, module) {
         else {
           return null;
         }
+      }
+
+      function lookupMode(id) {
+        return (OPT_MAP[id] || {mode: null}).mode;
+      }
+
+      function lookupPalette(id) {
+      	return (OPT_MAP[id] || {palette: null}).palette;
       }
 
     }
