@@ -1,6 +1,93 @@
 define(function(require, exports, module) {
   var droplet = require('./droplet/dist/droplet-full.js');
 
+  var OPT_MAP = {
+    'ace/mode/coffee': {
+      mode: 'coffeescript',
+      palette: [
+        {
+          'name': 'dur',
+          'color': 'blue',
+          blocks: [
+          {'block': 'dur dur'}
+          ]
+        }
+      ]
+    },
+    'ace/mode/javascript': {
+      mode: 'javascript',
+      palette: [
+      {
+        'name': 'Output',
+        'color': 'blue',
+        'blocks': [
+        {'block': 'console.log("hello");'},
+        ]
+      },
+      {
+        'name': 'Variables',
+        'color': 'blue',
+        'blocks': [
+        {'block': 'var a = 10;'},
+        {'block': 'a = 10;'},
+        {'block': 'a += 1;'},
+        {'block': 'a -= 10;'},
+        {'block': 'a *= 1;'},
+        {'block': 'a /= 1;'}
+        ]
+      },
+      {
+        'name': 'Functions',
+        'color': 'purple',
+        'blocks': [
+        {'block': 'function myFunction(param) {\n  __\n}'},
+        {'block': 'myFunction(arg);'},
+        ]
+      },
+      {
+        'name': 'Logic',
+        'color': 'teal',
+        'blocks': [
+        {'block': 'a === b'},
+        {'block': 'a !== b'},
+        {'block': 'a > b'},
+        {'block': 'a < b'},
+        {'block': 'a || b'},
+        {'block': 'a && b'},
+        {'block': '!a'}
+        ]
+      },
+      {
+        'name': 'Operators',
+        'color': 'green',
+        'blocks': [
+        {'block': 'a + b'},
+        {'block': 'a - b'},
+        {'block': 'a * b'},
+        {'block': 'a / b'},
+        {'block': 'a % b'},
+        {'block': 'Math.pow(a, b)'},
+        {'block': 'Math.sin(a)'},
+        {'block': 'Math.tan(a)'},
+        {'block': 'Math.cos(a)'},
+        {'block': 'Math.random()'}
+        ]
+      },
+      {
+        'name': 'Control flow',
+        'color': 'orange',
+        'blocks': [
+        {'block': 'for (var i = 0; i < 10; i++) {\n  __\n}'},
+        {'block': 'if (a === b) {\n  __\n}'},
+        {'block': 'if (a === b) {\n  __\n} else {\n  __\n}'},
+        {'block': 'while (true) {\n  __\n}'},
+        {'block': 'function myFunction(param) {\n  __\n}'}
+        ]
+      },
+      ]
+    }
+  };
+
   main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus"];
   main.provides = ["droplet"];
   return main;
@@ -66,16 +153,7 @@ define(function(require, exports, module) {
     function attachToAce(aceEditor) {
       if (!aceEditor._dropletEditor) {
         var currentValue = aceEditor.getValue();
-        dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, {mode: 'coffeescript', palette: [
-          {
-            'name': 'Palette option 1',
-            'blocks': [
-            {
-              'block': 'fd 10'
-            }
-            ]
-          }
-        ]});
+        dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId));
         aceEditor._dropletEditor.setValue(currentValue);
 
         var button = document.createElement('button');
@@ -100,17 +178,9 @@ define(function(require, exports, module) {
             button.style.display = 'block';
           }
           else {
-            if (e.session.$modeId == 'ace/mode/coffee') {
-              aceEditor._dropletEditor.bindNewSession({mode: 'coffeescript', palette: [
-                {
-                  'name': 'Palette option 1',
-                  'blocks': [
-                  {
-                    'block': 'fd 10'
-                  }
-                  ]
-                }
-              ]});
+            var option = lookupOptions(e.session.$modeId);
+            if (option) {
+              aceEditor._dropletEditor.bindNewSession(option);
               button.style.display = 'block';
             }
             else {
@@ -120,6 +190,16 @@ define(function(require, exports, module) {
         });
 
       }
+
+      function lookupOptions(mode) {
+        if (mode in OPT_MAP) {
+          return OPT_MAP[mode];
+        }
+        else {
+          return null;
+        }
+      }
+
     }
 
     function detachFromAce(ace) {
