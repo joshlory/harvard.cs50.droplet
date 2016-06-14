@@ -4,7 +4,6 @@ define(function(require, exports, module) {
   var OPT_MAP = {
     'ace/mode/c_cpp': {
       "mode": "c",
-      "showPaletteInTextMode": true,
 
       "palette": [
         {
