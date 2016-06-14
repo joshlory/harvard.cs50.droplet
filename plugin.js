@@ -389,7 +389,11 @@ define(function(require, exports, module) {
       if (!aceEditor._dropletEditor) {
         var currentValue = aceEditor.getValue();
         var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId));
-        _lastEditor = dropletEditor;
+
+        // Restore the former top margin (for looking contiguous with the tab)
+        dropletEditor.wrapperElement.style.top = '7px';
+
+        _lastEditor = dropletEditor; // for debugging
         aceEditor._dropletEditor.setValue(currentValue);
 
         var button = document.createElement('div');
