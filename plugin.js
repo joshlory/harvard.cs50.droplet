@@ -6,12 +6,73 @@ define(function(require, exports, module) {
       mode: 'coffeescript',
       palette: [
         {
-          'name': 'dur',
+          'name': 'Output',
           'color': 'blue',
           blocks: [
-          {'block': 'dur dur'}
+          {'block': 'console.log "hello"'}
           ]
-        }
+        },
+        {
+          'name': 'Variables',
+          'color': 'blue',
+          'blocks': [
+          {'block': 'a = 10'},
+          {'block': 'a += 10'},
+          {'block': 'a -= 10'},
+          {'block': 'a *= 10'},
+          {'block': 'a /= 10'},
+          ]
+        },
+        {
+          'name': 'Functions',
+          'color': 'purple',
+          'blocks': [
+          {'block': 'myFunction = (param) ->\n  ``'},
+          {'block': 'myFunction(arg)'},
+          {'block': 'return result'}
+          ]
+        },
+        {
+          'name': 'Logic',
+          'color': 'teal',
+          'blocks': [
+          {'block': 'a is b'},
+          {'block': 'a isnt b'},
+          {'block': 'a > b'},
+          {'block': 'a < b'},
+          {'block': 'a || b'},
+          {'block': 'a && b'},
+          {'block': '!a'}
+          ]
+        },
+        {
+          'name': 'Operators',
+          'color': 'green',
+          'blocks': [
+          {'block': 'a + b'},
+          {'block': 'a - b'},
+          {'block': 'a * b'},
+          {'block': 'a / b'},
+          {'block': 'a % b'},
+          {'block': 'Math.pow(a, b)'},
+          {'block': 'Math.sin(a)'},
+          {'block': 'Math.tan(a)'},
+          {'block': 'Math.cos(a)'},
+          {'block': 'Math.random()'}
+          ]
+        },
+        {
+          'name': 'Control flow',
+          'color': 'orange',
+          'blocks': [
+          {'block': 'for i in [1..10]\n  ``'},
+          {'block': 'for el, i in list\n  ``'},
+          {'block': 'if a is b\n  ``'},
+          {'block': 'if a is b\n  ``\nelse\n  ``'},
+          {'block': 'while true\n  ``'},
+          {'block': 'myFunction = (param) ->\n  ``'}
+          ]
+        },
       ]
     },
     'ace/mode/javascript': {
@@ -30,10 +91,10 @@ define(function(require, exports, module) {
         'blocks': [
         {'block': 'var a = 10;'},
         {'block': 'a = 10;'},
-        {'block': 'a += 1;'},
+        {'block': 'a += 10;'},
         {'block': 'a -= 10;'},
-        {'block': 'a *= 1;'},
-        {'block': 'a /= 1;'}
+        {'block': 'a *= 10;'},
+        {'block': 'a /= 10;'}
         ]
       },
       {
@@ -42,6 +103,7 @@ define(function(require, exports, module) {
         'blocks': [
         {'block': 'function myFunction(param) {\n  __\n}'},
         {'block': 'myFunction(arg);'},
+        {'block': 'return result'}
         ]
       },
       {
