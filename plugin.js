@@ -3,13 +3,183 @@ define(function(require, exports, module) {
 
   var OPT_MAP = {
     'ace/mode/c_cpp': {
-      mode: 'c',
-      palette: [
+      "mode": "c",
+      "showPaletteInTextMode": true,
+
+      "palette": [
         {
-          'name': 'Control Flow',
-          'color': 'orange',
+          'name': 'I/O',
+          'color': 'Blue',
           'blocks': [
-          {'block': 'int main(int n, char *args[]) {\n  printf("%d", n);\n}'}
+          {
+            'block': 'printf("%s\\n", "Hello, World!");',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'puts("%s\\n", "Hello, World!");',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'scanf("%s\\n", &s);',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'getchar()',
+            'context': 'expression'
+          },
+          {
+            'block': 'FILE *file = fopen("file.txt", "r");',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'fprintf(file, "%s\\n", "Hello, World!");',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'fputs(file, "Hello, World!");',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'fscanf(file, "%s\\n", &s);',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'fgetc(file)',
+            'context': 'expression'
+          }]
+        },
+        {
+          'name': 'Structure',
+          'color': 'Orange',
+          'blocks': [
+          {
+            'block': 'int main(int n, char *args[]) {\n  puts("Hello");\n}',
+            'context': 'externalDeclaration'
+          },
+          {
+            'block': 'myType myMethod(myType param) {\n  return 0;\n}',
+            'context': 'externalDeclaration'
+          },
+          {
+            'block': 'struct myStruct {\n  int property1;\n  int property2;\n};',
+            'context': 'externalDeclaration'
+          },
+          {
+            'block': 'myType globalVariable = 0;',
+            'context': 'externalDeclaration'
+          },
+          {
+            'block': 'typedef type1 type2;',
+            'context': 'externalDeclaration'
+          }
+          ]
+        },
+        {
+          'name': 'Control',
+          'color': 'purple',
+          'blocks': [
+          {
+            'block': 'if (a == b) {\n  puts("Equal");\n}',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'if (a == b) {\n  puts("Equal");\n} else {\n  puts("Not equal");\n}',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'while (i < 10) {\n  i++;\n}',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'for (int i = 0; i < n; i++) {\n  printf("%d\\n", i);\n}',
+            'context': 'blockItem'
+          }
+          ]
+        },
+        {
+          'name': 'Math',
+          'color': 'green',
+          'blocks': [
+          {
+            'block': 'a + b',
+            'context': 'expression'
+          },
+          {
+            'block': 'a - b',
+            'context': 'expression'
+          },
+          {
+            'block': 'a * b',
+            'context': 'expression'
+          },
+          {
+            'block': 'a / b',
+            'context': 'expression'
+          },
+          {
+            'block': 'a % b',
+            'context': 'expression'
+          },
+          ]
+        },
+        {
+          'name': 'Memory',
+          'color': 'red',
+          'blocks': [
+          {
+            'block': 'myType *a = malloc(sizeof(myType));',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'myType *a = malloc(sizeof(myType) * length);',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'myType a[length];',
+            'context': 'blockItem'
+          },
+          {
+            'block': '*a',
+            'context': 'expression'
+          },
+          {
+            'block': 'a[0]',
+            'context': 'expression'
+          },
+          {
+            'block': 'a.property',
+            'context': 'expression'
+          }
+          ]
+        },
+        {
+          'name': 'Logic',
+          'color': 'blue',
+          'blocks': [
+          {
+            'block': 'a > b',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'a < b',
+            'context': 'blockItem'
+          },
+          {
+            'block': 'a == b',
+            'context': 'blockItem'
+          },
+          {
+            'block': '!a',
+            'context': 'expression'
+          },
+          {
+            'block': 'a && b',
+            'context': 'expression'
+          },
+          {
+            'block': 'a || b',
+            'context': 'expression'
+          }
           ]
         }
       ]
