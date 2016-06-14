@@ -7,7 +7,7 @@ define(function(require, exports, module) {
       palette: [
         {
           'name': 'Control Flow',
-          'color': 'orange'
+          'color': 'orange',
           'blocks': [
           {'block': 'int main(int n, char *args[]) {\n  printf("%d", n);\n}'}
           ]
