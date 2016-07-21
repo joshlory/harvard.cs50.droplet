@@ -2087,7 +2087,7 @@ define(function(require, exports, module) {
     }
   };
 
-  main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus"];
+  main.consumes = ["Plugin", "Editor", "editors", "tabManager", "ace", "ui", "commands", "menus"];
   main.provides = ["droplet"];
   return main;
 
@@ -2138,13 +2138,68 @@ define(function(require, exports, module) {
 
     /***** Methods *****/
 
+    function applyGetValueHack(aceSession, dropletEditor) {
+
+      /*
+      // Get the current session for the droplet editor
+      var dropletSession = dropletEditor.session;
+
+      // Find the tab we want
+      tabManager.getTabs().forEach(function(tab) {
+        var ace = tab.path && tab.editor.ace;
+        var doc = tab.document, c9Session = tab.document.getSession();
+
+        if (ace && ace.getSession() == aceSession && tab.editorType == 'ace') {
+          // Replace value retrieval
+          doc.on("getValue", function get(e) {
+            if (dropletSession.currentlyUsingBlocks) {
+              console.log("Getting value from Droplet.");
+              return dropletSession.tree.stringify();
+            }
+            else {
+              console.log("Could have gotten value from Droplet, but getting from text mode instead.");
+              var session = c9Session.session;
+              return session
+                  ? session.doc.getValue(session.doc.$fsNewLine)
+                  : e.value;
+            }
+          }, c9Session);
+
+          // Fire changed when changed occurs
+          dropletEditor.on('change', function() {
+            if (dropletEditor.session === dropletSession) { //TODO: currentlyActive property from Droplet core
+              console.log('Emitting changed event from Droplet.')
+              doc.undoManager._emit('change');
+            }
+          });
+        }
+      });
+
+      /*dropletEditor.on('change', function() {
+        if (dropletEditor.session === session) {
+          aceSession.doc.changed = true;
+        }
+      });*/
+    }
+
     function attachToAce(aceEditor) {
       if (!aceEditor._dropletEditor) {
         var currentValue = aceEditor.getValue();
         var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId));
 
+        if (dropletEditor.session != null) {
+  	      applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
+        }
+
         // Restore the former top margin (for looking contiguous with the tab)
         dropletEditor.wrapperElement.style.top = '7px';
+
+        dropletEditor.on('change', function() {
+          setTimeout(function() {
+            console.log('Setting ace value');
+            dropletEditor.setAceValue(dropletEditor.getValue());
+          }, 0);
+        })
 
         _lastEditor = dropletEditor; // for debugging
         aceEditor._dropletEditor.setValue(currentValue);
@@ -2158,10 +2213,9 @@ define(function(require, exports, module) {
         button.style.height = '50px';
         button.style.top = '50%';
         button.style.bottom='50%';
-        button.style.zIndex = "300";
         button.style.marginTop = '-25px';
         button.style.cursor = 'pointer';
-        button.style.boxShadow = '0 0 6px gray';
+        button.style.boxShadow = '6px 0 6px -6px gray';
         button.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
         button.style.borderTopRightRadius = button.style.borderBottomRightRadius = '5px';
         dropletEditor.paletteElement.appendChild(button);
@@ -2183,6 +2237,7 @@ define(function(require, exports, module) {
             var option = lookupOptions(e.session.$modeId);
             if (option != null) {
               aceEditor._dropletEditor.bindNewSession(option);
+              applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
               button.style.display = 'block';
             }
             else {
@@ -2192,19 +2247,20 @@ define(function(require, exports, module) {
           window.lastBoundSession = e.session;
           e.session.on('changeMode', function(e) {
           if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
-	    aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-	    aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
-   }
-	  else {
-	    var option = lookupOptions(aceEditor.getSession().$modeId);
-	    if (option != null) {
-	      aceEditor._dropletEditor.bindNewSession(option);
-	      button.style.display = 'block';
-     }
-	    else {
-	      button.style.display = 'none';
-	    }
-	  }
+      	    aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
+      	    aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+         }
+	      else {
+    	    var option = lookupOptions(aceEditor.getSession().$modeId);
+    	    if (option != null) {
+    	      aceEditor._dropletEditor.bindNewSession(option);
+    	      applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
+    	      button.style.display = 'block';
+         }
+    	    else {
+    	      button.style.display = 'none';
+    	    }
+    	  }
         })
         });
 
