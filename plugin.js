@@ -1,5 +1,8 @@
 define(function(require, exports, module) {
   var droplet = require('./droplet/dist/droplet-full.js');
+  var opentip = require('./opentip-native.js');
+
+  var worker = null;
 
   var OPT_MAP = {
     'ace/mode/c_cpp': {
@@ -2185,10 +2188,10 @@ define(function(require, exports, module) {
     function attachToAce(aceEditor) {
       if (!aceEditor._dropletEditor) {
         var currentValue = aceEditor.getValue();
-        var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId));
+        var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
 
         if (dropletEditor.session != null) {
-  	      applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
+         applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
         }
 
         // Restore the former top margin (for looking contiguous with the tab)
@@ -2247,18 +2250,18 @@ define(function(require, exports, module) {
           window.lastBoundSession = e.session;
           e.session.on('changeMode', function(e) {
           if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
-      	    aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-      	    aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+           aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
+           aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
          }
 	      else {
     	    var option = lookupOptions(aceEditor.getSession().$modeId);
     	    if (option != null) {
-    	      aceEditor._dropletEditor.bindNewSession(option);
-    	      applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
-    	      button.style.display = 'block';
+           aceEditor._dropletEditor.bindNewSession(option);
+           applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
+           button.style.display = 'block';
          }
     	    else {
-    	      button.style.display = 'none';
+           button.style.display = 'none';
     	    }
     	  }
         })
