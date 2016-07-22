@@ -1,6 +1,7 @@
+console.log('The define() call is running.');
 define(function(require, exports, module) {
+  console.log('The initial script is running.');
   var droplet = require('./droplet/dist/droplet-full.js');
-  var opentip = require('./opentip-native.js');
 
   var worker = null;
 
@@ -10,7 +11,7 @@ define(function(require, exports, module) {
       if (require.nameToUrl && !require.toUrl)
           require.toUrl = require.nameToUrl;
 
-      var workerUrl = workerUrl || require.toUrl(mod)
+      var workerUrl = workerUrl || require.toUrl(mod);
 
       console.log('USING WORKER URL', workerUrl);
 
@@ -51,8 +52,6 @@ define(function(require, exports, module) {
         return blobBuilder.getBlob("application/javascript");
     }
   }
-
-  var worker = createWorker('./droplet/dist/worker.js');
 
   var OPT_MAP = {
     'ace/mode/c_cpp': {
@@ -1989,154 +1988,6 @@ define(function(require, exports, module) {
           }
         }
       }
-    },
-    'ace/mode/coffee': {
-      mode: 'coffeescript',
-      textModeAtStart: true,
-      palette: [
-        {
-          'name': 'Output',
-          'color': 'blue',
-          blocks: [
-          {'block': 'console.log "hello"'}
-          ]
-        },
-        {
-          'name': 'Variables',
-          'color': 'blue',
-          'blocks': [
-          {'block': 'a = 10'},
-          {'block': 'a += 10'},
-          {'block': 'a -= 10'},
-          {'block': 'a *= 10'},
-          {'block': 'a /= 10'},
-          ]
-        },
-        {
-          'name': 'Functions',
-          'color': 'purple',
-          'blocks': [
-          {'block': 'myFunction = (param) ->\n  ``'},
-          {'block': 'myFunction(arg)'},
-          {'block': 'return result'}
-          ]
-        },
-        {
-          'name': 'Logic',
-          'color': 'teal',
-          'blocks': [
-          {'block': 'a is b'},
-          {'block': 'a isnt b'},
-          {'block': 'a > b'},
-          {'block': 'a < b'},
-          {'block': 'a || b'},
-          {'block': 'a && b'},
-          {'block': '!a'}
-          ]
-        },
-        {
-          'name': 'Operators',
-          'color': 'green',
-          'blocks': [
-          {'block': 'a + b'},
-          {'block': 'a - b'},
-          {'block': 'a * b'},
-          {'block': 'a / b'},
-          {'block': 'a % b'},
-          {'block': 'Math.pow(a, b)'},
-          {'block': 'Math.sin(a)'},
-          {'block': 'Math.tan(a)'},
-          {'block': 'Math.cos(a)'},
-          {'block': 'Math.random()'}
-          ]
-        },
-        {
-          'name': 'Control flow',
-          'color': 'orange',
-          'blocks': [
-          {'block': 'for i in [1..10]\n  ``'},
-          {'block': 'for el, i in list\n  ``'},
-          {'block': 'if a is b\n  ``'},
-          {'block': 'if a is b\n  ``\nelse\n  ``'},
-          {'block': 'while true\n  ``'},
-          {'block': 'myFunction = (param) ->\n  ``'}
-          ]
-        },
-      ]
-    },
-    'ace/mode/javascript': {
-      mode: 'javascript',
-      textModeAtStart: true,
-      palette: [
-      {
-        'name': 'Output',
-        'color': 'blue',
-        'blocks': [
-        {'block': 'console.log("hello");'},
-        ]
-      },
-      {
-        'name': 'Variables',
-        'color': 'blue',
-        'blocks': [
-        {'block': 'var a = 10;'},
-        {'block': 'a = 10;'},
-        {'block': 'a += 10;'},
-        {'block': 'a -= 10;'},
-        {'block': 'a *= 10;'},
-        {'block': 'a /= 10;'}
-        ]
-      },
-      {
-        'name': 'Functions',
-        'color': 'purple',
-        'blocks': [
-        {'block': 'function myFunction(param) {\n  __\n}'},
-        {'block': 'myFunction(arg);'},
-        {'block': 'return result'}
-        ]
-      },
-      {
-        'name': 'Logic',
-        'color': 'teal',
-        'blocks': [
-        {'block': 'a === b'},
-        {'block': 'a !== b'},
-        {'block': 'a > b'},
-        {'block': 'a < b'},
-        {'block': 'a || b'},
-        {'block': 'a && b'},
-        {'block': '!a'}
-        ]
-      },
-      {
-        'name': 'Operators',
-        'color': 'green',
-        'blocks': [
-        {'block': 'a + b'},
-        {'block': 'a - b'},
-        {'block': 'a * b'},
-        {'block': 'a / b'},
-        {'block': 'a % b'},
-        {'block': 'Math.pow(a, b)'},
-        {'block': 'Math.sin(a)'},
-        {'block': 'Math.tan(a)'},
-        {'block': 'Math.cos(a)'},
-        {'block': 'Math.random()'}
-        ]
-      },
-      {
-        'name': 'Control flow',
-        'color': 'orange',
-        'blocks': [
-        {'block': 'for (var i = 0; i < 10; i++) {\n  __\n}'},
-        {'block': 'if (a === b) {\n  __\n}'},
-        {'block': 'if (a === b) {\n  __\n} else {\n  __\n}'},
-        {'block': 'while (true) {\n  __\n}'},
-        {'block': 'function myFunction(param) {\n  __\n}'}
-        ]
-      },
-      ]
     }
   };
 
@@ -2145,6 +1996,7 @@ define(function(require, exports, module) {
   return main;
 
   function main(options, imports, register) {
+    console.log('Main is running');
     var Plugin = imports.Plugin;
     var tabManager = imports.tabManager;
     var ace = imports.ace;
@@ -2174,6 +2026,7 @@ define(function(require, exports, module) {
           }
         });
         ace.on("create", function(e) {
+          console.log('Just created! Binding now.');
           e.editor.on("createAce", attachToAce, plugin);
         }, plugin);
       });
@@ -2193,50 +2046,12 @@ define(function(require, exports, module) {
 
     function applyGetValueHack(aceSession, dropletEditor) {
 
-      /*
-      // Get the current session for the droplet editor
-      var dropletSession = dropletEditor.session;
-
-      // Find the tab we want
-      tabManager.getTabs().forEach(function(tab) {
-        var ace = tab.path && tab.editor.ace;
-        var doc = tab.document, c9Session = tab.document.getSession();
-
-        if (ace && ace.getSession() == aceSession && tab.editorType == 'ace') {
-          // Replace value retrieval
-          doc.on("getValue", function get(e) {
-            if (dropletSession.currentlyUsingBlocks) {
-              console.log("Getting value from Droplet.");
-              return dropletSession.tree.stringify();
-            }
-            else {
-              console.log("Could have gotten value from Droplet, but getting from text mode instead.");
-              var session = c9Session.session;
-              return session
-                  ? session.doc.getValue(session.doc.$fsNewLine)
-                  : e.value;
-            }
-          }, c9Session);
-
-          // Fire changed when changed occurs
-          dropletEditor.on('change', function() {
-            if (dropletEditor.session === dropletSession) { //TODO: currentlyActive property from Droplet core
-              console.log('Emitting changed event from Droplet.')
-              doc.undoManager._emit('change');
-            }
-          });
-        }
-      });
-
-      /*dropletEditor.on('change', function() {
-        if (dropletEditor.session === session) {
-          aceSession.doc.changed = true;
-        }
-      });*/
     }
 
     function attachToAce(aceEditor) {
+      console.log('Attached to ace editor!');
       if (!aceEditor._dropletEditor) {
+        var worker = createWorker('./droplet/dist/worker.js');
         var currentValue = aceEditor.getValue();
         var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
 
@@ -2249,16 +2064,21 @@ define(function(require, exports, module) {
 
         dropletEditor.on('change', function() {
           setTimeout(function() {
-            console.log('Setting ace value');
-            dropletEditor.setAceValue(dropletEditor.getValue());
+            if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
+              console.log('Setting ace value');
+              dropletEditor.setAceValue(dropletEditor.getValue());
+            }
           }, 0);
         })
 
         _lastEditor = dropletEditor; // for debugging
-        aceEditor._dropletEditor.setValue(currentValue);
+        aceEditor._dropletEditor.setValueAsync(currentValue);
 
         var button = document.createElement('div');
         button.className = 'c9-droplet-toggle-button';
+
+        // TODO move to a stylesheet
+        // TODO a block shape SVG?
         button.innerText = '';
         button.style.position = 'absolute';
         button.style.right = '-30px';
@@ -2272,6 +2092,10 @@ define(function(require, exports, module) {
         button.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
         button.style.borderTopRightRadius = button.style.borderBottomRightRadius = '5px';
         dropletEditor.paletteElement.appendChild(button);
+
+        if (!aceEditor._dropletEditor.session || !aceEditor._dropletEditor.session.currentlyUsingBlocks) {
+          button.style.display = "none";
+        }
 
         button.addEventListener('click', function() {
           aceEditor._dropletEditor.toggleBlocks();
@@ -2299,41 +2123,40 @@ define(function(require, exports, module) {
           }
           window.lastBoundSession = e.session;
           e.session.on('changeMode', function(e) {
-          if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
-           aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-           aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
-         }
-        else {
-          var option = lookupOptions(aceEditor.getSession().$modeId);
-          if (option != null) {
-           aceEditor._dropletEditor.bindNewSession(option);
-           applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
-           button.style.display = 'block';
-         }
-          else {
-           button.style.display = 'none';
-          }
-        }
-        })
+            if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
+             aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
+             aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+            } else {
+              var option = lookupOptions(aceEditor.getSession().$modeId);
+              if (option != null) {
+                aceEditor._dropletEditor.bindNewSession(option);
+                applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
+                button.style.display = 'block';
+              }
+              else {
+                button.style.display = 'none';
+              }
+            }
+          });
         });
 
         // Bind to mode changes
         aceEditor.getSession().on('changeMode', function(e) {
           if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
-      aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-      aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
-   }
-    else {
-      var option = lookupOptions(aceEditor.getSession().$modeId);
-      if (option != null) {
-        aceEditor._dropletEditor.bindNewSession(option);
-        button.style.display = 'block';
-     }
-      else {
-        button.style.display = 'none';
-      }
-    }
-        })
+            aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
+            aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+          }
+          else {
+            var option = lookupOptions(aceEditor.getSession().$modeId);
+            if (option != null) {
+              aceEditor._dropletEditor.bindNewSession(option);
+              button.style.display = 'block';
+           }
+            else {
+              button.style.display = 'none';
+            }
+          }
+        });
 
         // Bind to the associated resize event
         tabManager.getTabs().forEach(function(tab) {
