@@ -10,13 +10,7 @@ define(function(require, exports, module) {
       if (require.nameToUrl && !require.toUrl)
           require.toUrl = require.nameToUrl;
 
-      if (config.get("packaged") || !require.toUrl) {
-          workerUrl = workerUrl || config.moduleUrl(mod, "worker");
-      } else {
-          var skipBalancers = true; // load all scripts from one domain, workers don't support CORS headers
-          var normalizePath = this.$normalizePath;
-          workerUrl = workerUrl || normalizePath(require.toUrl(mod));
-      }
+      var workerUrl = workerUrl || require.toUrl(mod)
 
       console.log('USING', workerUrl);
 
