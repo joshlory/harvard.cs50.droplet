@@ -2,10 +2,11 @@ console.log('The define() call is running.');
 define(function(require, exports, module) {
   console.log('The initial script is running.');
   var droplet = require('./droplet/dist/droplet-full.js');
+  var $ = require('./jquery.min.js');
+  var tooltipster = require('./tooltipster/dist/js/tooltipster.bundle.min.js');
 
   var worker = null;
 
-  // TODO figure out how to require this from ace, possibly?
   function createWorker(mod) {
       // nameToUrl is renamed to toUrl in requirejs 2
       if (require.nameToUrl && !require.toUrl)
@@ -2010,6 +2011,7 @@ define(function(require, exports, module) {
     var emit = plugin.getEmitter();
 
     ui.insertCss(require("text!./droplet/css/droplet.css"), plugin);
+    ui.insertCss(require("text!./tooltipster/dist/js/tooltipster.bundle.min.js"), plugin);
 
     window._lastEditor = null;
 
@@ -2054,6 +2056,24 @@ define(function(require, exports, module) {
         var worker = createWorker('./droplet/dist/worker.js');
         var currentValue = aceEditor.getValue();
         var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
+
+        dropletEditor.on('palettechange', function() {
+          $(dropletEditor.paletteCanvas.children).each(function(index) {
+            var title = Array.from(this.children).filter(function(child) { return child.tagName === 'title'; })[0];
+
+            this.removeChild(title);
+
+            var element = $('<div>').html(title.textContent)[0];
+
+            $(this).tooltipster({
+              position: 'right',
+              interactive: true,
+              content: element,
+              contentCloning: true,
+              maxWidth: 300
+            });
+          });
+        });
 
         if (dropletEditor.session != null) {
          applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
