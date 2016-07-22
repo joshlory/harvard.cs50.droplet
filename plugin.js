@@ -59,6 +59,8 @@ define(function(require, exports, module) {
     }
   }
 
+  var worker = createWorker('./droplet/dist/droplet-worker.js');
+
   var OPT_MAP = {
     'ace/mode/c_cpp': {
       "mode": "c_cpp",
