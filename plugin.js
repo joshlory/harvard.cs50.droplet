@@ -4,14 +4,59 @@ define(function(require, exports, module) {
 
   var worker = null;
 
-  var worker = null;
+  // TODO figure out how to require this from ace, possibly?
+  function createWorker(mod) {
+      // nameToUrl is renamed to toUrl in requirejs 2
+      if (require.nameToUrl && !require.toUrl)
+          require.toUrl = require.nameToUrl;
 
-  if (Worker != null) {
-    worker = new Worker('./droplet/dist/droplet-worker.js');
-    worker.onerror = function(error) {
-      console.log(error);
+      if (config.get("packaged") || !require.toUrl) {
+          workerUrl = workerUrl || config.moduleUrl(mod, "worker");
+      } else {
+          var skipBalancers = true; // load all scripts from one domain, workers don't support CORS headers
+          var normalizePath = this.$normalizePath;
+          workerUrl = workerUrl || normalizePath(require.toUrl(mod));
+      }
+
+      console.log('USING', workerUrl);
+
+      try {
+          return new Worker(workerUrl);
+      } catch(e) {
+          if (e instanceof window.DOMException) {
+              console.log('Blobbifying');
+              // Likely same origin problem. Use importScripts from a shim Worker
+              var blob = this.$workerBlob(workerUrl);
+              var URL = window.URL || window.webkitURL;
+              var blobURL = URL.createObjectURL(blob);
+
+              console.log('blobURL', blobURL);
+
+              var worker = new Worker(blobURL);
+
+              setTimeout(function() { // IE EDGE needs a timeout here
+                  URL.revokeObjectURL(blobURL);
+              });
+
+              return worker;
+          } else {
+              throw e;
+          }
+      }
+  };
+
+  function workerBlob(url) {
+    // workerUrl can be protocol relative
+    // importScripts only takes fully qualified urls
+    var script = "importScripts('" + url + "');";
+    try {
+        return new Blob([script], {"type": "application/javascript"});
+    } catch (e) { // Backwards-compatibility
+        var BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+        var blobBuilder = new BlobBuilder();
+        blobBuilder.append(script);
+        return blobBuilder.getBlob("application/javascript");
     }
-  }
 
   var OPT_MAP = {
     'ace/mode/c_cpp': {
@@ -2262,36 +2307,36 @@ define(function(require, exports, module) {
            aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
            aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
          }
-	      else {
-    	    var option = lookupOptions(aceEditor.getSession().$modeId);
-    	    if (option != null) {
+        else {
+          var option = lookupOptions(aceEditor.getSession().$modeId);
+          if (option != null) {
            aceEditor._dropletEditor.bindNewSession(option);
            applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
            button.style.display = 'block';
          }
-    	    else {
+          else {
            button.style.display = 'none';
-    	    }
-    	  }
+          }
+        }
         })
         });
 
         // Bind to mode changes
         aceEditor.getSession().on('changeMode', function(e) {
           if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
-	    aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-	    aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+      aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
+      aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
    }
-	  else {
-	    var option = lookupOptions(aceEditor.getSession().$modeId);
-	    if (option != null) {
-	      aceEditor._dropletEditor.bindNewSession(option);
-	      button.style.display = 'block';
+    else {
+      var option = lookupOptions(aceEditor.getSession().$modeId);
+      if (option != null) {
+        aceEditor._dropletEditor.bindNewSession(option);
+        button.style.display = 'block';
      }
-	    else {
-	      button.style.display = 'none';
-	    }
-	  }
+      else {
+        button.style.display = 'none';
+      }
+    }
         })
 
         // Bind to the associated resize event
@@ -2321,7 +2366,7 @@ define(function(require, exports, module) {
         return (OPT_MAP[id] || {mode: null}).modeOptions;
       }
       function lookupPalette(id) {
-      	return (OPT_MAP[id] || {palette: null}).palette;
+        return (OPT_MAP[id] || {palette: null}).palette;
       }
 
     }
