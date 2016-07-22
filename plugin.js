@@ -57,6 +57,7 @@ define(function(require, exports, module) {
         blobBuilder.append(script);
         return blobBuilder.getBlob("application/javascript");
     }
+  }
 
   var OPT_MAP = {
     'ace/mode/c_cpp': {
