@@ -20,7 +20,7 @@ define(function(require, exports, module) {
           if (e instanceof window.DOMException) {
               console.log('Blobbifying');
               // Likely same origin problem. Use importScripts from a shim Worker
-              var blob = this.$workerBlob(workerUrl);
+              var blob = workerBlob(workerUrl);
               var URL = window.URL || window.webkitURL;
               var blobURL = URL.createObjectURL(blob);
 
