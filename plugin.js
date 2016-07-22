@@ -1,8 +1,14 @@
 define(function(require, exports, module) {
   var droplet = require('./droplet/dist/droplet-full.js');
-  var opentip = require('./opentip-native.js');
 
   var worker = null;
+
+  if (Worker != null) {
+    worker = new Worker('./droplet/dist/droplet-worker.js');
+    worker.onerror = function(error) {
+      console.log(error);
+    }
+  }
 
   var OPT_MAP = {
     'ace/mode/c_cpp': {
