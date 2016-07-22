@@ -12,13 +12,12 @@ define(function(require, exports, module) {
 
       var workerUrl = workerUrl || require.toUrl(mod)
 
-      console.log('USING', workerUrl);
+      console.log('USING WORKER URL', workerUrl);
 
       try {
           return new Worker(workerUrl);
       } catch(e) {
           if (e instanceof window.DOMException) {
-              console.log('Blobbifying');
               // Likely same origin problem. Use importScripts from a shim Worker
               var blob = workerBlob(workerUrl);
               var URL = window.URL || window.webkitURL;
@@ -53,7 +52,7 @@ define(function(require, exports, module) {
     }
   }
 
-  var worker = createWorker('./droplet/dist/droplet-worker.js');
+  var worker = createWorker('./droplet/dist/worker.js');
 
   var OPT_MAP = {
     'ace/mode/c_cpp': {
