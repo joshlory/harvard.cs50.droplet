@@ -1,5 +1,8 @@
 define(function(require, exports, module) {
   var droplet = require('./droplet/dist/droplet-full.js');
+  var opentip = require('./opentip-native.js');
+
+  var worker = null;
 
   var worker = null;
 
