@@ -2,8 +2,9 @@ console.log('The define() call is running.');
 define(function(require, exports, module) {
   console.log('The initial script is running.');
   var droplet = require('./droplet/dist/droplet-full.js');
-  var $ = require('./jquery.min.js');
-  var tooltipster = require('./tooltipster/dist/js/tooltipster.bundle.min.js');
+  require('./jquery.min.js');
+  var $ = jQuery;
+  var tooltipster = require('./tooltipster/dist/js/tooltipster.bundle.js');
 
   var worker = null;
 
@@ -60,7 +61,6 @@ define(function(require, exports, module) {
       "viewSettings": {
         "padding": 10
       },
-      "showDropdownInPalette": true,
       "palette": [
         {
           "name": "Control Flow",
@@ -68,31 +68,43 @@ define(function(require, exports, module) {
           "blocks": [
             {
               "block": "int main(void)\n{\n  \n}",
-              "context": "externalDeclaration"
+              "context": "externalDeclaration",
+              "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main method in order for your program executable\nto do anything when run.</p>\n"
             },
             {
               "block": "type myMethod(void)\n{\n  \n}",
-              "context": "externalDeclaration"
+              "context": "externalDeclaration",
+              "title": "<p>method -- reusable procedure</p>\n<p>Defines a method accepting a <code>void</code> (no arguments) and returning\na <code>type</code>. The code inside <code>{ }</code> will not run at first, but will run every time\nyou call <code>myMethod(arguments...)</code>. Use a <code>return</code> statement inside the method\nto pass information back to whoever called it.</p>\n"
+            },
+            {
+              "block": "myMethod(argument);",
+              "context": "blockItem",
+              "title": "<p>A method call.</p>\n"
             },
             {
               "block": "return 0;",
-              "context": "blockItem"
+              "context": "blockItem",
+              "title": "<p>return -- give value back from procedure</p>\n<p>A return statement. Use this inside a method\nto pass information back to whoever called it.</p>\n"
             },
             {
               "block": "if (a == b)\n{\n  \n}",
-              "context": "blockItem"
+              "context": "blockItem",
+              "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
             },
             {
               "block": "while (a < b)\n{\n  \n}",
-              "context": "blockItem"
+              "context": "blockItem",
+              "title": "<p>while -- do something repeatedly</p>\n<p>Repeatedly executes the code inside <code>{ }</code> until the condition\ninside the parentheses <code>( )</code> is false.</p>\n"
             },
             {
               "block": "for (int i = 0; i < n; i++)\n{\n  \n}",
-              "context": "blockItem"
+              "context": "blockItem",
+              "title": "<p>for -- iterate over a range</p>\n<p>Repeats the code inside <code>{ }</code> <code>n</code> times. It does this by\nmaking a variable <code>i</code> which increases every repeition until it reaches\n<code>n</code>. You can use <code>i</code> inside the code to tell how many times the loop\nhas already run.</p>\n"
             },
             {
               "block": "break;",
-              "context": "blockItem"
+              "context": "blockItem",
+              "title": "<p>Break out of a loop before it finishes.</p>\n"
             }
           ]
         },
@@ -101,56 +113,69 @@ define(function(require, exports, module) {
           "color": "green",
           "blocks": [
             {
-              "block": "int variable = 0;",
-              "context": "blockItem"
+              "block": "type variable = 0;",
+              "context": "blockItem",
+              "title": "<p>declare a variable</p>\n<p>Declare a variable of type <code>type</code> and name <code>variable</code> with an\ninitial value of <code>0</code>.</p>\n"
             },
             {
               "block": "variable = newValue;",
-              "context": "blockItem"
+              "context": "blockItem",
+              "title": "<p>reassign a variable</p>\n<p>Assign a new value <code>newValue</code> to the variable with name <code>variable</code>. You must\ndeclare your variable before you can do this.</p>\n"
             },
             {
               "block": "a + b",
-              "context": "expression"
+              "context": "expression",
+              "title": "add two numbers"
             },
             {
               "block": "a - b",
-              "context": "expression"
+              "context": "expression",
+              "title": "subtract two numbers"
             },
             {
               "block": "a * b",
-              "context": "expression"
+              "context": "expression",
+              "title": "multiply two numbers"
             },
             {
               "block": "a / b",
-              "context": "expression"
+              "context": "expression",
+              "title": "<p>divide two numbers</p>\n<p>Divide two numbers. Remember that if you\ndivide two integers, you will get an integer\nanswer that is rounded down.</p>\n"
             },
             {
               "block": "a % b",
-              "context": "expression"
+              "context": "expression",
+              "title": "<p>modulo</p>\n<p>Take the modulo of two numbers. This is the remainder\nwhen you divide <code>a</code> by <code>b</code>.</p>\n"
             },
             {
               "block": "a == b",
-              "context": "expression"
+              "context": "expression",
+              "title": "test if two numbers are equal"
             },
             {
               "block": "a != b",
-              "context": "expression"
+              "context": "expression",
+              "title": "test if two numbers are not equal"
             },
             {
               "block": "a < b",
-              "context": "expression"
+              "context": "expression",
+              "title": "<p>compare two numbers</p>\n<p>Test if <code>a</code> &lt; <code>b</code>.</p>\n"
             },
             {
               "block": "a > b",
-              "context": "expression"
+              "context": "expression",
+              "title": "<p>compare two numbers</p>\n<p>Test if <code>a</code> &gt; <code>b</code>.</p>\n"
             },
             {
               "block": "a || b",
-              "context": "expression"
+              "context": "expression",
+              "title": "<p>logical or</p>\n<p>This will be true if the condition\nin <code>a</code> is true, the condition in <code>b</code> is true, or both.</p>\n"
             },
             {
               "block": "a && b",
-              "context": "expression"
+              "context": "expression",
+              "title": "<p>logical and</p>\n<p>This will be true only if the condition\nin <code>a</code> is true and the condition in <code>b</code> is true.</p>\n"
             }
           ]
         },
@@ -160,37 +185,38 @@ define(function(require, exports, module) {
           "blocks": [
             {
               "block": "#include <cs50.h>",
-              "context": "compilationUnit"
+              "context": "compilationUnit",
+              "title": "<p>Includes the header file for <code>cs50.h</code>. You must put this\nin your program in order to use any of the <code>cs50.h</code> blocks.</p>\n"
             },
             {
               "block": "GetString();",
               "context": "blockItem",
-              "title": "<b>returns a string from stdin</b></br>\n<p>\nReads a line of text from standard input and returns it as a `string` (`char *`), sans trailing newline character. (Ergo, \nif user inputs only `\"\\n\"`, returns \"\" not `NULL`.)  Returns `NULL` upon error or no input whatsoever (i.e., just `EOF`). \nLeading and trailing whitespace is not ignored. Stores `string` on heap (via `malloc`); memory must be freed by caller to \navoid leak.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetString\" target=\"_blank\">GetString</a> - returns a string from stdin</p>\n<p>Reads a line of text from standard input and returns it as a <code>string</code> (<code>char *</code>), sans trailing newline character. (Ergo, \nif user inputs only <code>&quot;\\n&quot;</code>, returns &quot;&quot; not <code>NULL</code>.)  Returns <code>NULL</code> upon error or no input whatsoever (i.e., just <code>EOF</code>). \nLeading and trailing whitespace is not ignored. Stores <code>string</code> on heap (via <code>malloc</code>); memory must be freed by caller to \navoid leak.</p>\n"
             },
             {
               "block": "GetLongLong();",
               "context": "blockItem",
-              "title": "<b>returns a long long from stdin</b></br>\n<p>\nReads a line of text from standard input and returns an equivalent `long long` in the range [-2^63^ + 1, 2^63^ - 2], if \npossible; if text does not represent such a `long long`, user is prompted to retry. Leading and trailing whitespace is \nignored. For simplicity, overflow is not detected. If line can't be read, returns `LLONG_MAX`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetLongLong\" target=\"_blank\">GetLongLong</a> - returns a long long from stdin</p>\n<p>Reads a line of text from standard input and returns an equivalent <code>long long</code> in the range [-2^63^ + 1, 2^63^ - 2], if \npossible; if text does not represent such a <code>long long</code>, user is prompted to retry. Leading and trailing whitespace is \nignored. For simplicity, overflow is not detected. If line can&#39;t be read, returns <code>LLONG_MAX</code>.</p>\n"
             },
             {
               "block": "GetInt();",
               "context": "blockItem",
-              "title": "<b>returns an int from stdin</b></br>\n<p>\nReads a line of text from standard input and returns it as an `int` in the range of [-2^31^ + 1, 2^31^ - 2], if possible; \nif text does not represent such an `int`, user is prompted to retry. Leading and trailing whitespace is ignored. For \nsimplicity, overflow is not detected. If line can't be read, returns `INT_MAX`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetInt\" target=\"_blank\">GetInt</a> - returns an int from stdin</p>\n<p>Reads a line of text from standard input and returns it as an <code>int</code> in the range of [-2^31^ + 1, 2^31^ - 2], if possible; \nif text does not represent such an <code>int</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For \nsimplicity, overflow is not detected. If line can&#39;t be read, returns <code>INT_MAX</code>.</p>\n"
             },
             {
               "block": "GetFloat();",
               "context": "blockItem",
-              "title": "<b>returns a float from stdin</b></br>\n<p>\nReads a line of text from standard input and returns the equivalent `float` as precisely as possible; if text does not \nrepresent a `float`, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected.  If line can't be read, returns `FLT_MAX`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetFloat\" target=\"_blank\">GetFloat</a> - returns a float from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>float</code> as precisely as possible; if text does not \nrepresent a <code>float</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected.  If line can&#39;t be read, returns <code>FLT_MAX</code>.</p>\n"
             },
             {
               "block": "GetDouble();",
               "context": "blockItem",
-              "title": "<b>returns a double from stdin</b></br>\n<p>\nReads a line of text from standard input and returns the equivalent `double` as precisely as possible; if text does not \nrepresent a `double`, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected. If line can't be read, returns `DBL_MAX`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetDouble\" target=\"_blank\">GetDouble</a> - returns a double from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>double</code> as precisely as possible; if text does not \nrepresent a <code>double</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected. If line can&#39;t be read, returns <code>DBL_MAX</code>.</p>\n"
             },
             {
               "block": "GetChar();",
               "context": "blockItem",
-              "title": "<b>returns a char from stdin</b></br>\n<p>\nReads a line of text from standard input and returns the equivalent `char`; if text does not represent a `char`, user is \nprompted to retry. Leading and trailing whitespace is ignored. If line can't be read, returns `CHAR_MAX`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetChar\" target=\"_blank\">GetChar</a> - returns a char from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>char</code>; if text does not represent a <code>char</code>, user is \nprompted to retry. Leading and trailing whitespace is ignored. If line can&#39;t be read, returns <code>CHAR_MAX</code>.</p>\n"
             }
           ]
         },
@@ -200,217 +226,218 @@ define(function(require, exports, module) {
           "blocks": [
             {
               "block": "#include <stdio.h>",
-              "context": "compilationUnit"
+              "context": "compilationUnit",
+              "title": "<p>Includes the header file for <code>stdio.h</code>. You must put this\nin your program in order to use any of the <code>stdio.h</code> blocks.</p>\n"
             },
             {
               "block": "sprintf(ptr, format);",
               "context": "blockItem",
-              "title": "<b>send formatted output to a string</b></br>\n<p>\n`sprintf` stores in `ptr` a string formatted along the lines of `format`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/sprintf\" target=\"_blank\">sprintf</a> - send formatted output to a string</p>\n<p><code>sprintf</code> stores in <code>ptr</code> a string formatted along the lines of <code>format</code>.</p>\n"
             },
             {
               "block": "scanf(format);",
               "context": "blockItem",
-              "title": "<b>read in a formatted string from stdin</b></br>\n<p>\n`scanf` reads in from `stdin` (usually your keyboard) input that matches \n`format`. Notice, this function is almost identical to `fscanf` except it \nis missing the first argument `FILE* fp`. This is because `scanf` just assumes \nthe input is going to be coming from the keyboard.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/scanf\" target=\"_blank\">scanf</a> - read in a formatted string from stdin</p>\n<p><code>scanf</code> reads in from <code>stdin</code> (usually your keyboard) input that matches \n<code>format</code>. Notice, this function is almost identical to <code>fscanf</code> except it \nis missing the first argument <code>FILE* fp</code>. This is because <code>scanf</code> just assumes \nthe input is going to be coming from the keyboard. (<a href=\"https://reference.cs50.net/stdio.h/scanf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "printf(format);",
               "context": "blockItem",
-              "title": "<b>prints to stdout</b></br>\n<p>\n`printf` prints some formatted output to `stdout` (your computer terminal).\nYou specify the format with a `%` followed by a `c` for a character, `d` for\na digit, and `s` for a string. There are a number of other identifiers, the\naformentioned, however, are the most used.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/printf\" target=\"_blank\">printf</a> - prints to stdout</p>\n<p><code>printf</code> prints some formatted output to <code>stdout</code> (your computer terminal).\nYou specify the format with a <code>%</code> followed by a <code>c</code> for a character, <code>d</code> for\na digit, and <code>s</code> for a string. There are a number of other identifiers, the\naformentioned, however, are the most used. (<a href=\"https://reference.cs50.net/stdio.h/printf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "fwrite(ptr, size, blocks, fp);",
               "context": "blockItem",
-              "title": "<b>write to a file</b></br>\n<p>\nSimilar to `fread`, `fwrite` writes out to file `fp` an element of `size` bytes \n`blocks` number of times. So, for example, if `size` is 50 and `blocks` 10, then \n`fwrite` will write to `fp` 10 times, each time a \"chunk\" of 50 bytes (for a total \nof 500 bytes). On each `fwrite`, it will write from the buffer pointer to by `ptr`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fwrite\" target=\"_blank\">fwrite</a> - write to a file</p>\n<p>Similar to <code>fread</code>, <code>fwrite</code> writes out to file <code>fp</code> an element of <code>size</code> bytes \n<code>blocks</code> number of times. So, for example, if <code>size</code> is 50 and <code>blocks</code> 10, then \n<code>fwrite</code> will write to <code>fp</code> 10 times, each time a &quot;chunk&quot; of 50 bytes (for a total \nof 500 bytes). On each <code>fwrite</code>, it will write from the buffer pointer to by <code>ptr</code>.</p>\n"
             },
             {
               "block": "fseek(fp, offset, from_where);",
               "context": "blockItem",
-              "title": "<b>sets file position</b></br>\n<p>\nUse `fseek` when you want to change the offset of the file pointer `fp`.\nThis is an extremely useful tool. Normally, when reading in from a file, \nthe pointer continues in one direction, from the start of the file to the\nend. `fseek`, however, allows you to change the location of the file pointer.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fseek\" target=\"_blank\">fseek</a> - sets file position</p>\n<p>Use <code>fseek</code> when you want to change the offset of the file pointer <code>fp</code>.\nThis is an extremely useful tool. Normally, when reading in from a file, \nthe pointer continues in one direction, from the start of the file to the\nend. <code>fseek</code>, however, allows you to change the location of the file pointer. (<a href=\"https://reference.cs50.net/stdio.h/fseek\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "fscanf(fp, format);",
               "context": "blockItem",
-              "title": "<b>read in a formatted string</b></br>\n<p>\n`fscanf` reads in from file `fp` input that matches `format`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fscanf\" target=\"_blank\">fscanf</a> - read in a formatted string</p>\n<p><code>fscanf</code> reads in from file <code>fp</code> input that matches <code>format</code>.</p>\n"
             },
             {
               "block": "fread(ptr, size, blocks, fp);",
               "context": "blockItem",
-              "title": "<b>read from a file</b></br>\n<p>\n`fread` reads in from file `fp` an element of `size` bytes `blocks` number of\ntimes. So, for example, if `size` is 50 and `blocks` 10, then `fread` will read\nin from `fp` 10 times, each time reading in 50 bytes (for a total of 500 bytes).\nOn each `fread`, it will store the bytes in a buffer pointer to by `ptr`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fread\" target=\"_blank\">fread</a> - read from a file</p>\n<p><code>fread</code> reads in from file <code>fp</code> an element of <code>size</code> bytes <code>blocks</code> number of\ntimes. So, for example, if <code>size</code> is 50 and <code>blocks</code> 10, then <code>fread</code> will read\nin from <code>fp</code> 10 times, each time reading in 50 bytes (for a total of 500 bytes).\nOn each <code>fread</code>, it will store the bytes in a buffer pointer to by <code>ptr</code>.</p>\n"
             },
             {
               "block": "fputs(s, fp);",
               "context": "blockItem",
-              "title": "<b>write a string to a file</b></br>\n<p>\n`fputs` is used to write a null terminated string `s` to file `fp`.\n        \n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fputs\" target=\"_blank\">fputs</a> - write a string to a file</p>\n<p><code>fputs</code> is used to write a null terminated string <code>s</code> to file <code>fp</code>.</p>\n"
             },
             {
               "block": "fputc(character, fp);",
               "context": "blockItem",
-              "title": "<b>write a character to a file</b></br>\n<p>\nUsed to write a single character to a file.\n        \n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fputc\" target=\"_blank\">fputc</a> - write a character to a file</p>\n<p>Used to write a single character to a file.</p>\n"
             },
             {
               "block": "fprintf(fp, format);",
               "context": "blockItem",
-              "title": "<b>print out a formatted string</b></br>\n<p>\nUsed to print to a file in a specific, formatted fashion, `fprintf` prints\nto the file `fp` as the string `format` indicates.\n        \n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fprintf\" target=\"_blank\">fprintf</a> - print out a formatted string</p>\n<p>Used to print to a file in a specific, formatted fashion, <code>fprintf</code> prints\nto the file <code>fp</code> as the string <code>format</code> indicates.</p>\n"
             },
             {
               "block": "fopen(filename, mode);",
               "context": "blockItem",
-              "title": "<b>opens a file</b></br>\n<p>\n`fopen` opens file `filename` in the specified `mode`. The `mode` can be a\nnumber of things, however, the most common are `r` for reading, `w` for\nwriting, and `a` for appending. It should be noted, if you are opening a file\nto read using `r` then that file MUST exist, otherwise `fopen` will return \n`NULL`, something you should check for. Writing with `w` will create an empty \nfile even if one of the same name already exists, so be careful! Appending \nwith `a` will append data to the end of an already present file, or create an \nempty file if `filename` doesn't exist.\n        \n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fopen\" target=\"_blank\">fopen</a> - opens a file</p>\n<p><code>fopen</code> opens file <code>filename</code> in the specified <code>mode</code>. The <code>mode</code> can be a\nnumber of things, however, the most common are <code>r</code> for reading, <code>w</code> for\nwriting, and <code>a</code> for appending. It should be noted, if you are opening a file\nto read using <code>r</code> then that file MUST exist, otherwise <code>fopen</code> will return \n<code>NULL</code>, something you should check for. Writing with <code>w</code> will create an empty \nfile even if one of the same name already exists, so be careful! Appending \nwith <code>a</code> will append data to the end of an already present file, or create an \nempty file if <code>filename</code> doesn&#39;t exist.</p>\n"
             },
             {
               "block": "fgets(s, i, fp);",
               "context": "blockItem",
-              "title": "<b>get the next string from a file</b></br>\n<p>\n`fgets` reads in, at most, `i` characters from file `fp`, storing them \ntemporarily in buffer `s`.\n        \n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fgets\" target=\"_blank\">fgets</a> - get the next string from a file</p>\n<p><code>fgets</code> reads in, at most, <code>i</code> characters from file <code>fp</code>, storing them \ntemporarily in buffer <code>s</code>.</p>\n"
             },
             {
               "block": "fgetc(fp);",
               "context": "blockItem",
-              "title": "<b>get the next character from a file</b></br>\n<p>\nGets the next character from a file.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fgetc\" target=\"_blank\">fgetc</a> - get the next character from a file</p>\n<p>Gets the next character from a file.</p>\n"
             },
             {
               "block": "feof(fp);",
               "context": "blockItem",
-              "title": "<b>checks whether pointer to file has reached the end of the file</b></br>\n<p>\nChecks whether pointer to file has reached the end of the file.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/feof\" target=\"_blank\">feof</a> - checks whether pointer to file has reached the end of the file</p>\n<p>Checks whether pointer to file has reached the end of the file.</p>\n"
             },
             {
               "block": "fclose(fp);",
               "context": "blockItem",
-              "title": "<b>close an open file</b></br>\n<p>\nCloses the current file pointed to by file pointer `fp`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fclose\" target=\"_blank\">fclose</a> - close an open file</p>\n<p>Closes the current file pointed to by file pointer <code>fp</code>.</p>\n"
             },
             {
               "block": "clearerr(stream);",
               "context": "blockItem",
-              "title": "<b>check and reset stream status</b></br>\n<p>The function clearerr() clears the end-of-file and error indicators for the stream pointed to by `stream`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/clearerr\" target=\"_blank\">clearerr</a> - check and reset stream status</p>\n<p>The function clearerr() clears the end-of-file and error indicators for the stream pointed to by <code>stream</code>. (<a href=\"https://reference.cs50.net/stdio.h/clearerr\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "ferror(stream);",
               "context": "blockItem",
-              "title": "<b>check and reset stream status</b></br>\n<p>The function ferror() tests the error indicator for the stream pointed to by `stream`, returning nonzero if it is set. The error indicator can be reset only by the clearerr() function.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/ferror\" target=\"_blank\">ferror</a> - check and reset stream status</p>\n<p>The function ferror() tests the error indicator for the stream pointed to by <code>stream</code>, returning nonzero if it is set. The error indicator can be reset only by the clearerr() function. (<a href=\"https://reference.cs50.net/stdio.h/ferror\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "fflush(stream);",
               "context": "blockItem",
-              "title": "<b>flush a stream</b></br>\n<p>For output streams, fflush() forces a write of all user-space buffered data for the given output or update `stream` via the stream's underlying write function. For input streams, fflush() discards any buffered data that has been fetched from the underlying file, but has not been consumed by the application. The open status of the stream is unaffected.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fflush\" target=\"_blank\">fflush</a> - flush a stream</p>\n<p>For output streams, fflush() forces a write of all user-space buffered data for the given output or update <code>stream</code> via the stream&#39;s underlying write function. For input streams, fflush() discards any buffered data that has been fetched from the underlying file, but has not been consumed by the application. The open status of the stream is unaffected. (<a href=\"https://reference.cs50.net/stdio.h/fflush\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "fgetpos(stream, pos);",
               "context": "blockItem",
-              "title": "<b>reposition a stream</b></br>\n<p>The fgetpos() and fsetpos() functions are alternate interfaces equivalent to ftell() and fseek() (with `whence` set to \\*SEEK_SET\\*), setting and storing the current value of the file offset into or from the object referenced by `pos`. On some non-UNIX systems, an `fpos_t` object may be a complex object and these routines may be the only way to portably reposition a text stream.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fgetpos\" target=\"_blank\">fgetpos</a> - reposition a stream</p>\n<p>The fgetpos() and fsetpos() functions are alternate interfaces equivalent to ftell() and fseek() (with <code>whence</code> set to *SEEK_SET*), setting and storing the current value of the file offset into or from the object referenced by <code>pos</code>. On some non-UNIX systems, an <code>fpos_t</code> object may be a complex object and these routines may be the only way to portably reposition a text stream.\n  (<a href=\"https://reference.cs50.net/stdio.h/fgetpos\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "fsetpos(stream, pos);",
               "context": "blockItem",
-              "title": "<b>reposition a stream</b></br>\n<p>The fgetpos() and fsetpos() functions are alternate interfaces equivalent to ftell() and fseek() (with `whence` set to \\*SEEK_SET\\*), setting and storing the current value of the file offset into or from the object referenced by `pos`. On some non-UNIX systems, an `fpos_t` object may be a complex object and these routines may be the only way to portably reposition a text stream.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fsetpos\" target=\"_blank\">fsetpos</a> - reposition a stream</p>\n<p>The fgetpos() and fsetpos() functions are alternate interfaces equivalent to ftell() and fseek() (with <code>whence</code> set to *SEEK_SET*), setting and storing the current value of the file offset into or from the object referenced by <code>pos</code>. On some non-UNIX systems, an <code>fpos_t</code> object may be a complex object and these routines may be the only way to portably reposition a text stream.\n  (<a href=\"https://reference.cs50.net/stdio.h/fsetpos\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "ftell(stream);",
               "context": "blockItem",
-              "title": "<b>reposition a stream</b></br>\n<p>The ftell() function obtains the current value of the file position indicator for the stream pointed to by `stream`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/ftell\" target=\"_blank\">ftell</a> - reposition a stream</p>\n<p>The ftell() function obtains the current value of the file position indicator for the stream pointed to by <code>stream</code>. (<a href=\"https://reference.cs50.net/stdio.h/ftell\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "getc(stream);",
               "context": "blockItem",
-              "title": "<b>input of characters and strings</b></br>\n<p>getc() is equivalent to fgetc() except that it may be implemented as a macro which evaluates `stream` more than once.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/getc\" target=\"_blank\">getc</a> - input of characters and strings</p>\n<p>fgetc() reads the next character from <code>stream</code> and returns it as an <em>unsigned char</em> cast to an <em>int</em>, or *EOF* on end of file or error. (<a href=\"https://reference.cs50.net/stdio.h/getc\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "getchar();",
               "context": "blockItem",
-              "title": "<b>input of characters and strings</b></br>\n<p>getchar() is equivalent to \\*getc(\\*_stdin_\\*)\\*.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/getchar\" target=\"_blank\">getchar</a> - input of characters and strings</p>\n<p>getchar() is equivalent to *getc(*<em>stdin</em>*)*. (<a href=\"https://reference.cs50.net/stdio.h/getchar\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "gets(s);",
               "context": "blockItem",
-              "title": "<b>input of characters and strings</b></br>\n<p>gets() reads a line from _stdin_ into the buffer pointed to by `s` until either a terminating newline or \\*EOF\\*, which it replaces with a null byte ('\\0'). No check for buffer overrun is performed (see BUGS below).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/gets\" target=\"_blank\">gets</a> - input of characters and strings</p>\n<p>gets() reads a line from <em>stdin</em> into the buffer pointed to by <code>s</code> until either a terminating newline or *EOF*, which it replaces with a null byte (&#39;\\0&#39;). No check for buffer overrun is performed (see BUGS below). (<a href=\"https://reference.cs50.net/stdio.h/gets\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "perror(s);",
               "context": "blockItem",
-              "title": "<b>print a system error message</b></br>\n<p>The routine perror() produces a message on the standard error output, describing the last error encountered during a call to a system or library function. First (if `s` is not NULL and _\\*s_ is not a null byte ('\\0')) the argument string `s` is printed, followed by a colon and a blank. Then the message and a new-line.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/perror\" target=\"_blank\">perror</a> - print a system error message</p>\n<p>The routine perror() produces a message on the standard error output, describing the last error encountered during a call to a system or library function. First (if <code>s</code> is not NULL and <em>*s</em> is not a null byte (&#39;\\0&#39;)) the argument string <code>s</code> is printed, followed by a colon and a blank. Then the message and a new-line. (<a href=\"https://reference.cs50.net/stdio.h/perror\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "putc(c, stream);",
               "context": "blockItem",
-              "title": "<b>output of characters and strings</b></br>\n<p>putc() is equivalent to fputc() except that it may be implemented as a macro which evaluates `stream` more than once.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/putc\" target=\"_blank\">putc</a> - output of characters and strings</p>\n<p>fputc() writes the character <code>c</code>, cast to an <em>unsigned char</em>, to <code>stream</code>. (<a href=\"https://reference.cs50.net/stdio.h/putc\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "putchar(c);",
               "context": "blockItem",
-              "title": "<b>output of characters and strings</b></br>\n<p>\\*putchar(\\*`c`\\*);\\* is equivalent to \\*putc(\\*`c`\\*,\\*_stdout_\\*).\\*</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/putchar\" target=\"_blank\">putchar</a> - output of characters and strings</p>\n<p>*putchar(*<code>c</code>*);* is equivalent to *putc(*<code>c</code>*,*<em>stdout</em>*).* (<a href=\"https://reference.cs50.net/stdio.h/putchar\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "puts(s);",
               "context": "blockItem",
-              "title": "<b>output of characters and strings</b></br>\n<p>puts() writes the string `s` and a trailing newline to _stdout_.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/puts\" target=\"_blank\">puts</a> - output of characters and strings</p>\n<p>fputs() writes the string <code>s</code> to <code>stream</code>, without its terminating null byte (&#39;\\0&#39;). (<a href=\"https://reference.cs50.net/stdio.h/puts\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "remove(pathname);",
               "context": "blockItem",
-              "title": "<b>remove a file or directory</b></br>\n<p>remove() deletes a name from the file system. It calls unlink(2) for files, and rmdir(2) for directories.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/remove\" target=\"_blank\">remove</a> - remove a file or directory</p>\n<p>remove() deletes a name from the file system. It calls unlink(2) for files, and rmdir(2) for directories. (<a href=\"https://reference.cs50.net/stdio.h/remove\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "rewind(stream);",
               "context": "blockItem",
-              "title": "<b>reposition a stream</b></br>\n<p>The rewind() function sets the file position indicator for the stream pointed to by `stream` to the beginning of the file. It is equivalent to:</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/rewind\" target=\"_blank\">rewind</a> - reposition a stream</p>\n<p>The rewind() function sets the file position indicator for the stream pointed to by <code>stream</code> to the beginning of the file. It is equivalent to:\n     ( void ) fseek stream 0L SEEK_SET<br>except that the error indicator for the stream is also cleared (see clearerr(3)). (<a href=\"https://reference.cs50.net/stdio.h/rewind\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "setbuf(stream, buf);",
               "context": "blockItem",
-              "title": "<b>stream buffering operations</b></br>\n<p>The setbuffer() function is the same, except that the size of the buffer is up to the caller, rather than being determined by the default \\*BUFSIZ\\*. The setlinebuf() function is exactly equivalent to the call:</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/setbuf\" target=\"_blank\">setbuf</a> - stream buffering operations</p>\n<p>The other three calls are, in effect, simply aliases for calls to setvbuf(). The setbuf() function is exactly equivalent to the call (<a href=\"https://reference.cs50.net/stdio.h/setbuf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "setvbuf(stream, buf, mode, size);",
               "context": "blockItem",
-              "title": "<b>stream buffering operations</b></br>\n<p>setvbuf(stream, buf, buf ? _IOFBF : _IONBF, BUFSIZ);</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/setvbuf\" target=\"_blank\">setvbuf</a> - stream buffering operations</p>\n<p>The setvbuf() function may be used on any open stream to change its buffer. The <code>mode</code> argument must be one of the following three macros: (<a href=\"https://reference.cs50.net/stdio.h/setvbuf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "snprintf(str, size, format, ___);",
               "context": "blockItem",
-              "title": "<b>formatted output conversion</b></br>\n<p>The functions snprintf() and vsnprintf() write at most `size` bytes (including the terminating null byte ('\\0')) to `str`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/snprintf\" target=\"_blank\">snprintf</a> - formatted output conversion</p>\n<p>The functions in the printf() family produce output according to a <code>format</code> as described below. The functions printf() and vprintf() write output to <em>stdout</em>, the standard output stream; fprintf() and vfprintf() write output to the given output <code>stream</code>; sprintf(), snprintf(), vsprintf() and vsnprintf() write to the character string <code>str</code>. (<a href=\"https://reference.cs50.net/stdio.h/snprintf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "sscanf(str, format, ___);",
               "context": "blockItem",
-              "title": "<b>input format conversion</b></br>\n<p>The scanf() function reads input from the standard input stream _stdin_, fscanf() reads input from the stream pointer `stream`, and sscanf() reads its input from the character string pointed to by `str`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/sscanf\" target=\"_blank\">sscanf</a> - input format conversion</p>\n<p>The scanf() function reads input from the standard input stream <em>stdin</em>, fscanf() reads input from the stream pointer <code>stream</code>, and sscanf() reads its input from the character string pointed to by <code>str</code>. (<a href=\"https://reference.cs50.net/stdio.h/sscanf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "ungetc(c, stream);",
               "context": "blockItem",
-              "title": "<b>input of characters and strings</b></br>\n<p>ungetc() pushes `c` back to `stream`, cast to _unsigned char_, where it is available for subsequent read operations. Pushed-back characters will be returned in reverse order; only one pushback is guaranteed.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/ungetc\" target=\"_blank\">ungetc</a> - input of characters and strings</p>\n<p>ungetc() pushes <code>c</code> back to <code>stream</code>, cast to <em>unsigned char</em>, where it is available for subsequent read operations. Pushed-back characters will be returned in reverse order; only one pushback is guaranteed. (<a href=\"https://reference.cs50.net/stdio.h/ungetc\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "vfprintf(stream, format, ap);",
               "context": "blockItem",
-              "title": "<b>formatted output conversion</b></br>\n<p>The functions vprintf(), vfprintf(), vsprintf(), vsnprintf() are equivalent to the functions printf(), fprintf(), sprintf(), snprintf(), respectively, except that they are called with a _va_list_ instead of a variable number of arguments. These functions do not call the _va_end_ macro. Because they invoke the _va_arg_ macro, the value of `ap` is undefined after the call. See stdarg(3).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/vfprintf\" target=\"_blank\">vfprintf</a> - formatted output conversion</p>\n<p>The functions in the printf() family produce output according to a <code>format</code> as described below. The functions printf() and vprintf() write output to <em>stdout</em>, the standard output stream; fprintf() and vfprintf() write output to the given output <code>stream</code>; sprintf(), snprintf(), vsprintf() and vsnprintf() write to the character string <code>str</code>. (<a href=\"https://reference.cs50.net/stdio.h/vfprintf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "vfscanf(stream, format, ap);",
               "context": "blockItem",
-              "title": "<b>input format conversion</b></br>\n<p>The vfscanf() function is analogous to vfprintf(3) and reads input from the stream pointer `stream` using a variable argument list of pointers (see stdarg(3). The vscanf() function scans a variable argument list from the standard input and the vsscanf() function scans it from a string; these are analogous to the vprintf(3) and vsprintf(3) functions respectively.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/vfscanf\" target=\"_blank\">vfscanf</a> - input format conversion</p>\n<p>The vfscanf() function is analogous to vfprintf(3) and reads input from the stream pointer <code>stream</code> using a variable argument list of pointers (see stdarg(3). The vscanf() function scans a variable argument list from the standard input and the vsscanf() function scans it from a string; these are analogous to the vprintf(3) and vsprintf(3) functions respectively. (<a href=\"https://reference.cs50.net/stdio.h/vfscanf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "vprintf(format, ap);",
               "context": "blockItem",
-              "title": "<b>formatted output conversion</b></br>\n<p>The functions vprintf(), vfprintf(), vsprintf(), vsnprintf() are equivalent to the functions printf(), fprintf(), sprintf(), snprintf(), respectively, except that they are called with a _va_list_ instead of a variable number of arguments. These functions do not call the _va_end_ macro. Because they invoke the _va_arg_ macro, the value of `ap` is undefined after the call. See stdarg(3).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/vprintf\" target=\"_blank\">vprintf</a> - formatted output conversion</p>\n<p>The functions in the printf() family produce output according to a <code>format</code> as described below. The functions printf() and vprintf() write output to <em>stdout</em>, the standard output stream; fprintf() and vfprintf() write output to the given output <code>stream</code>; sprintf(), snprintf(), vsprintf() and vsnprintf() write to the character string <code>str</code>. (<a href=\"https://reference.cs50.net/stdio.h/vprintf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "vscanf(format, ap);",
               "context": "blockItem",
-              "title": "<b>input format conversion</b></br>\n<p>The vfscanf() function is analogous to vfprintf(3) and reads input from the stream pointer `stream` using a variable argument list of pointers (see stdarg(3). The vscanf() function scans a variable argument list from the standard input and the vsscanf() function scans it from a string; these are analogous to the vprintf(3) and vsprintf(3) functions respectively.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/vscanf\" target=\"_blank\">vscanf</a> - input format conversion</p>\n<p>The vfscanf() function is analogous to vfprintf(3) and reads input from the stream pointer <code>stream</code> using a variable argument list of pointers (see stdarg(3). The vscanf() function scans a variable argument list from the standard input and the vsscanf() function scans it from a string; these are analogous to the vprintf(3) and vsprintf(3) functions respectively. (<a href=\"https://reference.cs50.net/stdio.h/vscanf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "vsnprintf(str, size, format, ap);",
               "context": "blockItem",
-              "title": "<b>formatted output conversion</b></br>\n<p>The functions snprintf() and vsnprintf() write at most `size` bytes (including the terminating null byte ('\\0')) to `str`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/vsnprintf\" target=\"_blank\">vsnprintf</a> - formatted output conversion</p>\n<p>The functions in the printf() family produce output according to a <code>format</code> as described below. The functions printf() and vprintf() write output to <em>stdout</em>, the standard output stream; fprintf() and vfprintf() write output to the given output <code>stream</code>; sprintf(), snprintf(), vsprintf() and vsnprintf() write to the character string <code>str</code>. (<a href=\"https://reference.cs50.net/stdio.h/vsnprintf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "vsprintf(str, format, ap);",
               "context": "blockItem",
-              "title": "<b>formatted output conversion</b></br>\n<p>The functions vprintf(), vfprintf(), vsprintf(), vsnprintf() are equivalent to the functions printf(), fprintf(), sprintf(), snprintf(), respectively, except that they are called with a _va_list_ instead of a variable number of arguments. These functions do not call the _va_end_ macro. Because they invoke the _va_arg_ macro, the value of `ap` is undefined after the call. See stdarg(3).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/vsprintf\" target=\"_blank\">vsprintf</a> - formatted output conversion</p>\n<p>The functions in the printf() family produce output according to a <code>format</code> as described below. The functions printf() and vprintf() write output to <em>stdout</em>, the standard output stream; fprintf() and vfprintf() write output to the given output <code>stream</code>; sprintf(), snprintf(), vsprintf() and vsnprintf() write to the character string <code>str</code>. (<a href=\"https://reference.cs50.net/stdio.h/vsprintf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "vsscanf(str, format, ap);",
               "context": "blockItem",
-              "title": "<b>input format conversion</b></br>\n<p>The vfscanf() function is analogous to vfprintf(3) and reads input from the stream pointer `stream` using a variable argument list of pointers (see stdarg(3). The vscanf() function scans a variable argument list from the standard input and the vsscanf() function scans it from a string; these are analogous to the vprintf(3) and vsprintf(3) functions respectively.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdio.h/vsscanf\" target=\"_blank\">vsscanf</a> - input format conversion</p>\n<p>The vfscanf() function is analogous to vfprintf(3) and reads input from the stream pointer <code>stream</code> using a variable argument list of pointers (see stdarg(3). The vscanf() function scans a variable argument list from the standard input and the vsscanf() function scans it from a string; these are analogous to the vprintf(3) and vsprintf(3) functions respectively. (<a href=\"https://reference.cs50.net/stdio.h/vsscanf\" target=\"_blank\">read more</a>)</p>\n"
             }
           ]
         },
@@ -420,192 +447,193 @@ define(function(require, exports, module) {
           "blocks": [
             {
               "block": "#include <stdlib.h>",
-              "context": "compilationUnit"
+              "context": "compilationUnit",
+              "title": "<p>Includes the header file for <code>stdlib.h</code>. You must put this\nin your program in order to use any of the <code>stdlib.h</code> blocks.</p>\n"
             },
             {
               "block": "srand48(seedval);",
               "context": "blockItem",
-              "title": "<b>seeds the pseudorandom generator drand48()</b></br>\n<p>\nThe function `srand48()` is used to seed, or initialize, the internal buffer of functions such as `drand48()`. You normally seed `drand48()` with \nsomething like `time(NULL)` since this value will always change. If you were to simply call `drand48()` without seeding it, you'd get the same string\nof 'random' doubles back.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/srand48\" target=\"_blank\">srand48</a> - seeds the pseudorandom generator drand48()</p>\n<p>The function <code>srand48()</code> is used to seed, or initialize, the internal buffer of functions such as <code>drand48()</code>. You normally seed <code>drand48()</code> with \nsomething like <code>time(NULL)</code> since this value will always change. If you were to simply call <code>drand48()</code> without seeding it, you&#39;d get the same string\nof &#39;random&#39; doubles back.</p>\n"
             },
             {
               "block": "srand(seed);",
               "context": "blockItem",
-              "title": "<b>seed the pseudorandom generator `rand`</b></br>\n<p>\nThe thing about the function `rand` is it will generate a \"random\" integer,\nhowever, if you seed it with the same number, you will get the same \"random\"\nsequence of numbers. Therefore, we want to seed `rand` with something that\nalways changes. Often, it makes sense to seed `rand` with `time`, as it\nis a variable that will always be changing. We seed the `rand` function with\n`srand`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/srand\" target=\"_blank\">srand</a> - seed the pseudorandom generator <code>rand</code></p>\n<p>The thing about the function <code>rand</code> is it will generate a &quot;random&quot; integer,\nhowever, if you seed it with the same number, you will get the same &quot;random&quot;\nsequence of numbers. Therefore, we want to seed <code>rand</code> with something that\nalways changes. Often, it makes sense to seed <code>rand</code> with <code>time</code>, as it\nis a variable that will always be changing. We seed the <code>rand</code> function with\n<code>srand</code>.</p>\n"
             },
             {
               "block": "realloc(ptr, size);",
               "context": "blockItem",
-              "title": "<b>reallocate memory previously allocated</b></br>\n<p>\nReallocate memory that was previously allocated with `calloc` or `malloc`. You\ntake the memory block pointed to by `ptr` and give it a new `size`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/realloc\" target=\"_blank\">realloc</a> - reallocate memory previously allocated</p>\n<p>Reallocate memory that was previously allocated with <code>calloc</code> or <code>malloc</code>. You\ntake the memory block pointed to by <code>ptr</code> and give it a new <code>size</code>.</p>\n"
             },
             {
               "block": "rand();",
               "context": "blockItem",
-              "title": "<b>returns a pseudorandom integer</b></br>\n<p>\nThe function rand() returns a pseudorandom integer between zero and RAND_MAX.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/rand\" target=\"_blank\">rand</a> - returns a pseudorandom integer</p>\n<p>The function rand() returns a pseudorandom integer between zero and RAND_MAX.</p>\n"
             },
             {
               "block": "malloc(size);",
               "context": "blockItem",
-              "title": "<b>allocate memory</b></br>\n<p>\nAllocate `size` bytes of memory. Unlike `calloc`, `malloc` will not pre-set all\nallocated memory to zero.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/malloc\" target=\"_blank\">malloc</a> - allocate memory</p>\n<p>Allocate <code>size</code> bytes of memory. Unlike <code>calloc</code>, <code>malloc</code> will not pre-set all\nallocated memory to zero.</p>\n"
             },
             {
               "block": "free(ptr);",
               "context": "blockItem",
-              "title": "<b>free dynamically allocated memory</b></br>\n<p>\nFree takes a pointer to a block of memory on the heap and frees it for future\nuse. Whenever you dynamically allocate memory with something like `calloc`, \n`malloc`,or `realloc`, you have to, when done with the memory, `free` it. \nOtherwise, you'll end up with memory leaks.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/free\" target=\"_blank\">free</a> - free dynamically allocated memory</p>\n<p>Free takes a pointer to a block of memory on the heap and frees it for future\nuse. Whenever you dynamically allocate memory with something like <code>calloc</code>, \n<code>malloc</code>,or <code>realloc</code>, you have to, when done with the memory, <code>free</code> it. \nOtherwise, you&#39;ll end up with memory leaks.</p>\n"
             },
             {
               "block": "drand48();",
               "context": "blockItem",
-              "title": "<b>returns a pseudorandom integer using 48-bit integer arithmetic</b></br>\n<p>\nThe function `drand48()` returns a pseudorandom non-negative double-precision floating-point value over the interval [0.0, 1.0).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/drand48\" target=\"_blank\">drand48</a> - returns a pseudorandom integer using 48-bit integer arithmetic</p>\n<p>The function <code>drand48()</code> returns a pseudorandom non-negative double-precision floating-point value over the interval [0.0, 1.0).</p>\n"
             },
             {
               "block": "calloc(items, size);",
               "context": "blockItem",
-              "title": "<b>allocate memory and set it to zero</b></br>\n<p>\n`calloc` allocates the requested memory and sets it all to zero. So, it will\nallocate  `size` bytes `items` number of times. For example, if `size` is\n4 bytes, and `items` 10, then `calloc` will allocate a total of 40 bytes. \nThis differs from `malloc` which doesn't set the memory to zero.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/calloc\" target=\"_blank\">calloc</a> - allocate memory and set it to zero</p>\n<p><code>calloc</code> allocates the requested memory and sets it all to zero. So, it will\nallocate  <code>size</code> bytes <code>items</code> number of times. For example, if <code>size</code> is\n4 bytes, and <code>items</code> 10, then <code>calloc</code> will allocate a total of 40 bytes. \nThis differs from <code>malloc</code> which doesn&#39;t set the memory to zero.</p>\n"
             },
             {
               "block": "atoi(str);",
               "context": "blockItem",
-              "title": "<b>convert a string to an integer</b></br>\n<p>\nUse to convert some string `str` to an integer.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/atoi\" target=\"_blank\">atoi</a> - convert a string to an integer</p>\n<p>Use to convert some string <code>str</code> to an integer.</p>\n"
             },
             {
               "block": "abort();",
               "context": "blockItem",
-              "title": "<b>cause abnormal process termination</b></br>\n<p>The abort() first unblocks the `SIGABRT` signal, and then raises that signal for the calling process. This results in the abnormal termination of the process unless the `SIGABRT` signal is caught and the signal handler does not return (see longjmp(3)).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/abort\" target=\"_blank\">abort</a> - cause abnormal process termination</p>\n<p>The abort() first unblocks the <code>SIGABRT</code> signal, and then raises that signal for the calling process. This results in the abnormal termination of the process unless the <code>SIGABRT</code> signal is caught and the signal handler does not return (see longjmp(3)). (<a href=\"https://reference.cs50.net/stdlib.h/abort\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "abs(j);",
               "context": "blockItem",
-              "title": "<b>compute the absolute value of an integer</b></br>\n<p>The abs() function computes the absolute value of the integer argument `j`. The labs(), llabs() and imaxabs() functions compute the absolute value of the argument `j` of the appropriate integer type for the function.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/abs\" target=\"_blank\">abs</a> - compute the absolute value of an integer</p>\n<p>The abs() function computes the absolute value of the integer argument <code>j</code>. The labs(), llabs() and imaxabs() functions compute the absolute value of the argument <code>j</code> of the appropriate integer type for the function.</p>\n"
             },
             {
               "block": "atexit(function);",
               "context": "blockItem",
-              "title": "<b>register a function to be called at normal process termination</b></br>\n<p>The atexit() function registers the given `function` to be called at normal process termination, either via exit(3) or via return from the program's _main_(). Functions so registered are called in the reverse order of their registration; no arguments are passed.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/atexit\" target=\"_blank\">atexit</a> - register a function to be called at normal process termination</p>\n<p>The atexit() function registers the given <code>function</code> to be called at normal process termination, either via exit(3) or via return from the program&#39;s <em>main</em>(). Functions so registered are called in the reverse order of their registration; no arguments are passed. (<a href=\"https://reference.cs50.net/stdlib.h/atexit\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "atof(nptr);",
               "context": "blockItem",
-              "title": "<b>convert a string to a double</b></br>\n<p>The atof() function converts the initial portion of the string pointed to by `nptr` to _double_. The behavior is the same as</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/atof\" target=\"_blank\">atof</a> - convert a string to a double</p>\n<p>The atof() function converts the initial portion of the string pointed to by <code>nptr</code> to <em>double</em>. The behavior is the same as (<a href=\"https://reference.cs50.net/stdlib.h/atof\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "atol(nptr);",
               "context": "blockItem",
-              "title": "<b>convert a string to an integer</b></br>\n<p>The atol() and atoll() functions behave the same as atoi(), except that they convert the initial portion of the string to their return type of _long_ or _long long_. atoq() is an obsolete name for atoll().</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/atol\" target=\"_blank\">atol</a> - convert a string to an integer</p>\n<p>The atol() and atoll() functions behave the same as atoi(), except that they convert the initial portion of the string to their return type of <em>long</em> or <em>long long</em>. atoq() is an obsolete name for atoll().\n  (<a href=\"https://reference.cs50.net/stdlib.h/atol\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "atoll(nptr);",
               "context": "blockItem",
-              "title": "<b>convert a string to an integer</b></br>\n<p>The atol() and atoll() functions behave the same as atoi(), except that they convert the initial portion of the string to their return type of _long_ or _long long_. atoq() is an obsolete name for atoll().</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/atoll\" target=\"_blank\">atoll</a> - convert a string to an integer</p>\n<p>The atol() and atoll() functions behave the same as atoi(), except that they convert the initial portion of the string to their return type of <em>long</em> or <em>long long</em>. atoq() is an obsolete name for atoll().\n  (<a href=\"https://reference.cs50.net/stdlib.h/atoll\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "bsearch(key, base, nmemb, size, compar);",
               "context": "blockItem",
-              "title": "<b>binary search of a sorted array</b></br>\n<p>The bsearch() function searches an array of `nmemb` objects, the initial member of which is pointed to by `base`, for a member that matches the object pointed to by `key`. The size of each member of the array is specified by `size`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/bsearch\" target=\"_blank\">bsearch</a> - binary search of a sorted array</p>\n<p>The bsearch() function searches an array of <code>nmemb</code> objects, the initial member of which is pointed to by <code>base</code>, for a member that matches the object pointed to by <code>key</code>. The size of each member of the array is specified by <code>size</code>. (<a href=\"https://reference.cs50.net/stdlib.h/bsearch\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "div(numerator, denominator);",
               "context": "blockItem",
-              "title": "<b>compute quotient and remainder of an integer division</b></br>\n<p>The div() function computes the value `numerator`/`denominator` and returns the quotient and remainder in a structure named `div_t` that contains two integer members (in unspecified order) named _quot_ and _rem_. The quotient is rounded toward zero. The result satisfies _quot_\\*`denominator`+_rem_ = `numerator`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/div\" target=\"_blank\">div</a> - compute quotient and remainder of an integer division</p>\n<p>The div() function computes the value <code>numerator</code>/<code>denominator</code> and returns the quotient and remainder in a structure named <code>div_t</code> that contains two integer members (in unspecified order) named <em>quot</em> and <em>rem</em>. The quotient is rounded toward zero. The result satisfies <em>quot</em>*<code>denominator</code>+<em>rem</em> = <code>numerator</code>. (<a href=\"https://reference.cs50.net/stdlib.h/div\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "exit(status);",
               "context": "blockItem",
-              "title": "<b>cause normal process termination</b></br>\n<p>The exit() function causes normal process termination and the value of _status & 0377_ is returned to the parent (see wait(2)).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/exit\" target=\"_blank\">exit</a> - cause normal process termination</p>\n<p>The exit() function causes normal process termination and the value of <em>status &amp; 0377</em> is returned to the parent (see wait(2)). (<a href=\"https://reference.cs50.net/stdlib.h/exit\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "getenv(name);",
               "context": "blockItem",
-              "title": "<b>get an environment variable</b></br>\n<p>The getenv() function searches the environment list to find the environment variable `name`, and returns a pointer to the corresponding _value_ string.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/getenv\" target=\"_blank\">getenv</a> - get an environment variable</p>\n<p>The getenv() function searches the environment list to find the environment variable <code>name</code>, and returns a pointer to the corresponding <em>value</em> string. (<a href=\"https://reference.cs50.net/stdlib.h/getenv\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "labs(j);",
               "context": "blockItem",
-              "title": "<b>compute the absolute value of an integer</b></br>\n<p>The abs() function computes the absolute value of the integer argument `j`. The labs(), llabs() and imaxabs() functions compute the absolute value of the argument `j` of the appropriate integer type for the function.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/labs\" target=\"_blank\">labs</a> - compute the absolute value of an integer</p>\n<p>The abs() function computes the absolute value of the integer argument <code>j</code>. The labs(), llabs() and imaxabs() functions compute the absolute value of the argument <code>j</code> of the appropriate integer type for the function.</p>\n"
             },
             {
               "block": "ldiv(numerator, denominator);",
               "context": "blockItem",
-              "title": "<b>compute quotient and remainder of an integer division</b></br>\n<p>The ldiv(), lldiv(), and imaxdiv() functions do the same, dividing numbers of the indicated type and returning the result in a structure of the indicated name, in all cases with fields _quot_ and _rem_ of the same type as the function arguments.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/ldiv\" target=\"_blank\">ldiv</a> - compute quotient and remainder of an integer division</p>\n<p>The ldiv(), lldiv(), and imaxdiv() functions do the same, dividing numbers of the indicated type and returning the result in a structure of the indicated name, in all cases with fields <em>quot</em> and <em>rem</em> of the same type as the function arguments.\n  (<a href=\"https://reference.cs50.net/stdlib.h/ldiv\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "llabs(j);",
               "context": "blockItem",
-              "title": "<b>compute the absolute value of an integer</b></br>\n<p>The abs() function computes the absolute value of the integer argument `j`. The labs(), llabs() and imaxabs() functions compute the absolute value of the argument `j` of the appropriate integer type for the function.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/llabs\" target=\"_blank\">llabs</a> - compute the absolute value of an integer</p>\n<p>The abs() function computes the absolute value of the integer argument <code>j</code>. The labs(), llabs() and imaxabs() functions compute the absolute value of the argument <code>j</code> of the appropriate integer type for the function.</p>\n"
             },
             {
               "block": "lldiv(numerator, denominator);",
               "context": "blockItem",
-              "title": "<b>compute quotient and remainder of an integer division</b></br>\n<p>The ldiv(), lldiv(), and imaxdiv() functions do the same, dividing numbers of the indicated type and returning the result in a structure of the indicated name, in all cases with fields _quot_ and _rem_ of the same type as the function arguments.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/lldiv\" target=\"_blank\">lldiv</a> - compute quotient and remainder of an integer division</p>\n<p>The ldiv(), lldiv(), and imaxdiv() functions do the same, dividing numbers of the indicated type and returning the result in a structure of the indicated name, in all cases with fields <em>quot</em> and <em>rem</em> of the same type as the function arguments.\n  (<a href=\"https://reference.cs50.net/stdlib.h/lldiv\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "mblen(s, n);",
               "context": "blockItem",
-              "title": "<b>determine number of bytes in next multibyte character</b></br>\n<p>If `s` is a NULL pointer, the mblen() function  resets the shift state, known to only this function, to the initial state, and returns nonzero if the encoding has nontrivial shift state, or zero if the encoding is stateless.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/mblen\" target=\"_blank\">mblen</a> - determine number of bytes in next multibyte character</p>\n<p>If <code>s</code> is not a NULL pointer, the mblen() function inspects at most <code>n</code> bytes of the multibyte string starting at <code>s</code> and extracts the next complete multibyte character. It uses a static anonymous shift state known only to the mblen() function. If the multibyte character is not the null wide character, it returns the number of bytes that were consumed from <code>s</code>. If the multibyte character is the null wide character, it returns 0. (<a href=\"https://reference.cs50.net/stdlib.h/mblen\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "mbstowcs(dest, src, n);",
               "context": "blockItem",
-              "title": "<b>convert a multibyte string to a wide-character string</b></br>\n<p>If `dest` is not a NULL pointer, the mbstowcs() function converts the multibyte string `src` to a wide-character string starting at `dest`. At most `n` wide characters are written to `dest`. The conversion starts in the initial state. The conversion can stop for three reasons:</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/mbstowcs\" target=\"_blank\">mbstowcs</a> - convert a multibyte string to a wide-character string</p>\n<p>If <code>dest</code> is not a NULL pointer, the mbstowcs() function converts the multibyte string <code>src</code> to a wide-character string starting at <code>dest</code>. At most <code>n</code> wide characters are written to <code>dest</code>. The conversion starts in the initial state. The conversion can stop for three reasons: (<a href=\"https://reference.cs50.net/stdlib.h/mbstowcs\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "mbtowc(pwc, s, n);",
               "context": "blockItem",
-              "title": "<b>convert a multibyte sequence to a wide character</b></br>\n<p>A different case is when `s` is not NULL but `pwc` is NULL. In this case the mbtowc() function behaves as above, except that it does not store the converted wide character in memory.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/mbtowc\" target=\"_blank\">mbtowc</a> - convert a multibyte sequence to a wide character</p>\n<p>The main case for this function is when <code>s</code> is not NULL and <code>pwc</code> is not NULL. In this case, the mbtowc() function inspects at most <code>n</code> bytes of the multibyte string starting at <code>s</code>, extracts the next complete multibyte character, converts it to a wide character and stores it at <em>*pwc</em>. It updates an internal shift state known only to the mbtowc() function. If <code>s</code> does not point to a null byte (&#39;\\0&#39;), it returns the number of bytes that were consumed from <code>s</code>, otherwise it returns 0. (<a href=\"https://reference.cs50.net/stdlib.h/mbtowc\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "qsort(base, nmemb, size, compar);",
               "context": "blockItem",
-              "title": "<b>sort an array</b></br>\n<p>The qsort() function sorts an array with `nmemb` elements of size `size`. The `base` argument points to the start of the array.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/qsort\" target=\"_blank\">qsort</a> - sort an array</p>\n<p>The qsort() function sorts an array with <code>nmemb</code> elements of size <code>size</code>. The <code>base</code> argument points to the start of the array. (<a href=\"https://reference.cs50.net/stdlib.h/qsort\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strtod(nptr, endptr);",
               "context": "blockItem",
-              "title": "<b>convert ASCII string to floating-point number</b></br>\n<p>The strtod(), strtof(), and strtold() functions convert the initial portion of the string pointed to by `nptr` to _double_, _float_, and _long double_ representation, respectively.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/strtod\" target=\"_blank\">strtod</a> - convert ASCII string to floating-point number</p>\n<p>The strtod(), strtof(), and strtold() functions convert the initial portion of the string pointed to by <code>nptr</code> to <em>double</em>, <em>float</em>, and <em>long double</em> representation, respectively. (<a href=\"https://reference.cs50.net/stdlib.h/strtod\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strtof(nptr, endptr);",
               "context": "blockItem",
-              "title": "<b>convert ASCII string to floating-point number</b></br>\n<p>The strtod(), strtof(), and strtold() functions convert the initial portion of the string pointed to by `nptr` to _double_, _float_, and _long double_ representation, respectively.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/strtof\" target=\"_blank\">strtof</a> - convert ASCII string to floating-point number</p>\n<p>The strtod(), strtof(), and strtold() functions convert the initial portion of the string pointed to by <code>nptr</code> to <em>double</em>, <em>float</em>, and <em>long double</em> representation, respectively. (<a href=\"https://reference.cs50.net/stdlib.h/strtof\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strtol(nptr, endptr, base);",
               "context": "blockItem",
-              "title": "<b>convert a string to a long integer</b></br>\n<p>The strtol() function converts the initial part of the string in `nptr` to a long integer value according to the given `base`, which must be between 2 and 36 inclusive, or be the special value 0.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/strtol\" target=\"_blank\">strtol</a> - convert a string to a long integer</p>\n<p>The strtol() function converts the initial part of the string in <code>nptr</code> to a long integer value according to the given <code>base</code>, which must be between 2 and 36 inclusive, or be the special value 0. (<a href=\"https://reference.cs50.net/stdlib.h/strtol\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strtold(nptr, endptr);",
               "context": "blockItem",
-              "title": "<b>convert ASCII string to floating-point number</b></br>\n<p>The strtod(), strtof(), and strtold() functions convert the initial portion of the string pointed to by `nptr` to _double_, _float_, and _long double_ representation, respectively.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/strtold\" target=\"_blank\">strtold</a> - convert ASCII string to floating-point number</p>\n<p>The strtod(), strtof(), and strtold() functions convert the initial portion of the string pointed to by <code>nptr</code> to <em>double</em>, <em>float</em>, and <em>long double</em> representation, respectively. (<a href=\"https://reference.cs50.net/stdlib.h/strtold\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strtoll(nptr, endptr, base);",
               "context": "blockItem",
-              "title": "<b>convert a string to a long integer</b></br>\n<p>The strtoll() function works just like the strtol() function but returns a long long integer value.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/strtoll\" target=\"_blank\">strtoll</a> - convert a string to a long integer</p>\n<p>The strtoll() function works just like the strtol() function but returns a long long integer value.\n  (<a href=\"https://reference.cs50.net/stdlib.h/strtoll\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strtoul(nptr, endptr, base);",
               "context": "blockItem",
-              "title": "<b>convert a string to an unsigned long integer</b></br>\n<p>The strtoul() function converts the initial part of the string in `nptr` to an _unsigned long int_ value according to the given `base`, which must be between 2 and 36 inclusive, or be the special value 0.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/strtoul\" target=\"_blank\">strtoul</a> - convert a string to an unsigned long integer</p>\n<p>The strtoul() function converts the initial part of the string in <code>nptr</code> to an <em>unsigned long int</em> value according to the given <code>base</code>, which must be between 2 and 36 inclusive, or be the special value 0. (<a href=\"https://reference.cs50.net/stdlib.h/strtoul\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strtoull(nptr, endptr, base);",
               "context": "blockItem",
-              "title": "<b>convert a string to an unsigned long integer</b></br>\n<p>The strtoull() function works just like the strtoul() function but returns an _unsigned long long int_ value.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/strtoull\" target=\"_blank\">strtoull</a> - convert a string to an unsigned long integer</p>\n<p>The strtoull() function works just like the strtoul() function but returns an <em>unsigned long long int</em> value.\n  (<a href=\"https://reference.cs50.net/stdlib.h/strtoull\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "system(command);",
               "context": "blockItem",
-              "title": "<b>execute a shell command</b></br>\n<p>system() executes a command specified in `command` by calling `/bin/sh -c` `command`, and returns after the command has been completed. During execution of the command, `SIGCHLD` will be blocked, and `SIGINT` and `SIGQUIT` will be ignored.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/system\" target=\"_blank\">system</a> - execute a shell command</p>\n<p>system() executes a command specified in <code>command</code> by calling <code>/bin/sh -c</code> <code>command</code>, and returns after the command has been completed. During execution of the command, <code>SIGCHLD</code> will be blocked, and <code>SIGINT</code> and <code>SIGQUIT</code> will be ignored.</p>\n"
             },
             {
               "block": "wcstombs(dest, src, n);",
               "context": "blockItem",
-              "title": "<b>convert a wide-character string to a multibyte string</b></br>\n<p>If `dest` is not a NULL pointer, the wcstombs() function converts the wide-character string `src` to a multibyte string starting at `dest`. At most `n` bytes are written to `dest`. The conversion starts in the initial state. The conversion can stop for three reasons:</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/wcstombs\" target=\"_blank\">wcstombs</a> - convert a wide-character string to a multibyte string</p>\n<p>If <code>dest</code> is not a NULL pointer, the wcstombs() function converts the wide-character string <code>src</code> to a multibyte string starting at <code>dest</code>. At most <code>n</code> bytes are written to <code>dest</code>. The conversion starts in the initial state. The conversion can stop for three reasons: (<a href=\"https://reference.cs50.net/stdlib.h/wcstombs\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "wctomb(s, wc);",
               "context": "blockItem",
-              "title": "<b>convert a wide character to a multibyte sequence</b></br>\n<p>If `s` is NULL, the wctomb() function  resets the shift state, known only to this function, to the initial state, and returns nonzero if the encoding has nontrivial shift state, or zero if the encoding is stateless.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/wctomb\" target=\"_blank\">wctomb</a> - convert a wide character to a multibyte sequence</p>\n<p>If <code>s</code> is not NULL, the wctomb() function converts the wide character <code>wc</code> to its multibyte representation and stores it at the beginning of the character array pointed to by <code>s</code>. It updates the shift state, which is stored in a static anonymous variable known only to the wctomb() function, and returns the length of said multibyte representation, that is, the number of bytes written at <code>s</code>. (<a href=\"https://reference.cs50.net/stdlib.h/wctomb\" target=\"_blank\">read more</a>)</p>\n"
             }
           ]
         },
@@ -615,117 +643,118 @@ define(function(require, exports, module) {
           "blocks": [
             {
               "block": "#include <string.h>",
-              "context": "compilationUnit"
+              "context": "compilationUnit",
+              "title": "<p>Includes the header file for <code>string.h</code>. You must put this\nin your program in order to use any of the <code>string.h</code> blocks.</p>\n"
             },
             {
               "block": "strlen(str);",
               "context": "blockItem",
-              "title": "<b>return length of a string</b></br>\n<p>\nReturn the length of a string.\n \n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strlen\" target=\"_blank\">strlen</a> - return length of a string</p>\n<p>Return the length of a string.</p>\n"
             },
             {
               "block": "strcpy(destination, source);",
               "context": "blockItem",
-              "title": "<b>copy a string</b></br>\n<p>\n`strcpy` copys string `source` into string `destination`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strcpy\" target=\"_blank\">strcpy</a> - copy a string</p>\n<p><code>strcpy</code> copys string <code>source</code> into string <code>destination</code>.</p>\n"
             },
             {
               "block": "strcmp(str1, str2);",
               "context": "blockItem",
-              "title": "<b>compare two strings</b></br>\n<p>\n`strcmp` compares two strings: `str1` and `str2`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strcmp\" target=\"_blank\">strcmp</a> - compare two strings</p>\n<p><code>strcmp</code> compares two strings: <code>str1</code> and <code>str2</code>.</p>\n"
             },
             {
               "block": "memchr(s, c, n);",
               "context": "blockItem",
-              "title": "<b>scan memory for a character</b></br>\n<p>The memchr() function scans the initial `n` bytes of the memory area pointed to by `s` for the first instance of `c`. Both `c` and the bytes of the memory area pointed to by `s` are interpreted as _unsigned char_.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/memchr\" target=\"_blank\">memchr</a> - scan memory for a character</p>\n<p>The memchr() function scans the initial <code>n</code> bytes of the memory area pointed to by <code>s</code> for the first instance of <code>c</code>. Both <code>c</code> and the bytes of the memory area pointed to by <code>s</code> are interpreted as <em>unsigned char</em>. (<a href=\"https://reference.cs50.net/string.h/memchr\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "memcmp(s1, s2, n);",
               "context": "blockItem",
-              "title": "<b>compare memory areas</b></br>\n<p>The memcmp() function compares the first `n` bytes (each interpreted as _unsigned char_) of the memory areas `s1` and `s2`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/memcmp\" target=\"_blank\">memcmp</a> - compare memory areas</p>\n<p>The memcmp() function compares the first <code>n</code> bytes (each interpreted as <em>unsigned char</em>) of the memory areas <code>s1</code> and <code>s2</code>.</p>\n"
             },
             {
               "block": "memcpy(dest, src, n);",
               "context": "blockItem",
-              "title": "<b>copy memory area</b></br>\n<p>The memcpy() function copies `n` bytes from memory area `src` to memory area `dest`. The memory areas must not overlap. Use memmove(3) if the memory areas do overlap.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/memcpy\" target=\"_blank\">memcpy</a> - copy memory area</p>\n<p>The memcpy() function copies <code>n</code> bytes from memory area <code>src</code> to memory area <code>dest</code>. The memory areas must not overlap. Use memmove(3) if the memory areas do overlap.</p>\n"
             },
             {
               "block": "memmove(dest, src, n);",
               "context": "blockItem",
-              "title": "<b>copy memory area</b></br>\n<p>The memmove() function copies `n` bytes from memory area `src` to memory area `dest`. The memory areas may overlap: copying takes place as though the bytes in `src` are first copied into a temporary array that does not overlap `src` or `dest`, and the bytes are then copied from the temporary array to `dest`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/memmove\" target=\"_blank\">memmove</a> - copy memory area</p>\n<p>The memmove() function copies <code>n</code> bytes from memory area <code>src</code> to memory area <code>dest</code>. The memory areas may overlap: copying takes place as though the bytes in <code>src</code> are first copied into a temporary array that does not overlap <code>src</code> or <code>dest</code>, and the bytes are then copied from the temporary array to <code>dest</code>.</p>\n"
             },
             {
               "block": "memset(s, c, n);",
               "context": "blockItem",
-              "title": "<b>fill memory with a constant byte</b></br>\n<p>The memset() function fills the first `n` bytes of the memory area pointed to by `s` with the constant byte `c`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/memset\" target=\"_blank\">memset</a> - fill memory with a constant byte</p>\n<p>The memset() function fills the first <code>n</code> bytes of the memory area pointed to by <code>s</code> with the constant byte <code>c</code>.</p>\n"
             },
             {
               "block": "strcat(dest, src);",
               "context": "blockItem",
-              "title": "<b>concatenate two strings</b></br>\n<p>The strcat() function appends the `src` string to the `dest` string, overwriting the terminating null byte ('\\0') at the end of `dest`, and then adds a terminating null byte. The strings may not overlap, and the `dest` string must have enough space for the result. If `dest` is not large enough, program behavior is unpredictable; _buffer overruns are a favorite avenue for attacking secure programs_.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strcat\" target=\"_blank\">strcat</a> - concatenate two strings</p>\n<p>The strcat() function appends the <code>src</code> string to the <code>dest</code> string, overwriting the terminating null byte (&#39;\\0&#39;) at the end of <code>dest</code>, and then adds a terminating null byte. The strings may not overlap, and the <code>dest</code> string must have enough space for the result. If <code>dest</code> is not large enough, program behavior is unpredictable; <em>buffer overruns are a favorite avenue for attacking secure programs</em>. (<a href=\"https://reference.cs50.net/string.h/strcat\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strchr(s, c);",
               "context": "blockItem",
-              "title": "<b>locate character in string</b></br>\n<p>The strchr() function returns a pointer to the first occurrence of the character `c` in the string `s`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strchr\" target=\"_blank\">strchr</a> - locate character in string</p>\n<p>The strchr() function returns a pointer to the first occurrence of the character <code>c</code> in the string <code>s</code>. (<a href=\"https://reference.cs50.net/string.h/strchr\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strcoll(s1, s2);",
               "context": "blockItem",
-              "title": "<b>compare two strings using the current locale</b></br>\n<p>The strcoll() function compares the two strings `s1` and `s2`. It returns an integer less than, equal to, or greater than zero if `s1` is found, respectively, to be less than, to match, or be greater than `s2`. The comparison is based on strings interpreted as appropriate for the program's current locale for category \\*LC_COLLATE\\*.  (See setlocale(3).)</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strcoll\" target=\"_blank\">strcoll</a> - compare two strings using the current locale</p>\n<p>The strcoll() function compares the two strings <code>s1</code> and <code>s2</code>. It returns an integer less than, equal to, or greater than zero if <code>s1</code> is found, respectively, to be less than, to match, or be greater than <code>s2</code>. The comparison is based on strings interpreted as appropriate for the program&#39;s current locale for category *LC_COLLATE*.  (See setlocale(3).)</p>\n"
             },
             {
               "block": "strcspn(s, reject);",
               "context": "blockItem",
-              "title": "<b>search a string for a set of bytes</b></br>\n<p>The strcspn() function calculates the length of the initial segment of `s` which consists entirely of bytes not in `reject`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strcspn\" target=\"_blank\">strcspn</a> - search a string for a set of bytes</p>\n<p>The strcspn() function calculates the length of the initial segment of <code>s</code> which consists entirely of bytes not in <code>reject</code>.\n  (<a href=\"https://reference.cs50.net/string.h/strcspn\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strerror(errnum);",
               "context": "blockItem",
-              "title": "<b>return string describing error number</b></br>\n<p>The strerror() function returns a pointer to a string that describes the error code passed in the argument `errnum`, possibly using the `LC_MESSAGES` part of the current locale to select the appropriate language. (For example, if `errnum` is `EINVAL`, the returned description will \"Invalid argument\".) This string must not be modified by the application, but may be modified by a subsequent call to strerror(). No library function, including perror(3), will modify this string.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strerror\" target=\"_blank\">strerror</a> - return string describing error number</p>\n<p>The strerror() function returns a pointer to a string that describes the error code passed in the argument <code>errnum</code>, possibly using the <code>LC_MESSAGES</code> part of the current locale to select the appropriate language. (For example, if <code>errnum</code> is <code>EINVAL</code>, the returned description will &quot;Invalid argument&quot;.) This string must not be modified by the application, but may be modified by a subsequent call to strerror(). No library function, including perror(3), will modify this string. (<a href=\"https://reference.cs50.net/string.h/strerror\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strncat(dest, src, n);",
               "context": "blockItem",
-              "title": "<b>concatenate two strings</b></br>\n<p>The strncat() function is similar, except that</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strncat\" target=\"_blank\">strncat</a> - concatenate two strings</p>\n<p>The strncat() function is similar, except that (<a href=\"https://reference.cs50.net/string.h/strncat\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strncmp(s1, s2, n);",
               "context": "blockItem",
-              "title": "<b>compare two strings</b></br>\n<p>The strncmp() function is similar, except it compares the only first (at most) `n` bytes of `s1` and `s2`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strncmp\" target=\"_blank\">strncmp</a> - compare two strings</p>\n<p>The strncmp() function is similar, except it compares the only first (at most) <code>n</code> bytes of <code>s1</code> and <code>s2</code>.\n  (<a href=\"https://reference.cs50.net/string.h/strncmp\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strncpy(dest, src, n);",
               "context": "blockItem",
-              "title": "<b>copy a string</b></br>\n<p>The strncpy() function is similar, except that at most `n` bytes of `src` are copied. \\*Warning\\*: If there is no null byte among the first `n` bytes of `src`, the string placed in `dest` will not be null-terminated.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strncpy\" target=\"_blank\">strncpy</a> - copy a string</p>\n<p>The strncpy() function is similar, except that at most <code>n</code> bytes of <code>src</code> are copied. *Warning*: If there is no null byte among the first <code>n</code> bytes of <code>src</code>, the string placed in <code>dest</code> will not be null-terminated. (<a href=\"https://reference.cs50.net/string.h/strncpy\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strpbrk(s, accept);",
               "context": "blockItem",
-              "title": "<b>search a string for any of a set of bytes</b></br>\n<p>The strpbrk() function locates the first occurrence in the string `s` of any of the bytes in the string `accept`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strpbrk\" target=\"_blank\">strpbrk</a> - search a string for any of a set of bytes</p>\n<p>The strpbrk() function locates the first occurrence in the string <code>s</code> of any of the bytes in the string <code>accept</code>.</p>\n"
             },
             {
               "block": "strrchr(s, c);",
               "context": "blockItem",
-              "title": "<b>locate character in string</b></br>\n<p>The strrchr() function returns a pointer to the last occurrence of the character `c` in the string `s`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strrchr\" target=\"_blank\">strrchr</a> - locate character in string</p>\n<p>The strrchr() function returns a pointer to the last occurrence of the character <code>c</code> in the string <code>s</code>. (<a href=\"https://reference.cs50.net/string.h/strrchr\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strspn(s, accept);",
               "context": "blockItem",
-              "title": "<b>search a string for a set of bytes</b></br>\n<p>The strspn() function calculates the length (in bytes) of the initial segment of `s` which consists entirely of bytes in `accept`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strspn\" target=\"_blank\">strspn</a> - search a string for a set of bytes</p>\n<p>The strspn() function calculates the length (in bytes) of the initial segment of <code>s</code> which consists entirely of bytes in <code>accept</code>. (<a href=\"https://reference.cs50.net/string.h/strspn\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strstr(haystack, needle);",
               "context": "blockItem",
-              "title": "<b>locate a substring</b></br>\n<p>The strstr() function finds the first occurrence of the substring `needle` in the string `haystack`. The terminating null bytes ('\\0') are not compared.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strstr\" target=\"_blank\">strstr</a> - locate a substring</p>\n<p>The strstr() function finds the first occurrence of the substring <code>needle</code> in the string <code>haystack</code>. The terminating null bytes (&#39;\\0&#39;) are not compared. (<a href=\"https://reference.cs50.net/string.h/strstr\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strtok(str, delim);",
               "context": "blockItem",
-              "title": "<b>extract tokens from strings</b></br>\n<p>The strtok() function parses a string into a sequence of tokens. On the first call to strtok() the string to be parsed should be specified in `str`. In each subsequent call that should parse the same string, `str` should be NULL.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strtok\" target=\"_blank\">strtok</a> - extract tokens from strings</p>\n<p>The strtok() function parses a string into a sequence of tokens. On the first call to strtok() the string to be parsed should be specified in <code>str</code>. In each subsequent call that should parse the same string, <code>str</code> should be NULL. (<a href=\"https://reference.cs50.net/string.h/strtok\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strxfrm(dest, src, n);",
               "context": "blockItem",
-              "title": "<b>string transformation</b></br>\n<p>The strxfrm() function transforms the `src` string into a form such that the result of strcmp(3) on two strings that have been transformed with strxfrm() is the same as the result of strcoll(3) on the two strings before their transformation. The first `n` bytes of the transformed string are placed in `dest`. The transformation is based on the program's current locale for category \\*LC_COLLATE\\*.  (See setlocale(3)).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/string.h/strxfrm\" target=\"_blank\">strxfrm</a> - string transformation</p>\n<p>The strxfrm() function transforms the <code>src</code> string into a form such that the result of strcmp(3) on two strings that have been transformed with strxfrm() is the same as the result of strcoll(3) on the two strings before their transformation. The first <code>n</code> bytes of the transformed string are placed in <code>dest</code>. The transformation is based on the program&#39;s current locale for category *LC_COLLATE*.  (See setlocale(3)).</p>\n"
             }
           ]
         },
@@ -735,317 +764,318 @@ define(function(require, exports, module) {
           "blocks": [
             {
               "block": "#include <math.h>",
-              "context": "compilationUnit"
+              "context": "compilationUnit",
+              "title": "<p>Includes the header file for <code>math.h</code>. You must put this\nin your program in order to use any of the <code>math.h</code> blocks.</p>\n"
             },
             {
               "block": "round(x);",
               "context": "blockItem",
-              "title": "<b>rounds value</b></br>\n<p>\nRounds the `double` `x` to the nearest integer value.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/round\" target=\"_blank\">round</a> - rounds value</p>\n<p>Rounds the <code>double</code> <code>x</code> to the nearest integer value.</p>\n"
             },
             {
               "block": "floor(x);",
               "context": "blockItem",
-              "title": "<b>rounds down value</b></br>\n<p>\nRounds `x` down.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/floor\" target=\"_blank\">floor</a> - rounds down value</p>\n<p>Rounds <code>x</code> down.</p>\n"
             },
             {
               "block": "ceil(x);",
               "context": "blockItem",
-              "title": "<b>rounds up value</b></br>\n<p>\nRounds `x` upward.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/ceil\" target=\"_blank\">ceil</a> - rounds up value</p>\n<p>Rounds <code>x</code> upward.</p>\n"
             },
             {
               "block": "acos(x);",
               "context": "blockItem",
-              "title": "<b>arc cosine function</b></br>\n<p>The acos() function calculates the arc cosine of `x`; that is the value whose cosine is `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/acos\" target=\"_blank\">acos</a> - arc cosine function</p>\n<p>The acos() function calculates the arc cosine of <code>x</code>; that is the value whose cosine is <code>x</code>.</p>\n"
             },
             {
               "block": "acosh(x);",
               "context": "blockItem",
-              "title": "<b>inverse hyperbolic cosine function</b></br>\n<p>The acosh() function calculates the inverse hyperbolic cosine of `x`; that is the value whose hyperbolic cosine is `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/acosh\" target=\"_blank\">acosh</a> - inverse hyperbolic cosine function</p>\n<p>The acosh() function calculates the inverse hyperbolic cosine of <code>x</code>; that is the value whose hyperbolic cosine is <code>x</code>.</p>\n"
             },
             {
               "block": "asin(x);",
               "context": "blockItem",
-              "title": "<b>arc sine function</b></br>\n<p>The asin() function calculates the principal value of the arc sine of `x`; that is the value whose sine is `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/asin\" target=\"_blank\">asin</a> - arc sine function</p>\n<p>The asin() function calculates the principal value of the arc sine of <code>x</code>; that is the value whose sine is <code>x</code>.</p>\n"
             },
             {
               "block": "asinh(x);",
               "context": "blockItem",
-              "title": "<b>inverse hyperbolic sine function</b></br>\n<p>The asinh() function calculates the inverse hyperbolic sine of `x`; that is the value whose hyperbolic sine is `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/asinh\" target=\"_blank\">asinh</a> - inverse hyperbolic sine function</p>\n<p>The asinh() function calculates the inverse hyperbolic sine of <code>x</code>; that is the value whose hyperbolic sine is <code>x</code>.</p>\n"
             },
             {
               "block": "atan(x);",
               "context": "blockItem",
-              "title": "<b>arc tangent function</b></br>\n<p>The atan() function calculates the principal value of the arc tangent of `x`; that is the value whose tangent is `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/atan\" target=\"_blank\">atan</a> - arc tangent function</p>\n<p>The atan() function calculates the principal value of the arc tangent of <code>x</code>; that is the value whose tangent is <code>x</code>.</p>\n"
             },
             {
               "block": "atan2(y, x);",
               "context": "blockItem",
-              "title": "<b>arc tangent function of two variables</b></br>\n<p>The atan2() function calculates the principal value of the arc tangent of _y/x_, using the signs of the two arguments to determine the quadrant of the result.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/atan2\" target=\"_blank\">atan2</a> - arc tangent function of two variables</p>\n<p>The atan2() function calculates the principal value of the arc tangent of <em>y/x</em>, using the signs of the two arguments to determine the quadrant of the result.</p>\n"
             },
             {
               "block": "atanh(x);",
               "context": "blockItem",
-              "title": "<b>inverse hyperbolic tangent function</b></br>\n<p>The atanh() function calculates the inverse hyperbolic tangent of `x`; that is the value whose hyperbolic tangent is `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/atanh\" target=\"_blank\">atanh</a> - inverse hyperbolic tangent function</p>\n<p>The atanh() function calculates the inverse hyperbolic tangent of <code>x</code>; that is the value whose hyperbolic tangent is <code>x</code>.</p>\n"
             },
             {
               "block": "copysign(x, y);",
               "context": "blockItem",
-              "title": "<b>copy sign of a number</b></br>\n<p>The copysign() functions return a value whose absolute value matches that of `x`, but whose sign bit matches that of `y`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/copysign\" target=\"_blank\">copysign</a> - copy sign of a number</p>\n<p>The copysign() functions return a value whose absolute value matches that of <code>x</code>, but whose sign bit matches that of <code>y</code>. (<a href=\"https://reference.cs50.net/math.h/copysign\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "cos(x);",
               "context": "blockItem",
-              "title": "<b>cosine function</b></br>\n<p>The cos() function returns the cosine of `x`, where `x` is given in radians.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/cos\" target=\"_blank\">cos</a> - cosine function</p>\n<p>The cos() function returns the cosine of <code>x</code>, where <code>x</code> is given in radians.</p>\n"
             },
             {
               "block": "cosh(x);",
               "context": "blockItem",
-              "title": "<b>hyperbolic cosine function</b></br>\n<p>The cosh() function returns the hyperbolic cosine of `x`, which is defined mathematically as:</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/cosh\" target=\"_blank\">cosh</a> - hyperbolic cosine function</p>\n<p>The cosh() function returns the hyperbolic cosine of <code>x</code>, which is defined mathematically as:\n       cosh(x) = (exp(x) + exp(-x)) / 2   </p>\n"
             },
             {
               "block": "erf(x);",
               "context": "blockItem",
-              "title": "<b>error function</b></br>\n<p>erf(x) = 2/sqrt(pi)\\* integral from 0 to x of exp(-t\\*t) dt</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/erf\" target=\"_blank\">erf</a> - error function</p>\n<p>The erf() function returns the error function of <code>x</code>, defined as (<a href=\"https://reference.cs50.net/math.h/erf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "erfc(x);",
               "context": "blockItem",
-              "title": "<b>complementary error function</b></br>\n<p>The erfc() function returns the complementary error function of `x`, that is, 1.0 - erf(x).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/erfc\" target=\"_blank\">erfc</a> - complementary error function</p>\n<p>The erfc() function returns the complementary error function of <code>x</code>, that is, 1.0 - erf(x).</p>\n"
             },
             {
               "block": "exp(x);",
               "context": "blockItem",
-              "title": "<b>base-e exponential function</b></br>\n<p>The exp() function returns the value of e (the base of natural logarithms) raised to the power of `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/exp\" target=\"_blank\">exp</a> - base-e exponential function</p>\n<p>The exp() function returns the value of e (the base of natural logarithms) raised to the power of <code>x</code>.</p>\n"
             },
             {
               "block": "exp2(x);",
               "context": "blockItem",
-              "title": "<b>base-2 exponential function</b></br>\n<p>The exp2() function returns the value of 2 raised to the power of `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/exp2\" target=\"_blank\">exp2</a> - base-2 exponential function</p>\n<p>The exp2() function returns the value of 2 raised to the power of <code>x</code>.</p>\n"
             },
             {
               "block": "expm1(x);",
               "context": "blockItem",
-              "title": "<b>exponential minus 1</b></br>\n<p>_expm1(x)_ returns a value equivalent to</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/expm1\" target=\"_blank\">expm1</a> - exponential minus 1</p>\n<p><em>expm1(x)</em> returns a value equivalent to\n       exp(x) - 1<br>It is computed in a way that is accurate even if the value of <code>x</code> is near zero—a case where <em>exp(x) - 1</em> would be inaccurate due to subtraction of two numbers that are nearly equal.</p>\n"
             },
             {
               "block": "fabs(x);",
               "context": "blockItem",
-              "title": "<b>absolute value of floating-point number</b></br>\n<p>The fabs() functions return the absolute value of the floating-point number `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/fabs\" target=\"_blank\">fabs</a> - absolute value of floating-point number</p>\n<p>The fabs() functions return the absolute value of the floating-point number <code>x</code>.</p>\n"
             },
             {
               "block": "fdim(x, y);",
               "context": "blockItem",
-              "title": "<b>positive difference</b></br>\n<p>\n \nThese functions return the positive difference, max(`x`-`y`,0), between their arguments.\n </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/fdim\" target=\"_blank\">fdim</a> - positive difference</p>\n<p>These functions return the positive difference, max(<code>x</code>-<code>y</code>,0), between their arguments.</p>\n"
             },
             {
               "block": "fma(x, y, z);",
               "context": "blockItem",
-              "title": "<b>floating-point multiply and add</b></br>\n<p>The fma() function computes `x` \\* `y` + `z`. The result is rounded as one ternary operation according to the current rounding mode (see fenv(3)).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/fma\" target=\"_blank\">fma</a> - floating-point multiply and add</p>\n<p>The fma() function computes <code>x</code> * <code>y</code> + <code>z</code>. The result is rounded as one ternary operation according to the current rounding mode (see fenv(3)).</p>\n"
             },
             {
               "block": "fmax(x, y);",
               "context": "blockItem",
-              "title": "<b>determine maximum of two floating-point numbers</b></br>\n<p>\n \nThese functions return the larger value of `x` and `y`.\n </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/fmax\" target=\"_blank\">fmax</a> - determine maximum of two floating-point numbers</p>\n<p>These functions return the larger value of <code>x</code> and <code>y</code>.</p>\n"
             },
             {
               "block": "fmin(x, y);",
               "context": "blockItem",
-              "title": "<b>determine minimum of two floating-point numbers</b></br>\n<p>\n \nThese functions the lesser value of `x` and `y`.\n </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/fmin\" target=\"_blank\">fmin</a> - determine minimum of two floating-point numbers</p>\n<p>These functions the lesser value of <code>x</code> and <code>y</code>.</p>\n"
             },
             {
               "block": "fmod(x, y);",
               "context": "blockItem",
-              "title": "<b>floating-point remainder function</b></br>\n<p>The fmod() function computes the floating-point remainder of dividing `x` by `y`. The return value is `x` - _n_ \\* `y`, where _n_ is the quotient of `x` / `y`, rounded toward zero to an integer.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/fmod\" target=\"_blank\">fmod</a> - floating-point remainder function</p>\n<p>The fmod() function computes the floating-point remainder of dividing <code>x</code> by <code>y</code>. The return value is <code>x</code> - <em>n</em> * <code>y</code>, where <em>n</em> is the quotient of <code>x</code> / <code>y</code>, rounded toward zero to an integer.</p>\n"
             },
             {
               "block": "fpclassify(x);",
               "context": "blockItem",
-              "title": "<b>floating-point classification macros</b></br>\n<p>returns a nonzero value if (fpclassify(x) == FP_NORMAL)</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/fpclassify\" target=\"_blank\">fpclassify</a> - floating-point classification macros</p>\n<p>Floating point numbers can have special values, such as infinite or NaN. With the macro *fpclassify(*<em>x</em>*)* you can find out what type <em>x</em> is. The macro takes any floating-point expression as argument. The result is one of the following values: (<a href=\"https://reference.cs50.net/math.h/fpclassify\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "frexp(x, exp);",
               "context": "blockItem",
-              "title": "<b>convert floating-point number to fractional and integral components</b></br>\n<p>The frexp() function is used to split the number `x` into a normalized fraction and an exponent which is stored in `exp`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/frexp\" target=\"_blank\">frexp</a> - convert floating-point number to fractional and integral components</p>\n<p>The frexp() function is used to split the number <code>x</code> into a normalized fraction and an exponent which is stored in <code>exp</code>.</p>\n"
             },
             {
               "block": "ilogb(x);",
               "context": "blockItem",
-              "title": "<b>get integer exponent of a floating-point value</b></br>\n<p>\n \nThese functions return the exponent part of their argument as a signed integer. When no error occurs, these functions are equivalent to the corresponding logb(3) functions, cast to _int_.\n </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/ilogb\" target=\"_blank\">ilogb</a> - get integer exponent of a floating-point value</p>\n<p>These functions return the exponent part of their argument as a signed integer. When no error occurs, these functions are equivalent to the corresponding logb(3) functions, cast to <em>int</em>.</p>\n"
             },
             {
               "block": "isfinite(x);",
               "context": "blockItem",
-              "title": "<b>floating-point classification macros</b></br>\n<p>`\\*isfinite(\\*_x_\\*)\\*`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/isfinite\" target=\"_blank\">isfinite</a> - floating-point classification macros</p>\n<p><code>\\*isfinite(\\*_x_\\*)\\*</code><br>returns a nonzero value if  (fpclassify(x) != FP_NAN &amp;&amp; fpclassify(x) != FP_INFINITE) (<a href=\"https://reference.cs50.net/math.h/isfinite\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "isgreater(x, y);",
               "context": "blockItem",
-              "title": "<b>floating-point relational tests without exception for NaN</b></br>\n<p>`isgreater()`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/isgreater\" target=\"_blank\">isgreater</a> - floating-point relational tests without exception for NaN</p>\n<p><code>isgreater()</code><br>determines <em>(x) &gt; (y)</em> without an exception if <em>x</em> or <em>y</em> is NaN. (<a href=\"https://reference.cs50.net/math.h/isgreater\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "isgreaterequal(x, y);",
               "context": "blockItem",
-              "title": "<b>floating-point relational tests without exception for NaN</b></br>\n<p>`isgreaterequal()`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/isgreaterequal\" target=\"_blank\">isgreaterequal</a> - floating-point relational tests without exception for NaN</p>\n<p><code>isgreaterequal()</code><br>determines <em>(x) &gt;= (y)</em> without an exception if <em>x</em> or <em>y</em> is NaN. (<a href=\"https://reference.cs50.net/math.h/isgreaterequal\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "isinf(x);",
               "context": "blockItem",
-              "title": "<b>floating-point classification macros</b></br>\n<p>`\\*isinf(\\*_x_\\*)\\*`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/isinf\" target=\"_blank\">isinf</a> - floating-point classification macros</p>\n<p><code>\\*isinf(\\*_x_\\*)\\*</code><br>returns 1 if <em>x</em> is positive infinity, and -1 if <em>x</em> is negative infinity.\n         (<a href=\"https://reference.cs50.net/math.h/isinf\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "isless(x, y);",
               "context": "blockItem",
-              "title": "<b>floating-point relational tests without exception for NaN</b></br>\n<p>`isless()`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/isless\" target=\"_blank\">isless</a> - floating-point relational tests without exception for NaN</p>\n<p><code>isless()</code><br>determines <em>(x) &lt; (y)</em> without an exception if <em>x</em> or <em>y</em> is NaN. (<a href=\"https://reference.cs50.net/math.h/isless\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "islessequal(x, y);",
               "context": "blockItem",
-              "title": "<b>floating-point relational tests without exception for NaN</b></br>\n<p>`islessequal()`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/islessequal\" target=\"_blank\">islessequal</a> - floating-point relational tests without exception for NaN</p>\n<p><code>islessequal()</code><br>determines <em>(x) &lt;= (y)</em> without an exception if <em>x</em> or <em>y</em> is NaN. (<a href=\"https://reference.cs50.net/math.h/islessequal\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "islessgreater(x, y);",
               "context": "blockItem",
-              "title": "<b>floating-point relational tests without exception for NaN</b></br>\n<p>`islessgreater()`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/islessgreater\" target=\"_blank\">islessgreater</a> - floating-point relational tests without exception for NaN</p>\n<p><code>islessgreater()</code><br>determines <em>(x) &lt; (y) || (x) &gt; (y)</em> without an exception if <em>x</em> or <em>y</em> is NaN. This macro is not equivalent to <em>x != y</em> because that expression is true if <em>x</em> or <em>y</em> is NaN. (<a href=\"https://reference.cs50.net/math.h/islessgreater\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "isnan(x);",
               "context": "blockItem",
-              "title": "<b>floating-point classification macros</b></br>\n<p>`\\*isnan(\\*_x_\\*)\\*`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/isnan\" target=\"_blank\">isnan</a> - floating-point classification macros</p>\n<p><code>\\*isnan(\\*_x_\\*)\\*</code><br>returns a nonzero value if (fpclassify(x) == FP_NAN) (<a href=\"https://reference.cs50.net/math.h/isnan\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "isnormal(x);",
               "context": "blockItem",
-              "title": "<b>floating-point classification macros</b></br>\n<p>`\\*isnormal(\\*_x_\\*)\\*`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/isnormal\" target=\"_blank\">isnormal</a> - floating-point classification macros</p>\n<p><code>\\*isnormal(\\*_x_\\*)\\*</code><br>returns a nonzero value if (fpclassify(x) == FP_NORMAL) (<a href=\"https://reference.cs50.net/math.h/isnormal\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "isunordered(x, y);",
               "context": "blockItem",
-              "title": "<b>floating-point relational tests without exception for NaN</b></br>\n<p>`isunordered()`    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/isunordered\" target=\"_blank\">isunordered</a> - floating-point relational tests without exception for NaN</p>\n<p><code>isunordered()</code><br>determines whether its arguments are unordered, that is, whether at least one of the arguments is a NaN.\n         (<a href=\"https://reference.cs50.net/math.h/isunordered\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "ldexp(x, exp);",
               "context": "blockItem",
-              "title": "<b>multiply floating-point number by integral power of 2</b></br>\n<p>The ldexp() function returns the result of multiplying the floating-point number `x` by 2 raised to the power `exp`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/ldexp\" target=\"_blank\">ldexp</a> - multiply floating-point number by integral power of 2</p>\n<p>The ldexp() function returns the result of multiplying the floating-point number <code>x</code> by 2 raised to the power <code>exp</code>.</p>\n"
             },
             {
               "block": "llrint(x);",
               "context": "blockItem",
-              "title": "<b>round to nearest integer</b></br>\n<p>\n \nThese functions round their argument to the nearest integer value, using the current rounding direction (see fesetround(3)).\n  \nNote that unlike rint(3), etc., the return type of these functions differs from that of their arguments.\n </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/llrint\" target=\"_blank\">llrint</a> - round to nearest integer</p>\n<p>These functions round their argument to the nearest integer value, using the current rounding direction (see fesetround(3)). (<a href=\"https://reference.cs50.net/math.h/llrint\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "llround(x);",
               "context": "blockItem",
-              "title": "<b>round to nearest integer, away from zero</b></br>\n<p>\n \nThese functions round their argument to the nearest integer value, rounding away from zero, regardless of the current rounding direction (see fenv(3)).\n  \nNote that unlike round(3), ceil(3), etc., the return type of these functions differs from that of their arguments.\n </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/llround\" target=\"_blank\">llround</a> - round to nearest integer, away from zero</p>\n<p>These functions round their argument to the nearest integer value, rounding away from zero, regardless of the current rounding direction (see fenv(3)). (<a href=\"https://reference.cs50.net/math.h/llround\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "log(x);",
               "context": "blockItem",
-              "title": "<b>natural logarithmic function</b></br>\n<p>The log() function returns the natural logarithm of `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/log\" target=\"_blank\">log</a> - natural logarithmic function</p>\n<p>The log() function returns the natural logarithm of <code>x</code>.</p>\n"
             },
             {
               "block": "log10(x);",
               "context": "blockItem",
-              "title": "<b> base-10 logarithmic function</b></br>\n<p>The log10() function returns the base 10 logarithm of `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/log10\" target=\"_blank\">log10</a> -  base-10 logarithmic function</p>\n<p>The log10() function returns the base 10 logarithm of <code>x</code>.</p>\n"
             },
             {
               "block": "log1p(x);",
               "context": "blockItem",
-              "title": "<b> logarithm of 1 plus argument</b></br>\n<p>_log1p(x)_ returns a value equivalent to</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/log1p\" target=\"_blank\">log1p</a> -  logarithm of 1 plus argument</p>\n<p><em>log1p(x)</em> returns a value equivalent to\n       log (1 + <code>x</code>)<br>It is computed in a way that is accurate even if the value of <code>x</code> is near zero.</p>\n"
             },
             {
               "block": "log2(x);",
               "context": "blockItem",
-              "title": "<b>base-2 logarithmic function</b></br>\n<p>The log2() function returns the base 2 logarithm of `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/log2\" target=\"_blank\">log2</a> - base-2 logarithmic function</p>\n<p>The log2() function returns the base 2 logarithm of <code>x</code>.</p>\n"
             },
             {
               "block": "logb(x);",
               "context": "blockItem",
-              "title": "<b>get exponent of a floating-point value</b></br>\n<p>If `x` is subnormal, logb() returns the exponent `x` would have if it were normalized.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/logb\" target=\"_blank\">logb</a> - get exponent of a floating-point value</p>\n<p>These functions extract the exponent from the internal floating-point representation of <code>x</code> and return it as a floating-point value. The integer constant *FLT<em>RADIX*, defined in </em><float.h>_, indicates the radix used for the system&#39;s floating-point representation. If *FLT_RADIX* is 2, *logb(*<code>x</code>*)* is equal to *floor(log2(*<code>x</code>*))*, except that it is probably faster. (<a href=\"https://reference.cs50.net/math.h/logb\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "lrint(x);",
               "context": "blockItem",
-              "title": "<b>round to nearest integer</b></br>\n<p>\n \nThese functions round their argument to the nearest integer value, using the current rounding direction (see fesetround(3)).\n  \nNote that unlike rint(3), etc., the return type of these functions differs from that of their arguments.\n </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/lrint\" target=\"_blank\">lrint</a> - round to nearest integer</p>\n<p>These functions round their argument to the nearest integer value, using the current rounding direction (see fesetround(3)). (<a href=\"https://reference.cs50.net/math.h/lrint\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "lround(x);",
               "context": "blockItem",
-              "title": "<b>round to nearest integer, away from zero</b></br>\n<p>\n \nThese functions round their argument to the nearest integer value, rounding away from zero, regardless of the current rounding direction (see fenv(3)).\n  \nNote that unlike round(3), ceil(3), etc., the return type of these functions differs from that of their arguments.\n </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/lround\" target=\"_blank\">lround</a> - round to nearest integer, away from zero</p>\n<p>These functions round their argument to the nearest integer value, rounding away from zero, regardless of the current rounding direction (see fenv(3)). (<a href=\"https://reference.cs50.net/math.h/lround\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "modf(x, iptr);",
               "context": "blockItem",
-              "title": "<b>extract signed integral and fractional values from floating-point number</b></br>\n<p>The modf() function breaks the argument `x` into an integral part and a fractional part, each of which has the same sign as `x`. The integral part is stored in the location pointed to by `iptr`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/modf\" target=\"_blank\">modf</a> - extract signed integral and fractional values from floating-point number</p>\n<p>The modf() function breaks the argument <code>x</code> into an integral part and a fractional part, each of which has the same sign as <code>x</code>. The integral part is stored in the location pointed to by <code>iptr</code>.</p>\n"
             },
             {
               "block": "nearbyint(x);",
               "context": "blockItem",
-              "title": "<b>round to nearest integer</b></br>\n<p>The nearbyint() functions round their argument to an integer value in floating-point format, using the current rounding direction (see fesetround(3)) and without raising the _inexact_ exception.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/nearbyint\" target=\"_blank\">nearbyint</a> - round to nearest integer</p>\n<p>The nearbyint() functions round their argument to an integer value in floating-point format, using the current rounding direction (see fesetround(3)) and without raising the <em>inexact</em> exception. (<a href=\"https://reference.cs50.net/math.h/nearbyint\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "pow(x, y);",
               "context": "blockItem",
-              "title": "<b>power functions</b></br>\n<p>The pow() function returns the value of `x` raised to the power of `y`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/pow\" target=\"_blank\">pow</a> - power functions</p>\n<p>The pow() function returns the value of <code>x</code> raised to the power of <code>y</code>.</p>\n"
             },
             {
               "block": "remainder(x, y);",
               "context": "blockItem",
-              "title": "<b>floating-point remainder function</b></br>\n<p>The remainder() function computes the remainder of dividing `x` by `y`. The return value is `x`-_n_\\*`y`, where _n_ is the value _x / y_, rounded to the nearest integer. If the absolute value of `x`-_n_\\*`y` is 0.5, _n_ is chosen to be even.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/remainder\" target=\"_blank\">remainder</a> - floating-point remainder function</p>\n<p>The remainder() function computes the remainder of dividing <code>x</code> by <code>y</code>. The return value is <code>x</code>-<em>n</em>*<code>y</code>, where <em>n</em> is the value <em>x / y</em>, rounded to the nearest integer. If the absolute value of <code>x</code>-<em>n</em>*<code>y</code> is 0.5, <em>n</em> is chosen to be even. (<a href=\"https://reference.cs50.net/math.h/remainder\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "remquo(x, y, quo);",
               "context": "blockItem",
-              "title": "<b>remainder and part of quotient</b></br>\n<p>For example, _remquo(29.0, 3.0)_ returns -1.0 and might store 2. Note that the actual quotient might not fit in an integer.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/remquo\" target=\"_blank\">remquo</a> - remainder and part of quotient</p>\n<p>For example, <em>remquo(29.0, 3.0)</em> returns -1.0 and might store 2. Note that the actual quotient might not fit in an integer.\n     (<a href=\"https://reference.cs50.net/math.h/remquo\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "rint(x);",
               "context": "blockItem",
-              "title": "<b>round to nearest integer</b></br>\n<p>The rint() functions do the same, but will raise the _inexact_ exception (\\*FE_INEXACT\\*, checkable via fetestexcept(3)) when the result differs in value from the argument.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/rint\" target=\"_blank\">rint</a> - round to nearest integer</p>\n<p>The rint() functions do the same, but will raise the <em>inexact</em> exception (*FE_INEXACT*, checkable via fetestexcept(3)) when the result differs in value from the argument.\n  (<a href=\"https://reference.cs50.net/math.h/rint\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "scalbln(x, exp);",
               "context": "blockItem",
-              "title": "<b>multiply floating-point number by integral power of radix</b></br>\n<p>\n \nThese functions multiply their first argument `x` by \\*FLT_RADIX\\* (probably 2) to the power of `exp`, that is:\n       x \\* FLT_RADIX \\*\\* exp    \nThe definition of \\*FLT_RADIX\\* can be obtained by including _<float.h>_.\n  </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/scalbln\" target=\"_blank\">scalbln</a> - multiply floating-point number by integral power of radix</p>\n<p>These functions multiply their first argument <code>x</code> by *FLT_RADIX* (probably 2) to the power of <code>exp</code>, that is:\n       x * FLT_RADIX ** exp<br>The definition of *FLT<em>RADIX* can be obtained by including </em><float.h>_.</p>\n"
             },
             {
               "block": "scalbn(x, exp);",
               "context": "blockItem",
-              "title": "<b>multiply floating-point number by integral power of radix</b></br>\n<p>\n \nThese functions multiply their first argument `x` by \\*FLT_RADIX\\* (probably 2) to the power of `exp`, that is:\n       x \\* FLT_RADIX \\*\\* exp    \nThe definition of \\*FLT_RADIX\\* can be obtained by including _<float.h>_.\n  </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/scalbn\" target=\"_blank\">scalbn</a> - multiply floating-point number by integral power of radix</p>\n<p>These functions multiply their first argument <code>x</code> by *FLT_RADIX* (probably 2) to the power of <code>exp</code>, that is:\n       x * FLT_RADIX ** exp<br>The definition of *FLT<em>RADIX* can be obtained by including </em><float.h>_.</p>\n"
             },
             {
               "block": "signbit(x);",
               "context": "blockItem",
-              "title": "<b>test sign of a real floating-point number</b></br>\n<p>signbit() is a generic macro which can work on all real floating-point types. It returns a nonzero value if the value of _x_ has its sign bit set.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/signbit\" target=\"_blank\">signbit</a> - test sign of a real floating-point number</p>\n<p>signbit() is a generic macro which can work on all real floating-point types. It returns a nonzero value if the value of <em>x</em> has its sign bit set. (<a href=\"https://reference.cs50.net/math.h/signbit\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "sin(x);",
               "context": "blockItem",
-              "title": "<b>sine function</b></br>\n<p>The sin() function returns the sine of `x`, where `x` is given in radians.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/sin\" target=\"_blank\">sin</a> - sine function</p>\n<p>The sin() function returns the sine of <code>x</code>, where <code>x</code> is given in radians.</p>\n"
             },
             {
               "block": "sinh(x);",
               "context": "blockItem",
-              "title": "<b>hyperbolic sine function</b></br>\n<p>The sinh() function returns the hyperbolic sine of `x`, which is defined mathematically as:</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/sinh\" target=\"_blank\">sinh</a> - hyperbolic sine function</p>\n<p>The sinh() function returns the hyperbolic sine of <code>x</code>, which is defined mathematically as:\n       sinh(x) = (exp(x) - exp(-x)) / 2   </p>\n"
             },
             {
               "block": "sqrt(x);",
               "context": "blockItem",
-              "title": "<b>square root function</b></br>\n<p>The sqrt() function returns the nonnegative square root of `x`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/sqrt\" target=\"_blank\">sqrt</a> - square root function</p>\n<p>The sqrt() function returns the nonnegative square root of <code>x</code>.</p>\n"
             },
             {
               "block": "tan(x);",
               "context": "blockItem",
-              "title": "<b>tangent function</b></br>\n<p>The tan() function returns the tangent of `x`, where `x` is given in radians.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/tan\" target=\"_blank\">tan</a> - tangent function</p>\n<p>The tan() function returns the tangent of <code>x</code>, where <code>x</code> is given in radians.</p>\n"
             },
             {
               "block": "tgamma(x);",
               "context": "blockItem",
-              "title": "<b>true gamma function</b></br>\n<p>\n \nThe Gamma function is defined by\n  \n    Gamma(x) = integral from 0 to infinity of t^(x-1) e^-t dt\n  \nIt is defined for every real number except for nonpositive integers. For nonnegative integral _m_ one has\n  \n    Gamma(m+1) = m!\n  \nand, more generally, for all `x`:\n  \n    Gamma(x+1) = x \\* Gamma(x)\n  \nFurthermore, the following is valid for all values of `x` outside the poles:\n  \n    Gamma(x) \\* Gamma(1 - x) = PI / sin(PI \\* x)\n  </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/tgamma\" target=\"_blank\">tgamma</a> - true gamma function</p>\n<p>The Gamma function is defined by (<a href=\"https://reference.cs50.net/math.h/tgamma\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "trunc(x);",
               "context": "blockItem",
-              "title": "<b>round to integer, toward zero</b></br>\n<p>\n \nThese functions round `x` to the nearest integer not larger in absolute value.\n </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/math.h/trunc\" target=\"_blank\">trunc</a> - round to integer, toward zero</p>\n<p>These functions round <code>x</code> to the nearest integer not larger in absolute value.</p>\n"
             }
           ]
         },
@@ -1055,42 +1085,43 @@ define(function(require, exports, module) {
           "blocks": [
             {
               "block": "#include <time.h>",
-              "context": "compilationUnit"
+              "context": "compilationUnit",
+              "title": "<p>Includes the header file for <code>time.h</code>. You must put this\nin your program in order to use any of the <code>time.h</code> blocks.</p>\n"
             },
             {
               "block": "asctime(tm);",
               "context": "blockItem",
-              "title": "<b>transform date and time to broken-down time or ASCII</b></br>\n<p>The asctime() and mktime() functions both take an argument representing broken-down time which is a representation separated into year, month, day, and so on.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/time.h/asctime\" target=\"_blank\">asctime</a> - transform date and time to broken-down time or ASCII</p>\n<p>The asctime() and mktime() functions both take an argument representing broken-down time which is a representation separated into year, month, day, and so on. (<a href=\"https://reference.cs50.net/time.h/asctime\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "clock();",
               "context": "blockItem",
-              "title": "<b>determine processor time</b></br>\n<p>The clock() function returns an approximation of processor time used by the program.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/time.h/clock\" target=\"_blank\">clock</a> - determine processor time</p>\n<p>The clock() function returns an approximation of processor time used by the program.</p>\n"
             },
             {
               "block": "ctime(timep);",
               "context": "blockItem",
-              "title": "<b>transform date and time to broken-down time or ASCII</b></br>\n<p>The ctime(), \\*gmtime\\*() and \\*localtime\\*() functions all take an argument of data type `time_t` which represents calendar time. When interpreted as an absolute time value, it represents the number of seconds elapsed since the Epoch, 1970-01-01 00:00:00 +0000 (UTC).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/time.h/ctime\" target=\"_blank\">ctime</a> - transform date and time to broken-down time or ASCII</p>\n<p>The ctime(), *gmtime*() and *localtime*() functions all take an argument of data type <code>time_t</code> which represents calendar time. When interpreted as an absolute time value, it represents the number of seconds elapsed since the Epoch, 1970-01-01 00:00:00 +0000 (UTC). (<a href=\"https://reference.cs50.net/time.h/ctime\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "difftime(time1, time0);",
               "context": "blockItem",
-              "title": "<b>calculate time difference</b></br>\n<p>The difftime() function returns the number of seconds elapsed between time `time1` and time `time0`, represented as a _double_. Each of the times is specified in calendar time, which means its value is a measurement (in seconds) relative to the Epoch, 1970-01-01 00:00:00 +0000 (UTC).</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/time.h/difftime\" target=\"_blank\">difftime</a> - calculate time difference</p>\n<p>The difftime() function returns the number of seconds elapsed between time <code>time1</code> and time <code>time0</code>, represented as a <em>double</em>. Each of the times is specified in calendar time, which means its value is a measurement (in seconds) relative to the Epoch, 1970-01-01 00:00:00 +0000 (UTC).</p>\n"
             },
             {
               "block": "mktime(tm);",
               "context": "blockItem",
-              "title": "<b>transform date and time to broken-down time or ASCII</b></br>\n<p>The mktime() function converts a broken-down time structure, expressed as local time, to calendar time representation. The function ignores the values supplied by the caller in the _tm_wday_ and _tm_yday_ fields. The value specified in the _tm_isdst_ field informs mktime() whether or not daylight saving time (DST) is in effect for the time supplied in the `tm` structure: a positive value means DST is in effect; zero means that DST is not in effect; and a negative value means that mktime() should (use timezone information and system databases to) attempt to determine whether DST is in effect at the specified time.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/time.h/mktime\" target=\"_blank\">mktime</a> - transform date and time to broken-down time or ASCII</p>\n<p>The asctime() and mktime() functions both take an argument representing broken-down time which is a representation separated into year, month, day, and so on. (<a href=\"https://reference.cs50.net/time.h/mktime\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "strftime(s, max, format, tm);",
               "context": "blockItem",
-              "title": "<b>format date and time</b></br>\n<p>The strftime() function formats the broken-down time `tm` according to the format specification `format` and places the result in the character array `s` of size `max`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/time.h/strftime\" target=\"_blank\">strftime</a> - format date and time</p>\n<p>The strftime() function formats the broken-down time <code>tm</code> according to the format specification <code>format</code> and places the result in the character array <code>s</code> of size <code>max</code>. (<a href=\"https://reference.cs50.net/time.h/strftime\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "time(tloc);",
               "context": "blockItem",
-              "title": "<b>get time</b></br>\n<p>The time() function shall return the value of time  in seconds since the Epoch.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/time.h/time\" target=\"_blank\">time</a> - get time</p>\n<p>The time() function shall return the value of time  in seconds since the Epoch. (<a href=\"https://reference.cs50.net/time.h/time\" target=\"_blank\">read more</a>)</p>\n"
             }
           ]
         },
@@ -1100,77 +1131,78 @@ define(function(require, exports, module) {
           "blocks": [
             {
               "block": "#include <ctype.h>",
-              "context": "compilationUnit"
+              "context": "compilationUnit",
+              "title": "<p>Includes the header file for <code>ctype.h</code>. You must put this\nin your program in order to use any of the <code>ctype.h</code> blocks.</p>\n"
             },
             {
               "block": "toupper(c);",
               "context": "blockItem",
-              "title": "<b>converts letter to uppercase</b></br>\n<p>\nConverts a lowercase letter to uppercase.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/toupper\" target=\"_blank\">toupper</a> - converts letter to uppercase</p>\n<p>Converts a lowercase letter to uppercase.</p>\n"
             },
             {
               "block": "tolower(c);",
               "context": "blockItem",
-              "title": "<b>converts letter to lowercase</b></br>\n<p>\nConverts an uppercase letter to lowercase.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/tolower\" target=\"_blank\">tolower</a> - converts letter to lowercase</p>\n<p>Converts an uppercase letter to lowercase.</p>\n"
             },
             {
               "block": "isxdigit(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is hexadecimal</b></br>\n<p>\nChecks if the given character is a hexadecimal digit.\n\nHexadecimal digits are: `'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isxdigit\" target=\"_blank\">isxdigit</a> - checks if character is hexadecimal</p>\n<p>Checks if the given character is a hexadecimal digit. (<a href=\"https://reference.cs50.net/ctype.h/isxdigit\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "isupper(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is uppercase</b></br>\n<p>\nChecks if the given character is an uppercase alphabetic letter.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isupper\" target=\"_blank\">isupper</a> - checks if character is uppercase</p>\n<p>Checks if the given character is an uppercase alphabetic letter.</p>\n"
             },
             {
               "block": "isspace(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is a white-space</b></br>\n<p>\nChecks if the given character is a white-space character. C considers white-space characters to be `' '`,`'\\n'`,`\\t`,`'\\v'`,`\\f`,`'\\r'`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isspace\" target=\"_blank\">isspace</a> - checks if character is a white-space</p>\n<p>Checks if the given character is a white-space character. C considers white-space characters to be <code>&#39; &#39;</code>,<code>&#39;\\n&#39;</code>,<code>\\t</code>,<code>&#39;\\v&#39;</code>,<code>\\f</code>,<code>&#39;\\r&#39;</code>.</p>\n"
             },
             {
               "block": "ispunct(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is a punctuation mark</b></br>\n<p>\nChecks if the given character is a punctuation character. C considers every graphic character (see `isgraph()`) that is not alphanumeric to be a punctuation.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/ispunct\" target=\"_blank\">ispunct</a> - checks if character is a punctuation mark</p>\n<p>Checks if the given character is a punctuation character. C considers every graphic character (see <code>isgraph()</code>) that is not alphanumeric to be a punctuation.</p>\n"
             },
             {
               "block": "isprint(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is printable</b></br>\n<p>\nChecks if the given character is a printable character. A printable character is a character that is displayed on the screen when printed. This is the opposite of a control character (see `iscntrl()`).\n\nAn example of a printable character is `'a'`. An example of a control character is `'\\n'`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isprint\" target=\"_blank\">isprint</a> - checks if character is printable</p>\n<p>Checks if the given character is a printable character. A printable character is a character that is displayed on the screen when printed. This is the opposite of a control character (see <code>iscntrl()</code>). (<a href=\"https://reference.cs50.net/ctype.h/isprint\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "islower(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is lowercase</b></br>\n<p>\nChecks if the given character is a lowercase alphabetic letter.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/islower\" target=\"_blank\">islower</a> - checks if character is lowercase</p>\n<p>Checks if the given character is a lowercase alphabetic letter.</p>\n"
             },
             {
               "block": "isgraph(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is graphical</b></br>\n<p>\nChecks if the given character has a graphical representation. The characters with graphical representation are all those given by `isprint()` except the space character `' '`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isgraph\" target=\"_blank\">isgraph</a> - checks if character is graphical</p>\n<p>Checks if the given character has a graphical representation. The characters with graphical representation are all those given by <code>isprint()</code> except the space character <code>&#39; &#39;</code>.</p>\n"
             },
             {
               "block": "isdigit(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is a digit</b></br>\n<p>\nChecks if the given character is a numeric digit. Note that, per the ASCII table, the character `'5'` and the integer `5` are different and only the first one constitutes a numeric digit. \n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isdigit\" target=\"_blank\">isdigit</a> - checks if character is a digit</p>\n<p>Checks if the given character is a numeric digit. Note that, per the ASCII table, the character <code>&#39;5&#39;</code> and the integer <code>5</code> are different and only the first one constitutes a numeric digit. </p>\n"
             },
             {
               "block": "iscntrl(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is control</b></br>\n<p>\nChecks if the given character is a control character. A control character is a character that is not displayed on the screen when printed. This is the opposite of a printable character (see `isprint()`).\n\nAn example of a control character is `'\\n'`. An example of a printable character is `'a'`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/iscntrl\" target=\"_blank\">iscntrl</a> - checks if character is control</p>\n<p>Checks if the given character is a control character. A control character is a character that is not displayed on the screen when printed. This is the opposite of a printable character (see <code>isprint()</code>). (<a href=\"https://reference.cs50.net/ctype.h/iscntrl\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "isblank(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is blank</b></br>\n<p>\nChecks if the given character is blank, which means either a space `' '` or a tab `'\\t'`.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isblank\" target=\"_blank\">isblank</a> - checks if character is blank</p>\n<p>Checks if the given character is blank, which means either a space <code>&#39; &#39;</code> or a tab <code>&#39;\\t&#39;</code>.</p>\n"
             },
             {
               "block": "isalpha(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is an alphabetic letter.</b></br>\n<p>\nChecks if the given character is an alphabetic letter.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isalpha\" target=\"_blank\">isalpha</a> - checks if character is an alphabetic letter.</p>\n<p>Checks if the given character is an alphabetic letter.</p>\n"
             },
             {
               "block": "isalnum(c);",
               "context": "blockItem",
-              "title": "<b>checks if character is alphanumeric</b></br>\n<p>\nChecks if the given character is alphanumeric.\n\n</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isalnum\" target=\"_blank\">isalnum</a> - checks if character is alphanumeric</p>\n<p>Checks if the given character is alphanumeric.</p>\n"
             }
           ]
         },
@@ -1180,27 +1212,28 @@ define(function(require, exports, module) {
           "blocks": [
             {
               "block": "#include <stdarg.h>",
-              "context": "compilationUnit"
+              "context": "compilationUnit",
+              "title": "<p>Includes the header file for <code>stdarg.h</code>. You must put this\nin your program in order to use any of the <code>stdarg.h</code> blocks.</p>\n"
             },
             {
               "block": "va_arg(ap, type);",
               "context": "blockItem",
-              "title": "<b>variable argument lists</b></br>\n<p>The va_arg() macro expands to an expression that has the type and value of the next argument in the call. The argument `ap` is the _va_list_ `ap` initialized by va_start(). Each call to va_arg() modifies `ap` so that the next call returns the next argument. The argument `type` is a type name specified so that the type of a pointer to an object that has the specified type can be obtained simply by adding a \\* to `type`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_arg\" target=\"_blank\">va_arg</a> - variable argument lists</p>\n<p>The called function must declare an object of type _va<em>list</em> which is used by the macros va_start(), va_arg(), and va_end(). (<a href=\"https://reference.cs50.net/stdarg.h/va_arg\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "va_copy(dest, src);",
               "context": "blockItem",
-              "title": "<b>variable argument lists</b></br>\n<p>The va_copy() macro copies the (previously initialized) variable argument list `src` to `dest`. The behavior is as if va_start() were applied to `dest` with the same _last_ argument, followed by the same number of va_arg() invocations that was used to reach the current state of `src`.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_copy\" target=\"_blank\">va_copy</a> - variable argument lists</p>\n<p>The va_copy() macro copies the (previously initialized) variable argument list <code>src</code> to <code>dest</code>. The behavior is as if va_start() were applied to <code>dest</code> with the same <em>last</em> argument, followed by the same number of va_arg() invocations that was used to reach the current state of <code>src</code>. (<a href=\"https://reference.cs50.net/stdarg.h/va_copy\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "va_end(ap);",
               "context": "blockItem",
-              "title": "<b>variable argument lists</b></br>\n<p>    va_list aq; va_copy(aq, ap); ... va_end(aq);    </p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_end\" target=\"_blank\">va_end</a> - variable argument lists</p>\n<p>The called function must declare an object of type _va<em>list</em> which is used by the macros va_start(), va_arg(), and va_end(). (<a href=\"https://reference.cs50.net/stdarg.h/va_end\" target=\"_blank\">read more</a>)</p>\n"
             },
             {
               "block": "va_start(ap, last);",
               "context": "blockItem",
-              "title": "<b>variable argument lists</b></br>\n<p>The va_start() macro initializes `ap` for subsequent use by va_arg() and va_end(), and must be called first.</p>"
+              "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_start\" target=\"_blank\">va_start</a> - variable argument lists</p>\n<p>The called function must declare an object of type _va<em>list</em> which is used by the macros va_start(), va_arg(), and va_end(). (<a href=\"https://reference.cs50.net/stdarg.h/va_start\" target=\"_blank\">read more</a>)</p>\n"
             }
           ]
         }
@@ -1321,8 +1354,7 @@ define(function(require, exports, module) {
           },
           "printf": {
             "color": "blue",
-            "shape": "block-only",
-            "minArgs": 1
+            "shape": "block-only"
           },
           "putc": {
             "color": "blue",
@@ -1346,8 +1378,7 @@ define(function(require, exports, module) {
           },
           "scanf": {
             "color": "blue",
-            "shape": "block-only",
-            "minArgs": 1
+            "shape": "block-only"
           },
           "setbuf": {
             "color": "blue",
@@ -2011,7 +2042,8 @@ define(function(require, exports, module) {
     var emit = plugin.getEmitter();
 
     ui.insertCss(require("text!./droplet/css/droplet.css"), plugin);
-    ui.insertCss(require("text!./tooltipster/dist/js/tooltipster.bundle.min.js"), plugin);
+    ui.insertCss(require("text!./tooltipster/dist/css/tooltipster.bundle.min.css"), plugin);
+    ui.insertCss(require("text!./tooltipster-style.css"), plugin)
 
     window._lastEditor = null;
 
@@ -2061,17 +2093,21 @@ define(function(require, exports, module) {
           $(dropletEditor.paletteCanvas.children).each(function(index) {
             var title = Array.from(this.children).filter(function(child) { return child.tagName === 'title'; })[0];
 
-            this.removeChild(title);
+            if (title != null) {
+              this.removeChild(title);
+              console.log("I am calling tooltipster now.", title.textContent);
 
-            var element = $('<div>').html(title.textContent)[0];
+              var element = $('<div>').html(title.textContent)[0];
 
-            $(this).tooltipster({
-              position: 'right',
-              interactive: true,
-              content: element,
-              contentCloning: true,
-              maxWidth: 300
-            });
+              $(this).tooltipster({
+                position: 'right',
+                interactive: true,
+                content: element,
+                theme: ['tooltipster-noir', 'tooltipster-noir-customized'],
+                contentCloning: true,
+                maxWidth: 300
+              });
+            }
           });
         });
 
