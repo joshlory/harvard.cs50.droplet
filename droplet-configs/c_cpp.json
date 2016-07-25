@@ -1244,6 +1244,7 @@
         "shape": "block-only"
       },
       "fprintf": {
+        "minArgs": 2,
         "color": "blue",
         "shape": "block-only"
       },
@@ -1260,6 +1261,7 @@
         "shape": "block-only"
       },
       "fscanf": {
+        "minArgs": 2,
         "color": "blue",
         "shape": "block-only"
       },
@@ -1296,6 +1298,7 @@
         "shape": "block-only"
       },
       "printf": {
+        "minArgs": 2,
         "color": "blue",
         "shape": "block-only"
       },
@@ -1320,6 +1323,7 @@
         "shape": "block-only"
       },
       "scanf": {
+        "minArgs": 1,
         "color": "blue",
         "shape": "block-only"
       },
@@ -1337,6 +1341,7 @@
         "minArgs": 3
       },
       "sprintf": {
+        "minArgs": 2,
         "color": "blue",
         "shape": "block-only"
       },

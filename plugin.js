@@ -143,12 +143,11 @@ define(function(require, exports, module) {
 
             if (title != null) {
               this.removeChild(title);
-              console.log("I am calling tooltipster now.", title.textContent);
 
               var element = $('<div>').html(title.textContent)[0];
 
               $(this).tooltipster({
-                position: 'right',
+                position: 'top',
                 interactive: true,
                 content: element,
                 theme: ['tooltipster-noir', 'tooltipster-noir-customized'],
