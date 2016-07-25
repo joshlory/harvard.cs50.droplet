@@ -1,0 +1,21 @@
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-box {
+    background: #FFF;
+}
+
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-content {
+    color: #000;
+}
+
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-content code {
+    font-size: 0.9375em;
+    padding: 1px 3px 0;
+    white-space: nowrap;
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    text-shadow: none;
+
+    font-weight: normal;
+    color: #6d180b;
+}
+
