@@ -3,6 +3,7 @@
   "viewSettings": {
     "padding": 10
   },
+  "showDropdownInPalette": true,
   "palette": [
     {
       "name": "Control Flow",

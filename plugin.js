@@ -60,7 +60,7 @@ define(function(require, exports, module) {
   };
 
   main.consumes = ["Plugin", "Editor", "editors", "tabManager", "ace", "ui", "commands", "menus"];
-  main.provides = ["droplet"];
+  main.provides = ["c9.ide.cs50.droplet"];
   return main;
 
   function main(options, imports, register) {
@@ -74,12 +74,10 @@ define(function(require, exports, module) {
 
     /***** Initialization *****/
 
-    var plugin = new Plugin("Ajax.org", main.consumes);
+    var plugin = new Plugin("CS50", main.consumes);
     var emit = plugin.getEmitter();
 
-    ui.insertCss(require("text!./droplet/css/droplet.css"), plugin);
-    ui.insertCss(require("text!./tooltipster/dist/css/tooltipster.bundle.min.css"), plugin);
-    ui.insertCss(require("text!./tooltipster-style.css"), plugin)
+    console.log('Loading. Static prefix is', options.staticPrefix);
 
     window._lastEditor = null;
 
@@ -88,6 +86,19 @@ define(function(require, exports, module) {
     }, 0, plugin);
 
     function load() {
+        function forceAddCss(mod) {
+            var linkElement = document.createElement('link');
+            linkElement.setAttribute('rel', 'stylesheet');
+            linkElement.setAttribute('href', require.toUrl(mod));
+            document.head.appendChild(linkElement);
+        }
+        forceAddCss('./droplet/css/droplet.css');
+        forceAddCss("./tooltipster/dist/css/tooltipster.bundle.min.css");
+        forceAddCss("./tooltipster-style.css");
+      /*ui.insertCss(require("text!./droplet.css"), options.staticPrefix, plugin);
+      ui.insertCss(require("text!./tooltipster.bundle.css"), options.staticPrefix, plugin);
+      ui.insertCss(require("text!./tooltipster-style.css"), options.staticPrefix, plugin);*/
+
       tabManager.once("ready", function() {
         tabManager.getTabs().forEach(function(tab) {
           var ace = tab.path && tab.editor.ace;
@@ -118,10 +129,11 @@ define(function(require, exports, module) {
 
     }
 
+    var worker = createWorker('./droplet/dist/worker.js');
+
     function attachToAce(aceEditor) {
       console.log('Attached to ace editor!');
       if (!aceEditor._dropletEditor) {
-        var worker = createWorker('./droplet/dist/worker.js');
         var currentValue = aceEditor.getValue();
         var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
 
@@ -306,7 +318,7 @@ define(function(require, exports, module) {
     });
 
     register(null, {
-      "droplet": plugin
+      "c9.ide.cs50.droplet": plugin
     });
   }
 });
