@@ -1,7 +1,8 @@
 {
   "mode": "c_cpp",
   "viewSettings": {
-    "padding": 10
+    "padding": 10,
+    "extraLeft": 10
   },
   "showDropdownInPalette": true,
   "palette": [
@@ -13,6 +14,11 @@
           "block": "int main(void)\n{\n  \n}",
           "context": "externalDeclaration",
           "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main method in order for your program executable\nto do anything when run.</p>\n"
+        },
+        {
+          "block": "int main(int n, char *args[])\n{\n  \n}",
+          "context": "externalDeclaration",
+          "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main method in order for your program executable\nto do anything when run. This version knows how to accept command line arguments; there are <code>n</code> of them, stored in the variable <code>args</code>.</p>\n"
         },
         {
           "block": "type myMethod(void)\n{\n  \n}",
@@ -64,6 +70,11 @@
           "block": "variable = newValue;",
           "context": "blockItem",
           "title": "<p>reassign a variable</p>\n<p>Assign a new value <code>newValue</code> to the variable with name <code>variable</code>. You must\ndeclare your variable before you can do this.</p>\n"
+        },
+        {
+          "block": "type *v = NULL;",
+          "context": "blockItem",
+          "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. Hint: a string is <code>char*</code>.</p>\n"
         },
         {
           "block": "a + b",
@@ -119,12 +130,68 @@
           "block": "a && b",
           "context": "expression",
           "title": "<p>logical and</p>\n<p>This will be true only if the condition\nin <code>a</code> is true and the condition in <code>b</code> is true.</p>\n"
+        },
+        {
+          "block": "!a",
+          "context": "expression",
+          "title": "<p>logical not</p>\n<p>This will be true if <code>a</code> is not true</p>\n"
+        },
+        {
+          "block": "variable[i]",
+          "context": "expression",
+          "title": "<p>pointer/array access</p>\n<p>Access the <code>i</code>th element of the array <code>variable</code>, or the <code>i</code>th thing after the pointer <code>variable</code>. Remember that indices start at <code>0</code>, not <code>1</code>!</p>\n"
+        },
+        {
+          "block": "*variable",
+          "context": "expression",
+          "title": "<p>dereference a pointer into a value</p>\n<p>Look up the value at the pointer <code>variable</code>. This is the same as doing <code>variable[0]</code>.</p>"
+        },
+        {
+          "block": "&variable",
+          "context": "expression",
+          "title": "<p>get pointer to variable</p>\n<p>Get a pointer to a variable you have already declared as something else.</p>"
+        }
+      ]
+    },
+    {
+      "name": "Data",
+      "color": "teal",
+      "blocks": [
+        {
+          "block": "typedef struct {\n  type structVariable;\n} myStruct;",
+          "context": "externalDeclaration",
+          "title": "<p><code>struct</code> -- bundle together data</p>\n<p>A <code>struct</code> defines a package of data made up of a set of data fields. Each data field should be declared in the <code>{ }</code> like a variable."
+        },
+        {
+          "block": "type structVariable;",
+          "context": "structDeclaration",
+          "title": "<p>declare struct data field</p>"
+        },
+        {
+          "block": "type v[len] = {0};",
+          "context": "blockItem",
+          "title": "<p>declare an array</p>\n<p>Declare an array of type <code>type</code> and size <code>len</code> with name <code>v</code>. Arrays and pointers work much the same, except that arrays do not need to be allocated first, because they are automatically allocated when they are declared.</p>"
+        },
+        {
+          "block": "type *v = NULL;",
+          "context": "blockItem",
+          "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. You will need to allocate memory for this pointer in order to use it.</p>\n"
+        },
+        {
+          "block": "myStruct.structVariable",
+          "context": "expression",
+          "title": "<p>struct property access</p>\n<p>Extract one of the data fields packaged into a struct.</p>\n"
+        },
+        {
+          "block": "(type*)calloc(length, sizeof(type))",
+          "context": "expression",
+          "title": "<p>allocate memory for a pointer</p>\n<p>Allocates enough space to store <code>length</code> items of type <code>type</code>, filling it with zeroes to start.</p>"
         }
       ]
     },
     {
       "name": "cs50.h",
-      "color": "blue",
+      "color": "harvard",
       "blocks": [
         {
           "block": "#include <cs50.h>",
@@ -1146,37 +1213,6 @@
           "block": "isalnum(c);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isalnum\" target=\"_blank\">isalnum</a> - checks if character is alphanumeric</p>\n<p>Checks if the given character is alphanumeric.</p>\n"
-        }
-      ]
-    },
-    {
-      "name": "stdarg.h",
-      "color": "blue",
-      "blocks": [
-        {
-          "block": "#include <stdarg.h>",
-          "context": "compilationUnit",
-          "title": "<p>Includes the header file for <code>stdarg.h</code>. You must put this\nin your program in order to use any of the <code>stdarg.h</code> blocks.</p>\n"
-        },
-        {
-          "block": "va_arg(ap, type);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_arg\" target=\"_blank\">va_arg</a> - variable argument lists</p>\n<p>The called function must declare an object of type _va<em>list</em> which is used by the macros va_start(), va_arg(), and va_end(). (<a href=\"https://reference.cs50.net/stdarg.h/va_arg\" target=\"_blank\">read more</a>)</p>\n"
-        },
-        {
-          "block": "va_copy(dest, src);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_copy\" target=\"_blank\">va_copy</a> - variable argument lists</p>\n<p>The va_copy() macro copies the (previously initialized) variable argument list <code>src</code> to <code>dest</code>. The behavior is as if va_start() were applied to <code>dest</code> with the same <em>last</em> argument, followed by the same number of va_arg() invocations that was used to reach the current state of <code>src</code>. (<a href=\"https://reference.cs50.net/stdarg.h/va_copy\" target=\"_blank\">read more</a>)</p>\n"
-        },
-        {
-          "block": "va_end(ap);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_end\" target=\"_blank\">va_end</a> - variable argument lists</p>\n<p>The called function must declare an object of type _va<em>list</em> which is used by the macros va_start(), va_arg(), and va_end(). (<a href=\"https://reference.cs50.net/stdarg.h/va_end\" target=\"_blank\">read more</a>)</p>\n"
-        },
-        {
-          "block": "va_start(ap, last);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_start\" target=\"_blank\">va_start</a> - variable argument lists</p>\n<p>The called function must declare an object of type _va<em>list</em> which is used by the macros va_start(), va_arg(), and va_end(). (<a href=\"https://reference.cs50.net/stdarg.h/va_start\" target=\"_blank\">read more</a>)</p>\n"
         }
       ]
     }

@@ -18,4 +18,5 @@
     font-weight: normal;
     color: #6d180b;
 }
-
+.droplet-palette-group-header.harvard { border-left: 10px solid #c90016; }
+.droplet-palette-group-header-selected.harvard { background-color: #c90016; }

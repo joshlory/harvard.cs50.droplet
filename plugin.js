@@ -59,7 +59,9 @@ define(function(require, exports, module) {
     'ace/mode/c_cpp': JSON.parse(require("text!./droplet-configs/c_cpp.json"))
   };
 
-  main.consumes = ["Plugin", "Editor", "editors", "tabManager", "ace", "ui", "commands", "menus"];
+  var useBlocksByDefault = true;
+
+  main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings"];
   main.provides = ["c9.ide.cs50.droplet"];
   return main;
 
@@ -71,6 +73,7 @@ define(function(require, exports, module) {
     var ui = imports.ui;
     var commands = imports.commands;
     var menus = imports.menus;
+    var settings = imports.settings;
 
     /***** Initialization *****/
 
@@ -79,38 +82,69 @@ define(function(require, exports, module) {
 
     console.log('Loading. Static prefix is', options.staticPrefix);
 
-    window._lastEditor = null;
+    window._lastEditor = null; // This is a debug variable/
 
-    menus.addItemByPath('View/Toggle Blocks', {
-      command: "droplet_toggle"
-    }, 0, plugin);
+    settings.on("read", function() {
+        settings.setDefaults("user/cs50/droplet", [
+            ["useBlocksByDefault", true]
+        ]);
+    });
+
+    function toggleBlocksDefault(override) {
+      if (typeof override === "boolean") {
+        useBlocksByDefault = override;
+      }
+      else {
+        useBlocksByDefault = !useBlocksByDefault;
+        settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
+      }
+
+      menus.get("View/Use Blocks by Default").item.checked = useBlocksByDefault;
+    }
 
     function load() {
-        function forceAddCss(mod) {
-            var linkElement = document.createElement('link');
-            linkElement.setAttribute('rel', 'stylesheet');
-            linkElement.setAttribute('href', require.toUrl(mod));
-            document.head.appendChild(linkElement);
-        }
-        forceAddCss('./droplet/css/droplet.css');
-        forceAddCss("./tooltipster/dist/css/tooltipster.bundle.min.css");
-        forceAddCss("./tooltipster-style.css");
-      /*ui.insertCss(require("text!./droplet.css"), options.staticPrefix, plugin);
-      ui.insertCss(require("text!./tooltipster.bundle.css"), options.staticPrefix, plugin);
-      ui.insertCss(require("text!./tooltipster-style.css"), options.staticPrefix, plugin);*/
 
       tabManager.once("ready", function() {
+
         tabManager.getTabs().forEach(function(tab) {
           var ace = tab.path && tab.editor.ace;
           if (ace && tab.editorType == "ace") {
             attachToAce(tab.editor.ace);
           }
         });
+
         ace.on("create", function(e) {
           console.log('Just created! Binding now.');
           e.editor.on("createAce", attachToAce, plugin);
         }, plugin);
+
       });
+
+
+      var toggle = new ui.item({
+        type: "check",
+        caption: "Use Blocks by Default",
+        onclick: toggleBlocksDefault
+      });
+
+      var divider = new ui.divider();
+
+      menus.addItemByPath("View/Use Blocks by Default", toggle, 0, plugin);
+
+      function forceAddCss(mod) {
+          var linkElement = document.createElement('link');
+          linkElement.setAttribute('rel', 'stylesheet');
+          linkElement.setAttribute('href', require.toUrl(mod));
+          document.head.appendChild(linkElement);
+      }
+      forceAddCss('./droplet/css/droplet.css');
+      forceAddCss("./tooltipster/dist/css/tooltipster.bundle.min.css");
+      forceAddCss("./tooltipster-style.css");
+
+      console.log("Blocks by default:", settings.get("user/cs50/droplet/@useBlocksByDefault"));
+
+      toggleBlocksDefault(settings.get("user/cs50/droplet/@useBlocksByDefault"));
+
     }
 
     function unload() {
@@ -124,10 +158,6 @@ define(function(require, exports, module) {
     }
 
     /***** Methods *****/
-
-    function applyGetValueHack(aceSession, dropletEditor) {
-
-    }
 
     var worker = createWorker('./droplet/dist/worker.js');
 
@@ -158,10 +188,6 @@ define(function(require, exports, module) {
           });
         });
 
-        if (dropletEditor.session != null) {
-         applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
-        }
-
         // Restore the former top margin (for looking contiguous with the tab)
         dropletEditor.wrapperElement.style.top = '7px';
 
@@ -174,7 +200,7 @@ define(function(require, exports, module) {
           }, 0);
         })
 
-        _lastEditor = dropletEditor; // for debugging
+        _lastEditor = dropletEditor; // _lastEditor is a debug variable
         aceEditor._dropletEditor.setValueAsync(currentValue);
 
         var button = document.createElement('div');
@@ -217,14 +243,14 @@ define(function(require, exports, module) {
             var option = lookupOptions(e.session.$modeId);
             if (option != null) {
               aceEditor._dropletEditor.bindNewSession(option);
-              applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
               button.style.display = 'block';
             }
             else {
               button.style.display = 'none';
             }
           }
-          window.lastBoundSession = e.session;
+          var aceSession = window._lastBoundSession = e.session; // window._lastBoundSession is a debug variable
+
           e.session.on('changeMode', function(e) {
             if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
              aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
@@ -233,7 +259,6 @@ define(function(require, exports, module) {
               var option = lookupOptions(aceEditor.getSession().$modeId);
               if (option != null) {
                 aceEditor._dropletEditor.bindNewSession(option);
-                applyGetValueHack(aceEditor.getSession(), aceEditor._dropletEditor);
                 button.style.display = 'block';
               }
               else {
@@ -241,6 +266,19 @@ define(function(require, exports, module) {
               }
             }
           });
+
+          tabManager.getTabs().forEach(function(tab) {
+            var ace = tab.path && tab.editor.ace;
+            var doc = tab.document, c9Session = tab.document.getSession();
+            console.log('SETTING VALUE TO', doc.value);
+            console.log('COMPARING TO', aceEditor._dropletEditor.getValue());
+
+            if (doc.value !== aceEditor._dropletEditor.getValue()) {
+              console.log('ACTUALLY SETTING VALUE TO', doc.value, aceEditor._dropletEditor.session.currentlyUsingBlocks);
+              aceEditor._dropletEditor.setValueAsync(doc.value);
+            }
+          });
+
         });
 
         // Bind to mode changes
@@ -274,7 +312,9 @@ define(function(require, exports, module) {
 
       function lookupOptions(mode) {
         if (mode in OPT_MAP) {
-          return OPT_MAP[mode];
+          var result = OPT_MAP[mode];
+          result.textModeAtStart = !useBlocksByDefault;
+          return result;
         }
         else {
           return null;
