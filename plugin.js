@@ -1,7 +1,7 @@
 console.log('The define() call is running.');
 define(function(require, exports, module) {
   console.log('The initial script is running.');
-  var droplet = require('./droplet/dist/droplet-full.js');
+  var droplet = require('./droplet-full.js');
   require('./jquery.min.js');
   var $ = jQuery;
   var tooltipster = require('./tooltipster/dist/js/tooltipster.bundle.js');
@@ -137,7 +137,7 @@ define(function(require, exports, module) {
           linkElement.setAttribute('href', require.toUrl(mod));
           document.head.appendChild(linkElement);
       }
-      forceAddCss('./droplet/css/droplet.css');
+      forceAddCss('./droplet.css');
       forceAddCss("./tooltipster/dist/css/tooltipster.bundle.min.css");
       forceAddCss("./tooltipster-style.css");
 
@@ -194,7 +194,6 @@ define(function(require, exports, module) {
         dropletEditor.on('change', function() {
           setTimeout(function() {
             if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
-              console.log('Setting ace value');
               dropletEditor.setAceValue(dropletEditor.getValue());
             }
           }, 0);
@@ -222,7 +221,7 @@ define(function(require, exports, module) {
         button.style.borderTopRightRadius = button.style.borderBottomRightRadius = '5px';
         dropletEditor.paletteElement.appendChild(button);
 
-        if (!aceEditor._dropletEditor.session || !aceEditor._dropletEditor.session.currentlyUsingBlocks) {
+        if (!aceEditor._dropletEditor.session) {
           button.style.display = "none";
         }
 

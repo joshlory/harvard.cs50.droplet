@@ -21,12 +21,12 @@
           "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main method in order for your program executable\nto do anything when run. This version knows how to accept command line arguments; there are <code>n</code> of them, stored in the variable <code>args</code>.</p>\n"
         },
         {
-          "block": "type myMethod(void)\n{\n  \n}",
+          "block": "type function(void)\n{\n  \n}",
           "context": "externalDeclaration",
-          "title": "<p>method -- reusable procedure</p>\n<p>Defines a method accepting a <code>void</code> (no arguments) and returning\na <code>type</code>. The code inside <code>{ }</code> will not run at first, but will run every time\nyou call <code>myMethod(arguments...)</code>. Use a <code>return</code> statement inside the method\nto pass information back to whoever called it.</p>\n"
+          "title": "<p>method -- reusable procedure</p>\n<p>Defines a method accepting a <code>void</code> (no arguments) and returning\na <code>type</code>. The code inside <code>{ }</code> will not run at first, but will run every time\nyou call <code>function(arguments...)</code>. Use a <code>return</code> statement inside the method\nto pass information back to whoever called it.</p>\n"
         },
         {
-          "block": "myMethod(argument);",
+          "block": "function(argument);",
           "context": "blockItem",
           "title": "<p>A method call.</p>\n"
         },
@@ -67,9 +67,9 @@
           "title": "<p>declare a variable</p>\n<p>Declare a variable of type <code>type</code> and name <code>variable</code> with an\ninitial value of <code>0</code>.</p>\n"
         },
         {
-          "block": "variable = newValue;",
+          "block": "variable = value;",
           "context": "blockItem",
-          "title": "<p>reassign a variable</p>\n<p>Assign a new value <code>newValue</code> to the variable with name <code>variable</code>. You must\ndeclare your variable before you can do this.</p>\n"
+          "title": "<p>reassign a variable</p>\n<p>Assign a new value <code>value</code> to the variable with name <code>variable</code>. You must\ndeclare your variable before you can do this.</p>\n"
         },
         {
           "block": "type *v = NULL;",
