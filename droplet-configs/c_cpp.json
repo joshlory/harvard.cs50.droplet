@@ -1,8 +1,7 @@
 {
   "mode": "c_cpp",
   "viewSettings": {
-    "padding": 10,
-    "extraLeft": 10
+    "padding": 10
   },
   "showDropdownInPalette": true,
   "palette": [

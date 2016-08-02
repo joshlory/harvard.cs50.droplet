@@ -93,13 +93,25 @@ define(function(require, exports, module) {
     function toggleBlocksDefault(override) {
       if (typeof override === "boolean") {
         useBlocksByDefault = override;
+        tabManager.getTabs().forEach(function(tab) {
+          var ace = tab.path && tab.editor.ace;
+          if (ace && ace._dropletEditor) {
+            ace._dropletEditor.setEditorState(override);
+          }
+        });
       }
       else {
         useBlocksByDefault = !useBlocksByDefault;
         settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
+        tabManager.getTabs().forEach(function(tab) {
+          var ace = tab.path && tab.editor.ace;
+          if (ace && ace._dropletEditor) {
+            ace._dropletEditor.toggleBlocks();
+          }
+        });
       }
 
-      menus.get("View/Use Blocks by Default").item.checked = useBlocksByDefault;
+      menus.get("View/Syntax/Use Blocks by Default").item.checked = useBlocksByDefault;
     }
 
     function load() {
@@ -129,7 +141,7 @@ define(function(require, exports, module) {
 
       var divider = new ui.divider();
 
-      menus.addItemByPath("View/Use Blocks by Default", toggle, 0, plugin);
+      menus.addItemByPath("View/Syntax/Use Blocks by Default", toggle, 50, ace);
 
       function forceAddCss(mod) {
           var linkElement = document.createElement('link');
@@ -159,10 +171,9 @@ define(function(require, exports, module) {
 
     /***** Methods *****/
 
-    var worker = createWorker('./droplet/dist/worker.js');
+    var worker = createWorker('./worker.js');
 
     function attachToAce(aceEditor) {
-      console.log('Attached to ace editor!');
       if (!aceEditor._dropletEditor) {
         var currentValue = aceEditor.getValue();
         var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
@@ -202,50 +213,16 @@ define(function(require, exports, module) {
         _lastEditor = dropletEditor; // _lastEditor is a debug variable
         aceEditor._dropletEditor.setValueAsync(currentValue);
 
-        var button = document.createElement('div');
-        button.className = 'c9-droplet-toggle-button';
-
-        // TODO move to a stylesheet
-        // TODO a block shape SVG?
-        button.innerText = '';
-        button.style.position = 'absolute';
-        button.style.right = '-30px';
-        button.style.width = '30px';
-        button.style.height = '50px';
-        button.style.top = '50%';
-        button.style.bottom='50%';
-        button.style.marginTop = '-25px';
-        button.style.cursor = 'pointer';
-        button.style.boxShadow = '6px 0 6px -6px gray';
-        button.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
-        button.style.borderTopRightRadius = button.style.borderBottomRightRadius = '5px';
-        dropletEditor.paletteElement.appendChild(button);
-
-        if (!aceEditor._dropletEditor.session) {
-          button.style.display = "none";
-        }
-
-        button.addEventListener('click', function() {
-          aceEditor._dropletEditor.toggleBlocks();
-        });
-
         // here we get an instance of ace
         // we can listen for setSession
         // and create droplet editor attached to this ace instance
         // it can work similar to http://pencilcode.net/edit/first
         // where there is a widget on the gutter displayed for all coffee files
         aceEditor.on("changeSession", function(e) {
-          if (aceEditor._dropletEditor.hasSessionFor(e.session)) {
-            button.style.display = 'block';
-          }
-          else {
+          if (!aceEditor._dropletEditor.hasSessionFor(e.session)) {
             var option = lookupOptions(e.session.$modeId);
             if (option != null) {
               aceEditor._dropletEditor.bindNewSession(option);
-              button.style.display = 'block';
-            }
-            else {
-              button.style.display = 'none';
             }
           }
           var aceSession = window._lastBoundSession = e.session; // window._lastBoundSession is a debug variable
@@ -258,10 +235,6 @@ define(function(require, exports, module) {
               var option = lookupOptions(aceEditor.getSession().$modeId);
               if (option != null) {
                 aceEditor._dropletEditor.bindNewSession(option);
-                button.style.display = 'block';
-              }
-              else {
-                button.style.display = 'none';
               }
             }
           });
@@ -269,11 +242,8 @@ define(function(require, exports, module) {
           tabManager.getTabs().forEach(function(tab) {
             var ace = tab.path && tab.editor.ace;
             var doc = tab.document, c9Session = tab.document.getSession();
-            console.log('SETTING VALUE TO', doc.value);
-            console.log('COMPARING TO', aceEditor._dropletEditor.getValue());
 
-            if (doc.value !== aceEditor._dropletEditor.getValue()) {
-              console.log('ACTUALLY SETTING VALUE TO', doc.value, aceEditor._dropletEditor.session.currentlyUsingBlocks);
+            if (ace === aceEditor && doc.value !== aceEditor._dropletEditor.getValue()) {
               aceEditor._dropletEditor.setValueAsync(doc.value);
             }
           });
@@ -290,11 +260,7 @@ define(function(require, exports, module) {
             var option = lookupOptions(aceEditor.getSession().$modeId);
             if (option != null) {
               aceEditor._dropletEditor.bindNewSession(option);
-              button.style.display = 'block';
            }
-            else {
-              button.style.display = 'none';
-            }
           }
         });
 
@@ -307,6 +273,9 @@ define(function(require, exports, module) {
             });
           }
         });
+
+        // Redraw the update status
+        aceEditor._signal("changeStatus");
       }
 
       function lookupOptions(mode) {
