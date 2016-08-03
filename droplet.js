@@ -2,7 +2,7 @@ define(function(require, exports, module) {
   var droplet = require('./lib/droplet/droplet-full.js');
   require('./lib/jquery.min.js');
   var $ = jQuery;
-  var tooltipster = require('./tooltipster/dist/js/tooltipster.bundle.js');
+  var tooltipster = require('./lib/tooltipster/dist/js/tooltipster.bundle.js');
 
   var worker = null;
 
