@@ -9,6 +9,6 @@
   "description": "Adds Droplet support for C files",
   "name": "c9.ide.cs50.droplet",
   "plugins": {
-    "plugin": {}
+    "droplet": {}
   }
 }
