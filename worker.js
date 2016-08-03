@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Anthony Bau.
  * MIT License.
  *
- * Date: 2016-07-29
+ * Date: 2016-08-03
  */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.droplet = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports={
@@ -52865,7 +52865,7 @@ exports.dfs = dfs;
 
 
 },{"sax":100}],107:[function(require,module,exports){
-var ADD_BUTTON, ADD_BUTTON_VERT, ADD_PARENS, ADD_SEMICOLON, BOTH_BUTTON, BOTH_BUTTON_VERT, COLOR_DEFAULTS, COLOR_RULES, DROPDOWNS, REMOVE_SEMICOLON, RULES, SHAPE_RULES, antlrHelper, config, fixQuotedString, getMethodName, helper, insertAfterLastSocket, looseCUnescape, model, parser, quoteAndCEscape, removeLastSocketAnd;
+var ADD_BUTTON, ADD_BUTTON_VERT, ADD_PARENS, ADD_SEMICOLON, BOTH_BUTTON, BOTH_BUTTON_VERT, COLOR_DEFAULTS, COLOR_RULES, DROPDOWNS, REMOVE_SEMICOLON, RULES, SHAPE_RULES, antlrHelper, config, fixQuotedString, generateDropdown, getMethodName, helper, insertAfterLastSocket, looseCUnescape, model, parser, quoteAndCEscape, removeLastSocketAnd;
 
 helper = require('../helper.coffee');
 
@@ -53154,16 +53154,13 @@ RULES = {
   'Int': 'socket',
   'Long': 'socket',
   'Short': 'socket',
+  'Float': 'socket',
   'Double': 'socket',
   'Char': 'socket',
   'Identifier': 'socket',
   'StringLiteral': 'socket',
   'SharedIncludeLiteral': 'socket',
-  'Constant': 'socket',
-  'structDeclaration': function(node) {
-    debugger;
-    return 'block';
-  }
+  'Constant': 'socket'
 };
 
 COLOR_DEFAULTS = {
@@ -53293,13 +53290,26 @@ getMethodName = function(node) {
 
 config.SHOULD_SOCKET = function(opts, node) {
   var ref, ref1;
-  if (!((opts.functions != null) && (((node.parent != null) && (node.parent.parent != null) && (node.parent.parent.parent != null)) || ((ref = node.parent) != null ? ref.type : void 0) === 'specialMethodCall'))) {
+  if (!(((node.parent != null) && (node.parent.parent != null) && (node.parent.parent.parent != null)) || ((ref = node.parent) != null ? ref.type : void 0) === 'specialMethodCall')) {
     return true;
   }
-  if ((((ref1 = node.parent) != null ? ref1.type : void 0) === 'specialMethodCall' || (getMethodName(node.parent.parent.parent) != null) && node.parent.parent === node.parent.parent.parent.children[0] && node.parent === node.parent.parent.children[0] && node === node.parent.children[0]) && node.data.text in opts.functions) {
-    return false;
+  if (((ref1 = node.parent) != null ? ref1.type : void 0) === 'specialMethodCall' || (getMethodName(node.parent.parent.parent) != null) && node.parent.parent === node.parent.parent.parent.children[0] && node.parent === node.parent.parent.children[0] && node === node.parent.children[0]) {
+    return {
+      type: 'locked',
+      dropdown: opts.functions != null ? generateDropdown(opts.functions) : null
+    };
   }
   return true;
+};
+
+generateDropdown = function(knownFunctions) {
+  var func, result, val;
+  result = [];
+  for (func in knownFunctions) {
+    val = knownFunctions[func];
+    result.push(func);
+  }
+  return result;
 };
 
 config.COLOR_CALLBACK = function(opts, node) {
@@ -53627,6 +53637,18 @@ config.handleButton = function(str, type, block) {
 };
 
 config.rootContext = 'translationUnit';
+
+config.lockedSocketCallback = function(opts, socketText, parentText, parseContext) {
+  if ((opts.functions != null) && socketText in opts.functions && 'prototype' in opts.functions[socketText]) {
+    if (parseContext === 'expressionStatement' || parseContext === 'specialMethodCall') {
+      return opts.functions[socketText].prototype;
+    } else {
+      return opts.functions[socketText].prototype.replace(/;$/, '');
+    }
+  } else {
+    return parentText;
+  }
+};
 
 module.exports = parser.wrapParser(antlrHelper.createANTLRParser('C', config));
 
@@ -54833,7 +54855,7 @@ CoffeeScriptParser.drop = function(block, context, pred) {
 
 CoffeeScriptParser.parens = function(leading, trailing, node, context) {
   if ('__comment__' === node.parseContext) {
-    return;
+    return node.parseContext;
   }
   trailing(trailing().replace(/\s*,\s*$/, ''));
   while (true) {
@@ -54849,6 +54871,7 @@ CoffeeScriptParser.parens = function(leading, trailing, node, context) {
     leading('(' + leading());
     trailing(trailing() + ')');
   }
+  return node.parseContext;
 };
 
 CoffeeScriptParser.getDefaultSelectionRange = function(string) {
@@ -57364,7 +57387,7 @@ module.exports = parser.wrapParser(treewalk.createTreewalkParser(parse, config))
 
 
 },{"../../vendor/skulpt":120,"../helper.coffee":106,"../model.coffee":113,"../parser.coffee":115,"../treewalk.coffee":116}],113:[function(require,module,exports){
-var Block, BlockEndToken, BlockStartToken, ButtonContainer, ButtonContainerEndToken, ButtonContainerStartToken, COMMENT_CONTEXT, Container, DEFAULT_STRINGIFY_OPTS, Document, DocumentEndToken, DocumentStartToken, EndToken, FORBID, Indent, IndentEndToken, IndentStartToken, List, Location, NO, NORMAL, NewlineToken, NodeContext, Operation, ReplaceOperation, Socket, SocketEndToken, SocketStartToken, StartToken, TextLocation, TextToken, Token, YES, _id, helper, isTreeValid, stableStringify, traverseOneLevel,
+var Block, BlockEndToken, BlockStartToken, ButtonContainer, ButtonContainerEndToken, ButtonContainerStartToken, COMMENT_CONTEXT, Container, DEFAULT_STRINGIFY_OPTS, Document, DocumentEndToken, DocumentStartToken, EndToken, FORBID, Indent, IndentEndToken, IndentStartToken, List, Location, LockedSocket, LockedSocketEndToken, LockedSocketStartToken, NO, NORMAL, NewlineToken, NodeContext, Operation, ReplaceOperation, Socket, SocketEndToken, SocketStartToken, StartToken, TextLocation, TextToken, Token, YES, _id, helper, isTreeValid, stableStringify, traverseOneLevel,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -58173,7 +58196,7 @@ exports.Container = Container = (function(superClass) {
   };
 
   Container.prototype.getFromLocation = function(location) {
-    var head, j, ref;
+    var error, head, j, ref;
     head = this.start;
     for (j = 0, ref = location.count; 0 <= ref ? j < ref : j > ref; 0 <= ref ? j++ : j--) {
       head = head.next;
@@ -58183,7 +58206,10 @@ exports.Container = Container = (function(superClass) {
     } else if (location.type === head.container.type) {
       return head.container;
     } else {
-      throw new Error("Could not retrieve location " + location);
+      error = new Error("Could not retrieve location " + location);
+      console.log("Could not retrieve location " + location + ". Error stack is as follows:");
+      console.trace();
+      throw error;
     }
   };
 
@@ -58593,6 +58619,72 @@ exports.ButtonContainerEndToken = ButtonContainerEndToken = (function(superClass
 
 })(EndToken);
 
+exports.LockedSocket = LockedSocket = (function(superClass) {
+  extend(LockedSocket, superClass);
+
+  function LockedSocket(parseContext, dropdown, data) {
+    this.parseContext = parseContext;
+    this.dropdown = dropdown;
+    this.data = data != null ? data : {};
+    this.start = new LockedSocketStartToken(this);
+    this.end = new LockedSocketEndToken(this);
+    this.buttons = [
+      {
+        key: 'unlock-socket',
+        glyph: '\u25BC',
+        border: false
+      }
+    ];
+    this.type = 'lockedSocket';
+    LockedSocket.__super__.constructor.apply(this, arguments);
+  }
+
+  LockedSocket.prototype._serialize_header = function() {
+    return {
+      type: 'lockedSocketStart',
+      parseContext: this.parseContext,
+      buttons: this.buttons
+    };
+  };
+
+  LockedSocket.prototype._serialize_footer = function() {
+    return {
+      type: 'lockedSocketEnd'
+    };
+  };
+
+  LockedSocket.prototype._cloneEmpty = function() {
+    return new LockedSocket(this.parseContext, this.dropdown, this.data);
+  };
+
+  return LockedSocket;
+
+})(Container);
+
+exports.LockedSocketStartToken = LockedSocketStartToken = (function(superClass) {
+  extend(LockedSocketStartToken, superClass);
+
+  function LockedSocketStartToken() {
+    LockedSocketStartToken.__super__.constructor.apply(this, arguments);
+    this.type = 'lockedSocketStart';
+  }
+
+  return LockedSocketStartToken;
+
+})(StartToken);
+
+exports.LockedSocketEndToken = LockedSocketEndToken = (function(superClass) {
+  extend(LockedSocketEndToken, superClass);
+
+  function LockedSocketEndToken() {
+    LockedSocketEndToken.__super__.constructor.apply(this, arguments);
+    this.type = 'lockedSocketStart';
+  }
+
+  return LockedSocketEndToken;
+
+})(EndToken);
+
 exports.BlockStartToken = BlockStartToken = (function(superClass) {
   extend(BlockStartToken, superClass);
 
@@ -58723,11 +58815,12 @@ exports.SocketEndToken = SocketEndToken = (function(superClass) {
 exports.Socket = Socket = (function(superClass) {
   extend(Socket, superClass);
 
-  function Socket(emptyString, handwritten, dropdown, parseContext) {
+  function Socket(emptyString, handwritten, dropdown, parseContext, fromLocked) {
     this.emptyString = emptyString;
     this.handwritten = handwritten != null ? handwritten : false;
     this.dropdown = dropdown != null ? dropdown : null;
     this.parseContext = parseContext != null ? parseContext : null;
+    this.fromLocked = fromLocked != null ? fromLocked : false;
     this.start = new SocketStartToken(this);
     this.end = new SocketEndToken(this);
     this.type = 'socket';
@@ -58758,7 +58851,7 @@ exports.Socket = Socket = (function(superClass) {
   };
 
   Socket.prototype._cloneEmpty = function() {
-    return new Socket(this.emptyString, this.handwritten, this.dropdown, this.parseContext);
+    return new Socket(this.emptyString, this.handwritten, this.dropdown, this.parseContext, this.fromLocked);
   };
 
   Socket.prototype._serialize_header = function() {
@@ -59189,6 +59282,12 @@ exports.Parser = Parser = (function() {
     return this.addMarkup(container, opts.bounds, opts.depth);
   };
 
+  Parser.prototype.addLockedSocket = function(opts) {
+    var container;
+    container = new model.LockedSocket(opts.parseContext, opts.dropdown, opts.data);
+    return this.addMarkup(container, opts.bounds, opts.depth);
+  };
+
   Parser.prototype.flagToRemove = function(bounds, depth) {
     var block;
     block = new model.Block();
@@ -59276,11 +59375,8 @@ exports.Parser = Parser = (function() {
 
   Parser.prototype.constructHandwrittenBlock = function(text) {
     var block, color, finalPadText, finalPadTextToken, head, j, lastPosition, len, padText, padTextToken, ref, socket, socketPosition, sockets, textToken;
-    block = new model.Block(0, 'comment', helper.ANY_DROP);
+    block = new model.Block('comment', helper.ANY_DROP, '__comment__');
     if (this.isComment(text)) {
-      block.socketLevel = helper.BLOCK_ONLY;
-      block.shape = helper.BLOCK_ONLY;
-      block.parseContext = '__comment__';
       head = block.start;
       ref = this.parseComment(text), sockets = ref.sockets, color = ref.color;
       if (color != null) {
@@ -59398,9 +59494,7 @@ exports.Parser = Parser = (function() {
           }
         }
         if (line.length === 0 && !placedSomething && ((ref3 = (ref4 = stack[stack.length - 1]) != null ? ref4.type : void 0) === 'indent' || ref3 === 'document' || ref3 === (void 0)) && hasSomeTextAfter(lines, i)) {
-          block = new model.Block(0, this.opts.emptyLineColor, helper.BLOCK_ONLY);
-          block.shape = helper.ANY_DROP;
-          block.parseContext = '__comment__';
+          block = new model.Block(this.opts.emptyLineColor, helper.BLOCK_ONLY, '__comment__');
           head = helper.connect(head, block.start);
           head = helper.connect(head, block.end);
         }
@@ -59474,7 +59568,7 @@ exports.Parser = Parser = (function() {
           if (!currentlyCommented && ((opts.wrapAtRoot && stack.length === 0) || ((ref14 = stack[stack.length - 1]) != null ? ref14.type : void 0) === 'indent') && line.length > 0) {
             if (isPrefix(line.slice(lastIndex).trimLeft(), this.startComment)) {
               currentlyCommented = true;
-              block = new model.Block(0, 'comment', helper.ANY_DROP);
+              block = new model.Block('comment', helper.ANY_DROP, '__comment__');
               stack.push(block);
               helper.connect(head, block.start);
               head = block.start;
@@ -59641,6 +59735,14 @@ exports.wrapParser = function(CustomParser) {
       this.getDefaultSelectionRange = (ref2 = CustomParser.getDefaultSelectionRange) != null ? ref2 : getDefaultSelectionRange;
       this.getParenCandidates = CustomParser.getParenCandidates;
     }
+
+    CustomParserFactory.prototype.lockedSocketCallback = function(socketText, blockText, parseContext) {
+      if (CustomParser.lockedSocketCallback != null) {
+        return CustomParser.lockedSocketCallback(this.opts, socketText, blockText, parseContext);
+      } else {
+        return blockText;
+      }
+    };
 
     CustomParserFactory.prototype.createParser = function(text) {
       var parser;
@@ -59872,7 +59974,7 @@ exports.createTreewalkParser = function(parse, config, root) {
     };
 
     TreewalkParser.prototype.mark = function(node, prefix, depth, pass, rules, context, wrap) {
-      var bounds, child, el, end, i, j, k, l, len, len1, len2, m, ok, oldPrefix, origin, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref22, ref23, ref24, ref25, ref26, ref3, ref4, ref5, ref6, ref7, ref8, ref9, results, start;
+      var bounds, child, el, end, i, j, k, l, len, len1, len2, m, ok, oldPrefix, origin, ref, ref1, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18, ref19, ref2, ref20, ref21, ref22, ref23, ref24, ref25, ref26, ref3, ref4, ref5, ref6, ref7, ref8, ref9, results, socketResult, start;
       if (!pass) {
         context = node.parent;
         while ((context != null) && ((ref = this.detNode(context)) === 'skip' || ref === 'parens')) {
@@ -60062,16 +60164,26 @@ exports.createTreewalkParser = function(parse, config, root) {
         }
         return results;
       } else if ((context != null) && ((ref21 = this.detNode(context)) === 'block' || ref21 === 'buttonContainer')) {
-        if (this.det(node) === 'socket' && ((config.SHOULD_SOCKET == null) || config.SHOULD_SOCKET(this.opts, node))) {
-          this.addSocket({
-            empty: (ref22 = (ref23 = config.EMPTY_STRINGS) != null ? ref23[node.type] : void 0) != null ? ref22 : config.empty,
-            bounds: node.bounds,
-            depth: depth,
-            parseContext: rules[0],
-            dropdown: (ref24 = (ref25 = config.DROPDOWNS) != null ? ref25[rules[0]] : void 0) != null ? ref24 : null
-          });
-          if ((config.EMPTY_STRINGS != null) && !this.opts.preserveEmpty && helper.clipLines(this.lines, node.bounds.start, node.bounds.end) === ((ref26 = config.EMPTY_STRINGS[node.type]) != null ? ref26 : config.empty)) {
-            return this.flagToRemove(node.bounds, depth + 1);
+        if (this.det(node) === 'socket') {
+          socketResult = config.SHOULD_SOCKET(this.opts, node);
+          if ((config.SHOULD_SOCKET == null) || socketResult === true) {
+            this.addSocket({
+              empty: (ref22 = (ref23 = config.EMPTY_STRINGS) != null ? ref23[node.type] : void 0) != null ? ref22 : config.empty,
+              bounds: node.bounds,
+              depth: depth,
+              parseContext: rules[0],
+              dropdown: (ref24 = (ref25 = config.DROPDOWNS) != null ? ref25[rules[0]] : void 0) != null ? ref24 : null
+            });
+            if ((config.EMPTY_STRINGS != null) && !this.opts.preserveEmpty && helper.clipLines(this.lines, node.bounds.start, node.bounds.end) === ((ref26 = config.EMPTY_STRINGS[node.type]) != null ? ref26 : config.empty)) {
+              return this.flagToRemove(node.bounds, depth + 1);
+            }
+          } else if (socketResult !== false && socketResult.type === 'locked') {
+            return this.addLockedSocket({
+              bounds: node.bounds,
+              depth: depth,
+              dropdown: socketResult.dropdown,
+              parseContext: rules[0]
+            });
           }
         }
       }
@@ -60152,6 +60264,7 @@ exports.createTreewalkParser = function(parse, config, root) {
   TreewalkParser.rootContext = config.rootContext;
   TreewalkParser.getDefaultSelectionRange = config.getDefaultSelectionRange;
   TreewalkParser.empty = config.empty;
+  TreewalkParser.lockedSocketCallback = config.lockedSocketCallback;
   return TreewalkParser;
 };
 

@@ -90,30 +90,6 @@ define(function(require, exports, module) {
         ]);
     });
 
-    function toggleBlocksDefault(override) {
-      if (typeof override === "boolean") {
-        useBlocksByDefault = override;
-        tabManager.getTabs().forEach(function(tab) {
-          var ace = tab.path && tab.editor.ace;
-          if (ace && ace._dropletEditor) {
-            ace._dropletEditor.setEditorState(override);
-          }
-        });
-      }
-      else {
-        useBlocksByDefault = !useBlocksByDefault;
-        settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
-        tabManager.getTabs().forEach(function(tab) {
-          var ace = tab.path && tab.editor.ace;
-          if (ace && ace._dropletEditor) {
-            ace._dropletEditor.toggleBlocks();
-          }
-        });
-      }
-
-      menus.get("View/Syntax/Use Blocks by Default").item.checked = useBlocksByDefault;
-    }
-
     function load() {
 
       tabManager.once("ready", function() {
@@ -132,16 +108,9 @@ define(function(require, exports, module) {
 
       });
 
-
-      var toggle = new ui.item({
-        type: "check",
-        caption: "Use Blocks by Default",
-        onclick: toggleBlocksDefault
-      });
-
       var divider = new ui.divider();
 
-      menus.addItemByPath("View/Syntax/Use Blocks by Default", toggle, 50, ace);
+      //menus.addItemByPath("View/Syntax/Use Blocks by Default", toggle, 50, ace);
 
       function forceAddCss(mod) {
           var linkElement = document.createElement('link');
@@ -155,8 +124,7 @@ define(function(require, exports, module) {
 
       console.log("Blocks by default:", settings.get("user/cs50/droplet/@useBlocksByDefault"));
 
-      toggleBlocksDefault(settings.get("user/cs50/droplet/@useBlocksByDefault"));
-
+      useBlocksByDefault = settings.get("user/cs50/droplet/@useBlocksByDefault");
     }
 
     function unload() {
@@ -175,8 +143,20 @@ define(function(require, exports, module) {
 
     function attachToAce(aceEditor) {
       if (!aceEditor._dropletEditor) {
+
+        console.log('Attaching to a new ace editor now.');
+        var button = $('<div class="label droplet-toggle-button" style="cursor:pointer; margin: 1px 10px 4px 3px; min-height: 15px;">')
+                .text(useBlocksByDefault ? 'Blocks' : 'Text')
+                .insertBefore($(aceEditor.container.parentElement).find('.bar-status').find('.label').last());
         var currentValue = aceEditor.getValue();
         var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
+
+        button.click(function() {
+            dropletEditor.toggleBlocks();
+            useBlocksByDefault = dropletEditor.session.currentlyUsingBlocks;
+            settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
+            button.text(useBlocksByDefault ? 'Blocks' : 'Text');
+        });
 
         dropletEditor.on('palettechange', function() {
           $(dropletEditor.paletteCanvas.children).each(function(index) {
@@ -239,15 +219,6 @@ define(function(require, exports, module) {
             }
           });
 
-          tabManager.getTabs().forEach(function(tab) {
-            var ace = tab.path && tab.editor.ace;
-            var doc = tab.document, c9Session = tab.document.getSession();
-
-            if (ace === aceEditor && doc.value !== aceEditor._dropletEditor.getValue()) {
-              aceEditor._dropletEditor.setValueAsync(doc.value);
-            }
-          });
-
         });
 
         // Bind to mode changes
@@ -270,6 +241,15 @@ define(function(require, exports, module) {
           if (ace == aceEditor && tab.editorType == 'ace') {
             tab.editor.on('resize', function() {
               dropletEditor.resize();
+            });
+            
+            // Also hack to deal with document loading
+            tab.editor.on('documentLoad', function(e) {
+                console.log('documentLoad fired');
+                e.doc.once('changed', function() {
+                    console.log('Change fired. Reloading value into the editor', e.doc.value);
+                    aceEditor._dropletEditor.setValueAsync(e.doc.value);
+                });
             });
           }
         });
