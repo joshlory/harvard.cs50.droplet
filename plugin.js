@@ -1,6 +1,4 @@
-console.log('The define() call is running.');
 define(function(require, exports, module) {
-  console.log('The initial script is running.');
   var droplet = require('./droplet-full.js');
   require('./jquery.min.js');
   var $ = jQuery;
@@ -9,36 +7,32 @@ define(function(require, exports, module) {
   var worker = null;
 
   function createWorker(mod) {
-      // nameToUrl is renamed to toUrl in requirejs 2
-      if (require.nameToUrl && !require.toUrl)
-          require.toUrl = require.nameToUrl;
+    // nameToUrl is renamed to toUrl in requirejs 2
+    if (require.nameToUrl && !require.toUrl)
+      require.toUrl = require.nameToUrl;
 
-      var workerUrl = workerUrl || require.toUrl(mod);
+    var workerUrl = workerUrl || require.toUrl(mod);
 
-      console.log('USING WORKER URL', workerUrl);
+    try {
+      return new Worker(workerUrl);
+    } catch(e) {
+      if (e instanceof window.DOMException) {
+        // Likely same origin problem. Use importScripts from a shim Worker
+        var blob = workerBlob(workerUrl);
+        var URL = window.URL || window.webkitURL;
+        var blobURL = URL.createObjectURL(blob);
 
-      try {
-          return new Worker(workerUrl);
-      } catch(e) {
-          if (e instanceof window.DOMException) {
-              // Likely same origin problem. Use importScripts from a shim Worker
-              var blob = workerBlob(workerUrl);
-              var URL = window.URL || window.webkitURL;
-              var blobURL = URL.createObjectURL(blob);
+        var worker = new Worker(blobURL);
 
-              console.log('blobURL', blobURL);
+        setTimeout(function() { // IE EDGE needs a timeout here
+          URL.revokeObjectURL(blobURL);
+        });
 
-              var worker = new Worker(blobURL);
-
-              setTimeout(function() { // IE EDGE needs a timeout here
-                  URL.revokeObjectURL(blobURL);
-              });
-
-              return worker;
-          } else {
-              throw e;
-          }
+        return worker;
+      } else {
+        throw e;
       }
+    }
   };
 
   function workerBlob(url) {
@@ -46,12 +40,12 @@ define(function(require, exports, module) {
     // importScripts only takes fully qualified urls
     var script = "importScripts('" + url + "');";
     try {
-        return new Blob([script], {"type": "application/javascript"});
+      return new Blob([script], {"type": "application/javascript"});
     } catch (e) { // Backwards-compatibility
-        var BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
-        var blobBuilder = new BlobBuilder();
-        blobBuilder.append(script);
-        return blobBuilder.getBlob("application/javascript");
+      var BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+      var blobBuilder = new BlobBuilder();
+      blobBuilder.append(script);
+      return blobBuilder.getBlob("application/javascript");
     }
   }
 
@@ -66,7 +60,6 @@ define(function(require, exports, module) {
   return main;
 
   function main(options, imports, register) {
-    console.log('Main is running');
     var Plugin = imports.Plugin;
     var tabManager = imports.tabManager;
     var ace = imports.ace;
@@ -80,14 +73,12 @@ define(function(require, exports, module) {
     var plugin = new Plugin("CS50", main.consumes);
     var emit = plugin.getEmitter();
 
-    console.log('Loading. Static prefix is', options.staticPrefix);
-
     window._lastEditor = null; // This is a debug variable/
 
     settings.on("read", function() {
-        settings.setDefaults("user/cs50/droplet", [
-            ["useBlocksByDefault", true]
-        ]);
+      settings.setDefaults("user/cs50/droplet", [
+          ["useBlocksByDefault", true]
+      ]);
     });
 
     function load() {
@@ -102,7 +93,6 @@ define(function(require, exports, module) {
         });
 
         ace.on("create", function(e) {
-          console.log('Just created! Binding now.');
           e.editor.on("createAce", attachToAce, plugin);
         }, plugin);
 
@@ -113,16 +103,14 @@ define(function(require, exports, module) {
       //menus.addItemByPath("View/Syntax/Use Blocks by Default", toggle, 50, ace);
 
       function forceAddCss(mod) {
-          var linkElement = document.createElement('link');
-          linkElement.setAttribute('rel', 'stylesheet');
-          linkElement.setAttribute('href', require.toUrl(mod));
-          document.head.appendChild(linkElement);
+        var linkElement = document.createElement('link');
+        linkElement.setAttribute('rel', 'stylesheet');
+        linkElement.setAttribute('href', require.toUrl(mod));
+        document.head.appendChild(linkElement);
       }
-      forceAddCss('./droplet.css');
+      forceAddCss("./droplet.css");
       forceAddCss("./tooltipster/dist/css/tooltipster.bundle.min.css");
-      forceAddCss("./tooltipster-style.css");
-
-      console.log("Blocks by default:", settings.get("user/cs50/droplet/@useBlocksByDefault"));
+      forceAddCss("./style.css");
 
       useBlocksByDefault = settings.get("user/cs50/droplet/@useBlocksByDefault");
     }
@@ -143,19 +131,17 @@ define(function(require, exports, module) {
 
     function attachToAce(aceEditor) {
       if (!aceEditor._dropletEditor) {
-
-        console.log('Attaching to a new ace editor now.');
         var button = $('<div class="label droplet-toggle-button" style="cursor:pointer; margin: 1px 10px 4px 3px; min-height: 15px;">')
-                .text(useBlocksByDefault ? 'Blocks' : 'Text')
-                .insertBefore($(aceEditor.container.parentElement).find('.bar-status').find('.label').last());
+          .text(useBlocksByDefault ? 'Blocks' : 'Text')
+          .insertBefore($(aceEditor.container.parentElement).find('.bar-status').find('.label').last());
         var currentValue = aceEditor.getValue();
         var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
 
         button.click(function() {
-            dropletEditor.toggleBlocks();
-            useBlocksByDefault = dropletEditor.session.currentlyUsingBlocks;
-            settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
-            button.text(useBlocksByDefault ? 'Blocks' : 'Text');
+          dropletEditor.toggleBlocks();
+          useBlocksByDefault = dropletEditor.session.currentlyUsingBlocks;
+          settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
+          button.text(useBlocksByDefault ? 'Blocks' : 'Text');
         });
 
         dropletEditor.on('palettechange', function() {
@@ -209,8 +195,8 @@ define(function(require, exports, module) {
 
           e.session.on('changeMode', function(e) {
             if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
-             aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-             aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+              aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
+              aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
             } else {
               var option = lookupOptions(aceEditor.getSession().$modeId);
               if (option != null) {
@@ -231,7 +217,7 @@ define(function(require, exports, module) {
             var option = lookupOptions(aceEditor.getSession().$modeId);
             if (option != null) {
               aceEditor._dropletEditor.bindNewSession(option);
-           }
+            }
           }
         });
 
@@ -242,14 +228,12 @@ define(function(require, exports, module) {
             tab.editor.on('resize', function() {
               dropletEditor.resize();
             });
-            
+
             // Also hack to deal with document loading
             tab.editor.on('documentLoad', function(e) {
-                console.log('documentLoad fired');
-                e.doc.once('changed', function() {
-                    console.log('Change fired. Reloading value into the editor', e.doc.value);
-                    aceEditor._dropletEditor.setValueAsync(e.doc.value);
-                });
+              e.doc.once('changed', function() {
+                aceEditor._dropletEditor.setValueAsync(e.doc.value);
+              });
             });
           }
         });
