@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
-  var droplet = require('./droplet-full.js');
-  require('./jquery.min.js');
+  var droplet = require('./lib/droplet/droplet-full.js');
+  require('./lib/jquery.min.js');
   var $ = jQuery;
   var tooltipster = require('./tooltipster/dist/js/tooltipster.bundle.js');
 
@@ -108,9 +108,9 @@ define(function(require, exports, module) {
         linkElement.setAttribute('href', require.toUrl(mod));
         document.head.appendChild(linkElement);
       }
-      forceAddCss("./droplet.css");
+      forceAddCss("./lib/droplet/droplet.css");
       forceAddCss("./tooltipster/dist/css/tooltipster.bundle.min.css");
-      forceAddCss("./style.css");
+      forceAddCss("./css/style.css");
 
       useBlocksByDefault = settings.get("user/cs50/droplet/@useBlocksByDefault");
     }
@@ -127,7 +127,7 @@ define(function(require, exports, module) {
 
     /***** Methods *****/
 
-    var worker = createWorker('./worker.js');
+    var worker = createWorker('./lib/droplet/worker.js');
 
     function attachToAce(aceEditor) {
       if (!aceEditor._dropletEditor) {
