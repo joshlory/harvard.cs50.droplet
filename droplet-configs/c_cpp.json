@@ -3,7 +3,6 @@
   "viewSettings": {
     "padding": 10
   },
-  "showDropdownInPalette": true,
   "palette": [
     {
       "name": "Control Flow",
@@ -12,17 +11,17 @@
         {
           "block": "int main(void)\n{\n  \n}",
           "context": "externalDeclaration",
-          "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main method in order for your program executable\nto do anything when run.</p>\n"
+          "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run.</p>\n"
         },
         {
           "block": "int main(int n, char *args[])\n{\n  \n}",
           "context": "externalDeclaration",
-          "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main method in order for your program executable\nto do anything when run. This version knows how to accept command line arguments; there are <code>n</code> of them, stored in the variable <code>args</code>.</p>\n"
+          "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run. This version knows how to accept command line arguments; there are <code>n</code> of them, stored in the variable <code>args</code>.</p>\n"
         },
         {
           "block": "type function(void)\n{\n  \n}",
           "context": "externalDeclaration",
-          "title": "<p>method -- reusable procedure</p>\n<p>Defines a method accepting a <code>void</code> (no arguments) and returning\na <code>type</code>. The code inside <code>{ }</code> will not run at first, but will run every time\nyou call <code>function(arguments...)</code>. Use a <code>return</code> statement inside the method\nto pass information back to whoever called it.</p>\n"
+          "title": "<p>method -- reusable procedure</p>\n<p>Defines a method accepting a <code>void</code> (no arguments) and returning\na <code>type</code>. The code inside <code>{ }</code> will not run at      first, but will run every time\nyou call <code>function(arguments...)</code>. Use a <code>return</code> statement inside the method\nto pass information back to whoever called it.</p>\n"
         },
         {
           "block": "function(argument);",
@@ -37,7 +36,7 @@
         {
           "block": "if (a == b)\n{\n  \n}",
           "context": "blockItem",
-          "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
+          "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
           "block": "while (a < b)\n{\n  \n}",
@@ -47,7 +46,7 @@
         {
           "block": "for (int i = 0; i < n; i++)\n{\n  \n}",
           "context": "blockItem",
-          "title": "<p>for -- iterate over a range</p>\n<p>Repeats the code inside <code>{ }</code> <code>n</code> times. It does this by\nmaking a variable <code>i</code> which increases every repeition until it reaches\n<code>n</code>. You can use <code>i</code> inside the code to tell how many times the loop\nhas already run.</p>\n"
+          "title": "<p>for -- iterate over a range</p>\n<p>Repeats the code inside <code>{ }</code> <code>n</code> times. It does this by\nmaking a variable <code>i</code> which increases every repeition until   it reaches\n<code>n</code>. You can use <code>i</code> inside the code to tell how many times the loop\nhas already run.</p>\n"
         },
         {
           "block": "break;",
@@ -73,7 +72,7 @@
         {
           "block": "type *v = NULL;",
           "context": "blockItem",
-          "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. Hint: a string is <code>char*</code>.</p>\n"
+          "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. Hint: a string is <code>char*</     code>.</p>\n"
         },
         {
           "block": "a + b",
@@ -138,7 +137,7 @@
         {
           "block": "variable[i]",
           "context": "expression",
-          "title": "<p>pointer/array access</p>\n<p>Access the <code>i</code>th element of the array <code>variable</code>, or the <code>i</code>th thing after the pointer <code>variable</code>. Remember that indices start at <code>0</code>, not <code>1</code>!</p>\n"
+          "title": "<p>pointer/array access</p>\n<p>Access the <code>i</code>th element of the array <code>variable</code>, or the <code>i</code>th thing after the pointer <code>variable</code>. Remember that    indices start at <code>0</code>, not <code>1</code>!</p>\n"
         },
         {
           "block": "*variable",
@@ -159,7 +158,7 @@
         {
           "block": "typedef struct {\n  type structVariable;\n} myStruct;",
           "context": "externalDeclaration",
-          "title": "<p><code>struct</code> -- bundle together data</p>\n<p>A <code>struct</code> defines a package of data made up of a set of data fields. Each data field should be declared in the <code>{ }</code> like a variable."
+          "title": "<p><code>struct</code> -- bundle together data</p>\n<p>A <code>struct</code> defines a package of data made up of a set of data fields. Each data field should be declared in the <code>{ }</   code> like a variable."
         },
         {
           "block": "type structVariable;",
@@ -169,12 +168,12 @@
         {
           "block": "type v[len] = {0};",
           "context": "blockItem",
-          "title": "<p>declare an array</p>\n<p>Declare an array of type <code>type</code> and size <code>len</code> with name <code>v</code>. Arrays and pointers work much the same, except that arrays do not need to be allocated first, because they are automatically allocated when they are declared.</p>"
+          "title": "<p>declare an array</p>\n<p>Declare an array of type <code>type</code> and size <code>len</code> with name <code>v</code>. Arrays and pointers work much the same, except that arrays do not    need to be allocated first, because they are automatically allocated when they are declared.</p>"
         },
         {
           "block": "type *v = NULL;",
           "context": "blockItem",
-          "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. You will need to allocate memory for this pointer in order to use it.</p>\n"
+          "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. You will need to allocate memory    for this pointer in order to use it.</p>\n"
         },
         {
           "block": "myStruct.structVariable",
@@ -190,7 +189,7 @@
     },
     {
       "name": "cs50.h",
-      "color": "harvard",
+      "color": "blue",
       "blocks": [
         {
           "block": "#include <cs50.h>",
@@ -1214,792 +1213,1012 @@
           "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isalnum\" target=\"_blank\">isalnum</a> - checks if character is alphanumeric</p>\n<p>Checks if the given character is alphanumeric.</p>\n"
         }
       ]
+    },
+    {
+      "name": "stdarg.h",
+      "color": "blue",
+      "blocks": [
+        {
+          "block": "#include <stdarg.h>",
+          "context": "compilationUnit",
+          "title": "<p>Includes the header file for <code>stdarg.h</code>. You must put this\nin your program in order to use any of the <code>stdarg.h</code> blocks.</p>\n"
+        },
+        {
+          "block": "va_arg(ap, type);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_arg\" target=\"_blank\">va_arg</a> - variable argument lists</p>\n<p>The called function must declare an object of type _va<em>list</em> which is used by the macros va_start(), va_arg(), and va_end(). (<a href=\"https://reference.cs50.net/stdarg.h/va_arg\" target=\"_blank\">read more</a>)</p>\n"
+        },
+        {
+          "block": "va_copy(dest, src);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_copy\" target=\"_blank\">va_copy</a> - variable argument lists</p>\n<p>The va_copy() macro copies the (previously initialized) variable argument list <code>src</code> to <code>dest</code>. The behavior is as if va_start() were applied to <code>dest</code> with the same <em>last</em> argument, followed by the same number of va_arg() invocations that was used to reach the current state of <code>src</code>. (<a href=\"https://reference.cs50.net/stdarg.h/va_copy\" target=\"_blank\">read more</a>)</p>\n"
+        },
+        {
+          "block": "va_end(ap);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_end\" target=\"_blank\">va_end</a> - variable argument lists</p>\n<p>The called function must declare an object of type _va<em>list</em> which is used by the macros va_start(), va_arg(), and va_end(). (<a href=\"https://reference.cs50.net/stdarg.h/va_end\" target=\"_blank\">read more</a>)</p>\n"
+        },
+        {
+          "block": "va_start(ap, last);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdarg.h/va_start\" target=\"_blank\">va_start</a> - variable argument lists</p>\n<p>The called function must declare an object of type _va<em>list</em> which is used by the macros va_start(), va_arg(), and va_end(). (<a href=\"https://reference.cs50.net/stdarg.h/va_start\" target=\"_blank\">read more</a>)</p>\n"
+        }
+      ]
     }
   ],
   "modeOptions": {
     "functions": {
       "GetChar": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "GetChar();"
       },
       "GetDouble": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "GetDouble();"
       },
       "GetFloat": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "GetFloat();"
       },
       "GetInt": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "GetInt();"
       },
       "GetLongLong": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "GetLongLong();"
       },
       "GetString": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "GetString();"
       },
       "clearerr": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "clearerr(stream);"
       },
       "fclose": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fclose(fp);"
       },
       "feof": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "feof(fp);"
       },
       "ferror": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "ferror(stream);"
       },
       "fflush": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fflush(stream);"
       },
       "fgetc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fgetc(fp);"
       },
       "fgetpos": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fgetpos(stream, pos);"
       },
       "fgets": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fgets(s, i, fp);"
       },
       "fopen": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fopen(filename, mode);"
       },
       "fprintf": {
-        "minArgs": 2,
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fprintf(fp, format);"
       },
       "fputc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fputc(character, fp);"
       },
       "fputs": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fputs(s, fp);"
       },
       "fread": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fread(ptr, size, blocks, fp);"
       },
       "fscanf": {
-        "minArgs": 2,
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fscanf(fp, format);"
       },
       "fseek": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fseek(fp, offset, from_where);"
       },
       "fsetpos": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fsetpos(stream, pos);"
       },
       "ftell": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "ftell(stream);"
       },
       "fwrite": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fwrite(ptr, size, blocks, fp);"
       },
       "getc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "getc(stream);"
       },
       "getchar": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "getchar();"
       },
       "gets": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "gets(s);"
       },
       "perror": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "perror(s);"
       },
       "printf": {
-        "minArgs": 2,
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "printf(format);"
       },
       "putc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "putc(c, stream);"
       },
       "putchar": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "putchar(c);"
       },
       "puts": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "puts(s);"
       },
       "remove": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "remove(pathname);"
       },
       "rewind": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "rewind(stream);"
       },
       "scanf": {
-        "minArgs": 1,
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "scanf(format);"
       },
       "setbuf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "setbuf(stream, buf);"
       },
       "setvbuf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "setvbuf(stream, buf, mode, size);"
       },
       "snprintf": {
         "color": "blue",
         "shape": "block-only",
-        "minArgs": 3
+        "minArgs": 3,
+        "prototype": "snprintf(str, size, format, ___);"
       },
       "sprintf": {
-        "minArgs": 2,
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "sprintf(ptr, format);"
       },
       "sscanf": {
         "color": "blue",
         "shape": "block-only",
-        "minArgs": 2
+        "minArgs": 2,
+        "prototype": "sscanf(str, format, ___);"
       },
       "ungetc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "ungetc(c, stream);"
       },
       "vfprintf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "vfprintf(stream, format, ap);"
       },
       "vfscanf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "vfscanf(stream, format, ap);"
       },
       "vprintf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "vprintf(format, ap);"
       },
       "vscanf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "vscanf(format, ap);"
       },
       "vsnprintf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "vsnprintf(str, size, format, ap);"
       },
       "vsprintf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "vsprintf(str, format, ap);"
       },
       "vsscanf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "vsscanf(str, format, ap);"
       },
       "abort": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "abort();"
       },
       "abs": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "abs(j);"
       },
       "atexit": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "atexit(function);"
       },
       "atof": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "atof(nptr);"
       },
       "atoi": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "atoi(str);"
       },
       "atol": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "atol(nptr);"
       },
       "atoll": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "atoll(nptr);"
       },
       "bsearch": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "bsearch(key, base, nmemb, size, compar);"
       },
       "calloc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "calloc(items, size);"
       },
       "div": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "div(numerator, denominator);"
       },
       "drand48": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "drand48();"
       },
       "exit": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "exit(status);"
       },
       "free": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "free(ptr);"
       },
       "getenv": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "getenv(name);"
       },
       "labs": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "labs(j);"
       },
       "ldiv": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "ldiv(numerator, denominator);"
       },
       "llabs": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "llabs(j);"
       },
       "lldiv": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "lldiv(numerator, denominator);"
       },
       "malloc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "malloc(size);"
       },
       "mblen": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "mblen(s, n);"
       },
       "mbstowcs": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "mbstowcs(dest, src, n);"
       },
       "mbtowc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "mbtowc(pwc, s, n);"
       },
       "qsort": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "qsort(base, nmemb, size, compar);"
       },
       "rand": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "rand();"
       },
       "realloc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "realloc(ptr, size);"
       },
       "srand": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "srand(seed);"
       },
       "srand48": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "srand48(seedval);"
       },
       "strtod": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strtod(nptr, endptr);"
       },
       "strtof": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strtof(nptr, endptr);"
       },
       "strtol": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strtol(nptr, endptr, base);"
       },
       "strtold": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strtold(nptr, endptr);"
       },
       "strtoll": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strtoll(nptr, endptr, base);"
       },
       "strtoul": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strtoul(nptr, endptr, base);"
       },
       "strtoull": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strtoull(nptr, endptr, base);"
       },
       "system": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "system(command);"
       },
       "wcstombs": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "wcstombs(dest, src, n);"
       },
       "wctomb": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "wctomb(s, wc);"
       },
       "memchr": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "memchr(s, c, n);"
       },
       "memcmp": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "memcmp(s1, s2, n);"
       },
       "memcpy": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "memcpy(dest, src, n);"
       },
       "memmove": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "memmove(dest, src, n);"
       },
       "memset": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "memset(s, c, n);"
       },
       "strcat": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strcat(dest, src);"
       },
       "strchr": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strchr(s, c);"
       },
       "strcmp": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strcmp(str1, str2);"
       },
       "strcoll": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strcoll(s1, s2);"
       },
       "strcpy": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strcpy(destination, source);"
       },
       "strcspn": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strcspn(s, reject);"
       },
       "strerror": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strerror(errnum);"
       },
       "strlen": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strlen(str);"
       },
       "strncat": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strncat(dest, src, n);"
       },
       "strncmp": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strncmp(s1, s2, n);"
       },
       "strncpy": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strncpy(dest, src, n);"
       },
       "strpbrk": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strpbrk(s, accept);"
       },
       "strrchr": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strrchr(s, c);"
       },
       "strspn": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strspn(s, accept);"
       },
       "strstr": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strstr(haystack, needle);"
       },
       "strtok": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strtok(str, delim);"
       },
       "strxfrm": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strxfrm(dest, src, n);"
       },
       "acos": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "acos(x);"
       },
       "acosh": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "acosh(x);"
       },
       "asin": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "asin(x);"
       },
       "asinh": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "asinh(x);"
       },
       "atan": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "atan(x);"
       },
       "atan2": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "atan2(y, x);"
       },
       "atanh": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "atanh(x);"
       },
       "ceil": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "ceil(x);"
       },
       "copysign": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "copysign(x, y);"
       },
       "cos": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "cos(x);"
       },
       "cosh": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "cosh(x);"
       },
       "erf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "erf(x);"
       },
       "erfc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "erfc(x);"
       },
       "exp": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "exp(x);"
       },
       "exp2": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "exp2(x);"
       },
       "expm1": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "expm1(x);"
       },
       "fabs": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fabs(x);"
       },
       "fdim": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fdim(x, y);"
       },
       "floor": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "floor(x);"
       },
       "fma": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fma(x, y, z);"
       },
       "fmax": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fmax(x, y);"
       },
       "fmin": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fmin(x, y);"
       },
       "fmod": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fmod(x, y);"
       },
       "fpclassify": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "fpclassify(x);"
       },
       "frexp": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "frexp(x, exp);"
       },
       "ilogb": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "ilogb(x);"
       },
       "isfinite": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isfinite(x);"
       },
       "isgreater": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isgreater(x, y);"
       },
       "isgreaterequal": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isgreaterequal(x, y);"
       },
       "isinf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isinf(x);"
       },
       "isless": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isless(x, y);"
       },
       "islessequal": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "islessequal(x, y);"
       },
       "islessgreater": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "islessgreater(x, y);"
       },
       "isnan": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isnan(x);"
       },
       "isnormal": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isnormal(x);"
       },
       "isunordered": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isunordered(x, y);"
       },
       "ldexp": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "ldexp(x, exp);"
       },
       "llrint": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "llrint(x);"
       },
       "llround": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "llround(x);"
       },
       "log": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "log(x);"
       },
       "log10": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "log10(x);"
       },
       "log1p": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "log1p(x);"
       },
       "log2": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "log2(x);"
       },
       "logb": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "logb(x);"
       },
       "lrint": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "lrint(x);"
       },
       "lround": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "lround(x);"
       },
       "modf": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "modf(x, iptr);"
       },
       "nearbyint": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "nearbyint(x);"
       },
       "pow": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "pow(x, y);"
       },
       "remainder": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "remainder(x, y);"
       },
       "remquo": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "remquo(x, y, quo);"
       },
       "rint": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "rint(x);"
       },
       "round": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "round(x);"
       },
       "scalbln": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "scalbln(x, exp);"
       },
       "scalbn": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "scalbn(x, exp);"
       },
       "signbit": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "signbit(x);"
       },
       "sin": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "sin(x);"
       },
       "sinh": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "sinh(x);"
       },
       "sqrt": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "sqrt(x);"
       },
       "tan": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "tan(x);"
       },
       "tgamma": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "tgamma(x);"
       },
       "trunc": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "trunc(x);"
       },
       "asctime": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "asctime(tm);"
       },
       "clock": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "clock();"
       },
       "ctime": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "ctime(timep);"
       },
       "difftime": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "difftime(time1, time0);"
       },
       "mktime": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "mktime(tm);"
       },
       "strftime": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "strftime(s, max, format, tm);"
       },
       "time": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "time(tloc);"
       },
       "isalnum": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isalnum(c);"
       },
       "isalpha": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isalpha(c);"
       },
       "isblank": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isblank(c);"
       },
       "iscntrl": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "iscntrl(c);"
       },
       "isdigit": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isdigit(c);"
       },
       "isgraph": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isgraph(c);"
       },
       "islower": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "islower(c);"
       },
       "isprint": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isprint(c);"
       },
       "ispunct": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "ispunct(c);"
       },
       "isspace": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isspace(c);"
       },
       "isupper": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isupper(c);"
       },
       "isxdigit": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "isxdigit(c);"
       },
       "tolower": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "tolower(c);"
       },
       "toupper": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "toupper(c);"
       },
       "va_arg": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "va_arg(ap, type);"
       },
       "va_copy": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "va_copy(dest, src);"
       },
       "va_end": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "va_end(ap);"
       },
       "va_start": {
         "color": "blue",
-        "shape": "block-only"
+        "shape": "block-only",
+        "prototype": "va_start(ap, last);"
       }
     }
   }
