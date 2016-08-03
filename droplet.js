@@ -121,7 +121,7 @@ define(function(require, exports, module) {
 					document.head.appendChild(linkElement);
 				}
 				forceAddCss("./lib/droplet/droplet.css");
-				forceAddCss("./tooltipster/dist/css/tooltipster.bundle.min.css");
+				forceAddCss("./lib/tooltipster/dist/css/tooltipster.bundle.min.css");
 				forceAddCss("./css/style.css");
 
 				// Load user setting for whether to open new files
