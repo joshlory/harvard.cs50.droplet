@@ -88,7 +88,7 @@ define(function(require, exports, module) {
 
 			settings.on("read", function() {
 					settings.setDefaults("user/cs50/droplet", [
-						["useBlocksByDefault", true]
+						["useBlocksByDefault", false]
 						]);
 					});
 
@@ -283,6 +283,9 @@ tabManager.getTabs().forEach(function(tab) {
 			});
 
 		tab.editor.on('documentLoad', function(e) {
+			if (e.doc.value != "")
+				return aceEditor._dropletEditor.setValueAsync(e.doc.value);
+
 			e.doc.once('changed', function() {
 				aceEditor._dropletEditor.setValueAsync(e.doc.value);
 				});
