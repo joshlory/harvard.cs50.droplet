@@ -88,7 +88,7 @@ define(function(require, exports, module) {
 
 			settings.on("read", function() {
 					settings.setDefaults("user/cs50/droplet", [
-						["useBlocksByDefault", true]
+						["useBlocksByDefault", false]
 						]);
 					});
 
