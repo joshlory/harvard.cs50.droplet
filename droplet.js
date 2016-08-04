@@ -283,6 +283,9 @@ tabManager.getTabs().forEach(function(tab) {
 			});
 
 		tab.editor.on('documentLoad', function(e) {
+			if (e.doc.value != "")
+				return aceEditor._dropletEditor.setValueAsync(e.doc.value);
+
 			e.doc.once('changed', function() {
 				aceEditor._dropletEditor.setValueAsync(e.doc.value);
 				});
