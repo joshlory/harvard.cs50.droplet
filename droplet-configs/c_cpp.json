@@ -1,8 +1,8 @@
-{
+({
   "mode": "c_cpp",
-  "showDropdownInPalette": true,
   "viewSettings": {
-    "padding": 10
+    "padding": 10,
+    "textPadding": 5
   },
   "palette": [
     {
@@ -446,6 +446,17 @@
     }
   ],
   "modeOptions": {
+    "categories": {
+        "value": "#94c096",
+        "assign": "#f3a55d",
+        "declaration": "#f3a55d",
+        "control": "#ecc35b",
+        "function": "#b593e6",
+        "functionCall": "#889ee3",
+        "logic": "#6fc2eb",
+        "type": "#f3a55d",
+        "return": "#b593e6"
+    },
     "functions": {
       "GetChar": {
         "color": "blue",
@@ -1421,4 +1432,4 @@
       }
     }
   }
-}
+})
