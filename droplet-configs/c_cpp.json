@@ -133,7 +133,7 @@
         {
           "block": "sizeof(type)",
           "context": "expression",
-          "title": "<p>get the size of a type -- (TODO WRITEME)</p>"
+          "title": "<p>sizeof</p>\n<p>Get the size of a type in bytes. Most commonly used in <code>malloc(sizeof(type))</code> to allocate memory for a pointer to a specific type.</p>"
         }
       ]
     },
