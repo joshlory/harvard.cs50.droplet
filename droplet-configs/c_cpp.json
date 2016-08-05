@@ -10,27 +10,27 @@
       "color": "orange",
       "blocks": [
         {
-          "block": "if (test)\n{\n  \n}",
+          "block": "if (condition)\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "if (test)\n{\n  \n}\nelse\n{\n  \n}",
+          "block": "if (condition)\n{\n  \n}\nelse\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "if (test)\n{\n  \n}\nelse if (a == c)\n{\n  \n}",
+          "block": "if (condition)\n{\n  \n}\nelse if (a == c)\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "while (test)\n{\n  \n}",
+          "block": "while (condition)\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>while -- do something repeatedly</p>\n<p>Repeatedly executes the code inside <code>{ }</code> until the condition\ninside the parentheses <code>( )</code> is false.</p>\n"
         },
         {
-          "block": "for (int i = 0; i < n; i++)\n{\n  \n}",
+          "block": "for (type variable; condition; update) n{\n  \n}",
           "context": "blockItem",
           "title": "<p>for -- iterate over a range</p>\n<p>Repeats the code inside <code>{ }</code> <code>n</code> times. It does this by\nmaking a variable <code>i</code> which increases every repeition until   it reaches\n<code>n</code>. You can use <code>i</code> inside the code to tell how many times the loop\nhas already run.</p>\n"
         },
@@ -40,12 +40,12 @@
           "title": "<p>Break out of a loop before it finishes.</p>\n"
         },
         {
-            "block": "switch (var)\n{\n  case 1:\n    break;\n}",
+            "block": "switch (variable)\n{\n  case 1:\n    break;\n}",
             "context": "blockItem",
             "title": "switch (TODO WRITE ME)"
         },
         {
-            "block": "switch (var)\n{\n  case 1:\n    break;\n  default:\n   break;\n}",
+            "block": "switch (variable)\n{\n  case 1:\n    break;\n  default:\n   break;\n}",
             "context": "blockItem",
             "title": "switch with default (TODO WRITE ME)"
         }
@@ -157,7 +157,7 @@
           "title": "<p>reassign a variable</p>\n<p>Assign a new value <code>value</code> to the variable with name <code>variable</code>. You must\ndeclare your variable before you can do this.</p>\n"
         },
         {
-          "block": "malloc(sizeof(type))",
+          "block": "malloc(size)",
           "context": "expression",
           "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/malloc\" target=\"_blank\">malloc</a> - allocate memory</p>\n<p>Allocate <code>size</code> bytes of memory. Unlike <code>calloc</code>, <code>malloc</code> will not pre-set all\nallocated memory to zero.</p>\n"
         },
