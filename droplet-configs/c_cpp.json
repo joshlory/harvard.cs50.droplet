@@ -10,32 +10,17 @@
       "color": "orange",
       "blocks": [
         {
-          "block": "int main(void)\n{\n  \n}",
-          "context": "externalDeclaration",
-          "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run.</p>\n"
-        },
-        {
-          "block": "int main(int n, char *args[])\n{\n  \n}",
-          "context": "externalDeclaration",
-          "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run. This version knows how to accept command line arguments; there are <code>n</code> of them, stored in the variable <code>args</code>.</p>\n"
-        },
-        {
-          "block": "type function(void)\n{\n  \n}",
-          "context": "externalDeclaration",
-          "title": "<p>method -- reusable procedure</p>\n<p>Defines a method accepting a <code>void</code> (no arguments) and returning\na <code>type</code>. The code inside <code>{ }</code> will not run at      first, but will run every time\nyou call <code>function(arguments...)</code>. Use a <code>return</code> statement inside the method\nto pass information back to whoever called it.</p>\n"
-        },
-        {
-          "block": "function(argument);",
-          "context": "blockItem",
-          "title": "<p>A method call.</p>\n"
-        },
-        {
-          "block": "return 0;",
-          "context": "blockItem",
-          "title": "<p>return -- give value back from procedure</p>\n<p>A return statement. Use this inside a method\nto pass information back to whoever called it.</p>\n"
-        },
-        {
           "block": "if (a == b)\n{\n  \n}",
+          "context": "blockItem",
+          "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
+        },
+        {
+          "block": "if (a == b)\n{\n  \n}\nelse\n{\n  \n}",
+          "context": "blockItem",
+          "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
+        },
+        {
+          "block": "if (a == b)\n{\n  \n}\nelse if (a == c)\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
@@ -53,6 +38,16 @@
           "block": "break;",
           "context": "blockItem",
           "title": "<p>Break out of a loop before it finishes.</p>\n"
+        },
+        {
+            "block": "switch (var)\n{\n  case a:\n    break;\n}",
+            "context": "blockItem",
+            "title": "switch (TODO WRITE ME)"
+        },
+        {
+            "block": "switch (var)\n{\n  case a:\n    break;\n  default:\n   break;\n}",
+            "context": "blockItem",
+            "title": "switch with default (TODO WRITE ME)"
         }
       ]
     },
@@ -60,21 +55,6 @@
       "name": "Operations",
       "color": "green",
       "blocks": [
-        {
-          "block": "type variable = 0;",
-          "context": "blockItem",
-          "title": "<p>declare a variable</p>\n<p>Declare a variable of type <code>type</code> and name <code>variable</code> with an\ninitial value of <code>0</code>.</p>\n"
-        },
-        {
-          "block": "variable = value;",
-          "context": "blockItem",
-          "title": "<p>reassign a variable</p>\n<p>Assign a new value <code>value</code> to the variable with name <code>variable</code>. You must\ndeclare your variable before you can do this.</p>\n"
-        },
-        {
-          "block": "type *v = NULL;",
-          "context": "blockItem",
-          "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. Hint: a string is <code>char*</     code>.</p>\n"
-        },
         {
           "block": "a + b",
           "context": "expression",
@@ -157,22 +137,37 @@
       "color": "droplet-palette-data",
       "blocks": [
         {
+          "block": "type variable = 0;",
+          "context": "blockItem",
+          "title": "<p>declare a variable</p>\n<p>Declare a variable of type <code>type</code> and name <code>variable</code> with an\ninitial value of <code>0</code>.</p>\n"
+        },
+        {
+          "block": "type *v = NULL;",
+          "context": "blockItem",
+          "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. Hint: a string is <code>char*</     code>.</p>\n"
+        },
+        {
           "block": "type v[len] = {0};",
           "context": "blockItem",
           "title": "<p>declare an array</p>\n<p>Declare an array of type <code>type</code> and size <code>len</code> with name <code>v</code>. Arrays and pointers work much the same, except that arrays do not    need to be allocated first, because they are automatically allocated when they are declared.</p>"
         },
         {
-          "block": "type *v = NULL;",
+          "block": "variable = value;",
           "context": "blockItem",
-          "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. You will need to allocate memory    for this pointer in order to use it.</p>\n"
+          "title": "<p>reassign a variable</p>\n<p>Assign a new value <code>value</code> to the variable with name <code>variable</code>. You must\ndeclare your variable before you can do this.</p>\n"
         },
         {
-          "block": "(type*)calloc(length, sizeof(type))",
+          "block": "malloc(sizeof(type))",
           "context": "expression",
-          "title": "<p>allocate memory for a pointer</p>\n<p>Allocates enough space to store <code>length</code> items of type <code>type</code>, filling it with zeroes to start.</p>"
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/malloc\" target=\"_blank\">malloc</a> - allocate memory</p>\n<p>Allocate <code>size</code> bytes of memory. Unlike <code>calloc</code>, <code>malloc</code> will not pre-set all\nallocated memory to zero.</p>\n"
         },
         {
-          "block": "typedef struct {\n  type structVariable;\n} myStruct;",
+          "block": "calloc(length, sizeof(type))",
+          "context": "expression",
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/calloc\" target=\"_blank\">calloc</a> - allocate memory and set it to zero</p>\n<p><code>calloc</code> allocates the requested memory and sets it all to zero. So, it will\nallocate  <code>size</code> bytes <code>items</code> number of times. For example, if <code>size</code> is\n4 bytes, and <code>items</code> 10, then <code>calloc</code> will allocate a total of 40 bytes. \nThis differs from <code>malloc</code> which doesn&#39;t set the memory to zero.</p>\n"
+        },
+        {
+          "block": "typedef struct\n{\n  type structVariable;\n}\nmyStruct;",
           "context": "externalDeclaration",
           "title": "<p><code>struct</code> -- bundle together data</p>\n<p>A <code>struct</code> defines a package of data made up of a set of data fields. Each data field should be declared in the <code>{ }</   code> like a variable."
         },
@@ -193,34 +188,44 @@
       "color": "blue",
       "blocks": [
         {
-          "block": "GetChar();",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetChar\" target=\"_blank\">GetChar</a> - returns a char from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>char</code>; if text does not represent a <code>char</code>, user is \nprompted to retry. Leading and trailing whitespace is ignored. If line can&#39;t be read, returns <code>CHAR_MAX</code>.</p>\n"
+          "block": "int main(void)\n{\n  \n}",
+          "context": "externalDeclaration",
+          "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run.</p>\n"
         },
         {
-          "block": "GetDouble();",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetDouble\" target=\"_blank\">GetDouble</a> - returns a double from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>double</code> as precisely as possible; if text does not \nrepresent a <code>double</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected. If line can&#39;t be read, returns <code>DBL_MAX</code>.</p>\n"
+          "block": "int main(int n, char *args[])\n{\n  \n}",
+          "context": "externalDeclaration",
+          "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run. This version knows how to accept command line arguments; there are <code>n</code> of them, stored in the variable <code>args</code>.</p>\n"
         },
         {
-          "block": "GetFloat();",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetFloat\" target=\"_blank\">GetFloat</a> - returns a float from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>float</code> as precisely as possible; if text does not \nrepresent a <code>float</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected.  If line can&#39;t be read, returns <code>FLT_MAX</code>.</p>\n"
+          "block": "type function(void)\n{\n  \n}",
+          "context": "externalDeclaration",
+          "title": "<p>method -- reusable procedure</p>\n<p>Defines a method accepting a <code>void</code> (no arguments) and returning\na <code>type</code>. The code inside <code>{ }</code> will not run at      first, but will run every time\nyou call <code>function(arguments...)</code>. Use a <code>return</code> statement inside the method\nto pass information back to whoever called it.</p>\n"
         },
         {
-          "block": "GetInt();",
+          "block": "function(argument);",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetInt\" target=\"_blank\">GetInt</a> - returns an int from stdin</p>\n<p>Reads a line of text from standard input and returns it as an <code>int</code> in the range of [-2^31^ + 1, 2^31^ - 2], if possible; \nif text does not represent such an <code>int</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For \nsimplicity, overflow is not detected. If line can&#39;t be read, returns <code>INT_MAX</code>.</p>\n"
+          "title": "<p>A method call.</p>\n"
         },
         {
-          "block": "GetLongLong();",
+          "block": "atoi(str);",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetLongLong\" target=\"_blank\">GetLongLong</a> - returns a long long from stdin</p>\n<p>Reads a line of text from standard input and returns an equivalent <code>long long</code> in the range [-2^63^ + 1, 2^63^ - 2], if \npossible; if text does not represent such a <code>long long</code>, user is prompted to retry. Leading and trailing whitespace is \nignored. For simplicity, overflow is not detected. If line can&#39;t be read, returns <code>LLONG_MAX</code>.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/atoi\" target=\"_blank\">atoi</a> - convert a string to an integer</p>\n<p>Use to convert some string <code>str</code> to an integer.</p>\n"
         },
         {
-          "block": "GetString();",
+          "block": "calloc(items, size);",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetString\" target=\"_blank\">GetString</a> - returns a string from stdin</p>\n<p>Reads a line of text from standard input and returns it as a <code>string</code> (<code>char *</code>), sans trailing newline character. (Ergo, \nif user inputs only <code>&quot;\\n&quot;</code>, returns &quot;&quot; not <code>NULL</code>.)  Returns <code>NULL</code> upon error or no input whatsoever (i.e., just <code>EOF</code>). \nLeading and trailing whitespace is not ignored. Stores <code>string</code> on heap (via <code>malloc</code>); memory must be freed by caller to \navoid leak.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/calloc\" target=\"_blank\">calloc</a> - allocate memory and set it to zero</p>\n<p><code>calloc</code> allocates the requested memory and sets it all to zero. So, it will\nallocate  <code>size</code> bytes <code>items</code> number of times. For example, if <code>size</code> is\n4 bytes, and <code>items</code> 10, then <code>calloc</code> will allocate a total of 40 bytes. \nThis differs from <code>malloc</code> which doesn&#39;t set the memory to zero.</p>\n"
+        },
+        {
+          "block": "ceil(x);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/math.h/ceil\" target=\"_blank\">ceil</a> - rounds up value</p>\n<p>Rounds <code>x</code> upward.</p>\n"
+        },
+        {
+          "block": "drand48();",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/drand48\" target=\"_blank\">drand48</a> - returns a pseudorandom integer using 48-bit integer arithmetic</p>\n<p>The function <code>drand48()</code> returns a pseudorandom non-negative double-precision floating-point value over the interval [0.0, 1.0).</p>\n"
         },
         {
           "block": "fclose(fp);",
@@ -241,6 +246,11 @@
           "block": "fgets(s, i, fp);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fgets\" target=\"_blank\">fgets</a> - get the next string from a file</p>\n<p><code>fgets</code> reads in, at most, <code>i</code> characters from file <code>fp</code>, storing them \ntemporarily in buffer <code>s</code>.</p>\n"
+        },
+        {
+          "block": "floor(x);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/math.h/floor\" target=\"_blank\">floor</a> - rounds down value</p>\n<p>Rounds <code>x</code> down.</p>\n"
         },
         {
           "block": "fopen(filename, mode);",
@@ -268,6 +278,11 @@
           "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fread\" target=\"_blank\">fread</a> - read from a file</p>\n<p><code>fread</code> reads in from file <code>fp</code> an element of <code>size</code> bytes <code>blocks</code> number of\ntimes. So, for example, if <code>size</code> is 50 and <code>blocks</code> 10, then <code>fread</code> will read\nin from <code>fp</code> 10 times, each time reading in 50 bytes (for a total of 500 bytes).\nOn each <code>fread</code>, it will store the bytes in a buffer pointer to by <code>ptr</code>.</p>\n"
         },
         {
+          "block": "free(ptr);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/free\" target=\"_blank\">free</a> - free dynamically allocated memory</p>\n<p>Free takes a pointer to a block of memory on the heap and frees it for future\nuse. Whenever you dynamically allocate memory with something like <code>calloc</code>, \n<code>malloc</code>,or <code>realloc</code>, you have to, when done with the memory, <code>free</code> it. \nOtherwise, you&#39;ll end up with memory leaks.</p>\n"
+        },
+        {
           "block": "fscanf(fp, format);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fscanf\" target=\"_blank\">fscanf</a> - read in a formatted string</p>\n<p><code>fscanf</code> reads in from file <code>fp</code> input that matches <code>format</code>.</p>\n"
@@ -283,94 +298,34 @@
           "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fwrite\" target=\"_blank\">fwrite</a> - write to a file</p>\n<p>Similar to <code>fread</code>, <code>fwrite</code> writes out to file <code>fp</code> an element of <code>size</code> bytes \n<code>blocks</code> number of times. So, for example, if <code>size</code> is 50 and <code>blocks</code> 10, then \n<code>fwrite</code> will write to <code>fp</code> 10 times, each time a &quot;chunk&quot; of 50 bytes (for a total \nof 500 bytes). On each <code>fwrite</code>, it will write from the buffer pointer to by <code>ptr</code>.</p>\n"
         },
         {
-          "block": "printf(format);",
+          "block": "get_char();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/printf\" target=\"_blank\">printf</a> - prints to stdout</p>\n<p><code>printf</code> prints some formatted output to <code>stdout</code> (your computer terminal).\nYou specify the format with a <code>%</code> followed by a <code>c</code> for a character, <code>d</code> for\na digit, and <code>s</code> for a string. There are a number of other identifiers, the\naformentioned, however, are the most used. (<a href=\"https://reference.cs50.net/stdio.h/printf\" target=\"_blank\">read more</a>)</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetChar\" target=\"_blank\">GetChar</a> - returns a char from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>char</code>; if text does not represent a <code>char</code>, user is \nprompted to retry. Leading and trailing whitespace is ignored. If line can&#39;t be read, returns <code>CHAR_MAX</code>.</p>\n"
         },
         {
-          "block": "scanf(format);",
+          "block": "get_double();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/scanf\" target=\"_blank\">scanf</a> - read in a formatted string from stdin</p>\n<p><code>scanf</code> reads in from <code>stdin</code> (usually your keyboard) input that matches \n<code>format</code>. Notice, this function is almost identical to <code>fscanf</code> except it \nis missing the first argument <code>FILE* fp</code>. This is because <code>scanf</code> just assumes \nthe input is going to be coming from the keyboard. (<a href=\"https://reference.cs50.net/stdio.h/scanf\" target=\"_blank\">read more</a>)</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetDouble\" target=\"_blank\">GetDouble</a> - returns a double from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>double</code> as precisely as possible; if text does not \nrepresent a <code>double</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected. If line can&#39;t be read, returns <code>DBL_MAX</code>.</p>\n"
         },
         {
-          "block": "sprintf(ptr, format);",
+          "block": "get_float();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/sprintf\" target=\"_blank\">sprintf</a> - send formatted output to a string</p>\n<p><code>sprintf</code> stores in <code>ptr</code> a string formatted along the lines of <code>format</code>.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetFloat\" target=\"_blank\">GetFloat</a> - returns a float from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>float</code> as precisely as possible; if text does not \nrepresent a <code>float</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected.  If line can&#39;t be read, returns <code>FLT_MAX</code>.</p>\n"
         },
         {
-          "block": "atoi(str);",
+          "block": "get_int();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/atoi\" target=\"_blank\">atoi</a> - convert a string to an integer</p>\n<p>Use to convert some string <code>str</code> to an integer.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetInt\" target=\"_blank\">GetInt</a> - returns an int from stdin</p>\n<p>Reads a line of text from standard input and returns it as an <code>int</code> in the range of [-2^31^ + 1, 2^31^ - 2], if possible; \nif text does not represent such an <code>int</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For \nsimplicity, overflow is not detected. If line can&#39;t be read, returns <code>INT_MAX</code>.</p>\n"
         },
         {
-          "block": "calloc(items, size);",
+          "block": "get_long_long();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/calloc\" target=\"_blank\">calloc</a> - allocate memory and set it to zero</p>\n<p><code>calloc</code> allocates the requested memory and sets it all to zero. So, it will\nallocate  <code>size</code> bytes <code>items</code> number of times. For example, if <code>size</code> is\n4 bytes, and <code>items</code> 10, then <code>calloc</code> will allocate a total of 40 bytes. \nThis differs from <code>malloc</code> which doesn&#39;t set the memory to zero.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetLongLong\" target=\"_blank\">GetLongLong</a> - returns a long long from stdin</p>\n<p>Reads a line of text from standard input and returns an equivalent <code>long long</code> in the range [-2^63^ + 1, 2^63^ - 2], if \npossible; if text does not represent such a <code>long long</code>, user is prompted to retry. Leading and trailing whitespace is \nignored. For simplicity, overflow is not detected. If line can&#39;t be read, returns <code>LLONG_MAX</code>.</p>\n"
         },
         {
-          "block": "drand48();",
+          "block": "get_string();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/drand48\" target=\"_blank\">drand48</a> - returns a pseudorandom integer using 48-bit integer arithmetic</p>\n<p>The function <code>drand48()</code> returns a pseudorandom non-negative double-precision floating-point value over the interval [0.0, 1.0).</p>\n"
-        },
-        {
-          "block": "free(ptr);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/free\" target=\"_blank\">free</a> - free dynamically allocated memory</p>\n<p>Free takes a pointer to a block of memory on the heap and frees it for future\nuse. Whenever you dynamically allocate memory with something like <code>calloc</code>, \n<code>malloc</code>,or <code>realloc</code>, you have to, when done with the memory, <code>free</code> it. \nOtherwise, you&#39;ll end up with memory leaks.</p>\n"
-        },
-        {
-          "block": "malloc(size);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/malloc\" target=\"_blank\">malloc</a> - allocate memory</p>\n<p>Allocate <code>size</code> bytes of memory. Unlike <code>calloc</code>, <code>malloc</code> will not pre-set all\nallocated memory to zero.</p>\n"
-        },
-        {
-          "block": "rand();",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/rand\" target=\"_blank\">rand</a> - returns a pseudorandom integer</p>\n<p>The function rand() returns a pseudorandom integer between zero and RAND_MAX.</p>\n"
-        },
-        {
-          "block": "realloc(ptr, size);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/realloc\" target=\"_blank\">realloc</a> - reallocate memory previously allocated</p>\n<p>Reallocate memory that was previously allocated with <code>calloc</code> or <code>malloc</code>. You\ntake the memory block pointed to by <code>ptr</code> and give it a new <code>size</code>.</p>\n"
-        },
-        {
-          "block": "srand(seed);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/srand\" target=\"_blank\">srand</a> - seed the pseudorandom generator <code>rand</code></p>\n<p>The thing about the function <code>rand</code> is it will generate a &quot;random&quot; integer,\nhowever, if you seed it with the same number, you will get the same &quot;random&quot;\nsequence of numbers. Therefore, we want to seed <code>rand</code> with something that\nalways changes. Often, it makes sense to seed <code>rand</code> with <code>time</code>, as it\nis a variable that will always be changing. We seed the <code>rand</code> function with\n<code>srand</code>.</p>\n"
-        },
-        {
-          "block": "srand48(seedval);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/srand48\" target=\"_blank\">srand48</a> - seeds the pseudorandom generator drand48()</p>\n<p>The function <code>srand48()</code> is used to seed, or initialize, the internal buffer of functions such as <code>drand48()</code>. You normally seed <code>drand48()</code> with \nsomething like <code>time(NULL)</code> since this value will always change. If you were to simply call <code>drand48()</code> without seeding it, you&#39;d get the same string\nof &#39;random&#39; doubles back.</p>\n"
-        },
-        {
-          "block": "strcmp(str1, str2);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/string.h/strcmp\" target=\"_blank\">strcmp</a> - compare two strings</p>\n<p><code>strcmp</code> compares two strings: <code>str1</code> and <code>str2</code>.</p>\n"
-        },
-        {
-          "block": "strcpy(destination, source);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/string.h/strcpy\" target=\"_blank\">strcpy</a> - copy a string</p>\n<p><code>strcpy</code> copys string <code>source</code> into string <code>destination</code>.</p>\n"
-        },
-        {
-          "block": "strlen(str);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/string.h/strlen\" target=\"_blank\">strlen</a> - return length of a string</p>\n<p>Return the length of a string.</p>\n"
-        },
-        {
-          "block": "ceil(x);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/math.h/ceil\" target=\"_blank\">ceil</a> - rounds up value</p>\n<p>Rounds <code>x</code> upward.</p>\n"
-        },
-        {
-          "block": "floor(x);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/math.h/floor\" target=\"_blank\">floor</a> - rounds down value</p>\n<p>Rounds <code>x</code> down.</p>\n"
-        },
-        {
-          "block": "round(x);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/math.h/round\" target=\"_blank\">round</a> - rounds value</p>\n<p>Rounds the <code>double</code> <code>x</code> to the nearest integer value.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetString\" target=\"_blank\">GetString</a> - returns a string from stdin</p>\n<p>Reads a line of text from standard input and returns it as a <code>string</code> (<code>char *</code>), sans trailing newline character. (Ergo, \nif user inputs only <code>&quot;\\n&quot;</code>, returns &quot;&quot; not <code>NULL</code>.)  Returns <code>NULL</code> upon error or no input whatsoever (i.e., just <code>EOF</code>). \nLeading and trailing whitespace is not ignored. Stores <code>string</code> on heap (via <code>malloc</code>); memory must be freed by caller to \navoid leak.</p>\n"
         },
         {
           "block": "isalnum(c);",
@@ -431,6 +386,66 @@
           "block": "isxdigit(c);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isxdigit\" target=\"_blank\">isxdigit</a> - checks if character is hexadecimal</p>\n<p>Checks if the given character is a hexadecimal digit. (<a href=\"https://reference.cs50.net/ctype.h/isxdigit\" target=\"_blank\">read more</a>)</p>\n"
+        },
+        {
+          "block": "malloc(size);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/malloc\" target=\"_blank\">malloc</a> - allocate memory</p>\n<p>Allocate <code>size</code> bytes of memory. Unlike <code>calloc</code>, <code>malloc</code> will not pre-set all\nallocated memory to zero.</p>\n"
+        },
+        {
+          "block": "printf(format);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/printf\" target=\"_blank\">printf</a> - prints to stdout</p>\n<p><code>printf</code> prints some formatted output to <code>stdout</code> (your computer terminal).\nYou specify the format with a <code>%</code> followed by a <code>c</code> for a character, <code>d</code> for\na digit, and <code>s</code> for a string. There are a number of other identifiers, the\naformentioned, however, are the most used. (<a href=\"https://reference.cs50.net/stdio.h/printf\" target=\"_blank\">read more</a>)</p>\n"
+        },
+        {
+          "block": "rand();",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/rand\" target=\"_blank\">rand</a> - returns a pseudorandom integer</p>\n<p>The function rand() returns a pseudorandom integer between zero and RAND_MAX.</p>\n"
+        },
+        {
+          "block": "realloc(ptr, size);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/realloc\" target=\"_blank\">realloc</a> - reallocate memory previously allocated</p>\n<p>Reallocate memory that was previously allocated with <code>calloc</code> or <code>malloc</code>. You\ntake the memory block pointed to by <code>ptr</code> and give it a new <code>size</code>.</p>\n"
+        },
+        {
+          "block": "round(x);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/math.h/round\" target=\"_blank\">round</a> - rounds value</p>\n<p>Rounds the <code>double</code> <code>x</code> to the nearest integer value.</p>\n"
+        },
+        {
+          "block": "scanf(format);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/scanf\" target=\"_blank\">scanf</a> - read in a formatted string from stdin</p>\n<p><code>scanf</code> reads in from <code>stdin</code> (usually your keyboard) input that matches \n<code>format</code>. Notice, this function is almost identical to <code>fscanf</code> except it \nis missing the first argument <code>FILE* fp</code>. This is because <code>scanf</code> just assumes \nthe input is going to be coming from the keyboard. (<a href=\"https://reference.cs50.net/stdio.h/scanf\" target=\"_blank\">read more</a>)</p>\n"
+        },
+        {
+          "block": "sprintf(ptr, format);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/sprintf\" target=\"_blank\">sprintf</a> - send formatted output to a string</p>\n<p><code>sprintf</code> stores in <code>ptr</code> a string formatted along the lines of <code>format</code>.</p>\n"
+        },
+        {
+          "block": "srand(seed);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/srand\" target=\"_blank\">srand</a> - seed the pseudorandom generator <code>rand</code></p>\n<p>The thing about the function <code>rand</code> is it will generate a &quot;random&quot; integer,\nhowever, if you seed it with the same number, you will get the same &quot;random&quot;\nsequence of numbers. Therefore, we want to seed <code>rand</code> with something that\nalways changes. Often, it makes sense to seed <code>rand</code> with <code>time</code>, as it\nis a variable that will always be changing. We seed the <code>rand</code> function with\n<code>srand</code>.</p>\n"
+        },
+        {
+          "block": "srand48(seedval);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/srand48\" target=\"_blank\">srand48</a> - seeds the pseudorandom generator drand48()</p>\n<p>The function <code>srand48()</code> is used to seed, or initialize, the internal buffer of functions such as <code>drand48()</code>. You normally seed <code>drand48()</code> with \nsomething like <code>time(NULL)</code> since this value will always change. If you were to simply call <code>drand48()</code> without seeding it, you&#39;d get the same string\nof &#39;random&#39; doubles back.</p>\n"
+        },
+        {
+          "block": "strcmp(str1, str2);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/string.h/strcmp\" target=\"_blank\">strcmp</a> - compare two strings</p>\n<p><code>strcmp</code> compares two strings: <code>str1</code> and <code>str2</code>.</p>\n"
+        },
+        {
+          "block": "strcpy(destination, source);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/string.h/strcpy\" target=\"_blank\">strcpy</a> - copy a string</p>\n<p><code>strcpy</code> copys string <code>source</code> into string <code>destination</code>.</p>\n"
+        },
+        {
+          "block": "strlen(str);",
+          "context": "blockItem",
+          "title": "<p><a href=\"https://reference.cs50.net/string.h/strlen\" target=\"_blank\">strlen</a> - return length of a string</p>\n<p>Return the length of a string.</p>\n"
         },
         {
           "block": "tolower(c);",
