@@ -469,7 +469,7 @@
       "color": "purple",
       "blocks": [
         {
-          "block": "#include <header.h>"
+          "block": "#include <header.h>",
           "context": "externalDeclaration",
           "title": "<p><code>#include</code> -- include library files</p>\n<p>Put this at the top of your program to include the necessary files to use a library. Examples: <code>#include &lt;stdio.h&gt;</code> or <code>#include &lt;cs50.h&gt;</code></p>"
         },
