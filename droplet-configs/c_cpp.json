@@ -30,7 +30,7 @@
           "title": "<p>while -- do something repeatedly</p>\n<p>Repeatedly executes the code inside <code>{ }</code> until the condition\ninside the parentheses <code>( )</code> is false.</p>\n"
         },
         {
-          "block": "for (type variable; condition; update)\n{\n  \n}",
+          "block": "for (type variable = init; condition; update)\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>for -- iterate over a range</p>\n<p>Repeats the code inside <code>{ }</code> <code>n</code> times. It does this by\nmaking a variable <code>i</code> which increases every repeition until   it reaches\n<code>n</code>. You can use <code>i</code> inside the code to tell how many times the loop\nhas already run.</p>\n"
         },
