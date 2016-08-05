@@ -584,7 +584,8 @@
       "fprintf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "fprintf(fp, format);"
+        "prototype": "fprintf(fp, format);",
+        "minArgs": 2
       },
       "fputc": {
         "color": "blue",
@@ -604,7 +605,8 @@
       "fscanf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "fscanf(fp, format);"
+        "prototype": "fscanf(fp, format);",
+        "minArgs": 2
       },
       "fseek": {
         "color": "blue",
@@ -649,7 +651,8 @@
       "printf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "printf(format);"
+        "prototype": "printf(format);",
+        "minArgs": 1
       },
       "putc": {
         "color": "blue",
@@ -679,7 +682,8 @@
       "scanf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "scanf(format);"
+        "prototype": "scanf(format);",
+        "minArgs": 1
       },
       "setbuf": {
         "color": "blue",
@@ -694,19 +698,20 @@
       "snprintf": {
         "color": "blue",
         "shape": "block-only",
-        "minArgs": 3,
-        "prototype": "snprintf(str, size, format, ___);"
+        "prototype": "snprintf(str, size, format);",
+        "minArgs": 3
       },
       "sprintf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "sprintf(ptr, format);"
+        "prototype": "sprintf(ptr, format);",
+        "minArgs": 2
       },
       "sscanf": {
         "color": "blue",
         "shape": "block-only",
-        "minArgs": 2,
-        "prototype": "sscanf(str, format, ___);"
+        "prototype": "sscanf(str, format);",
+        "minArgs": 2
       },
       "ungetc": {
         "color": "blue",
