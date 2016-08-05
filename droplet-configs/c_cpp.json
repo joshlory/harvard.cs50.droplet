@@ -10,22 +10,22 @@
       "color": "orange",
       "blocks": [
         {
-          "block": "if (a == b)\n{\n  \n}",
+          "block": "if (test)\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "if (a == b)\n{\n  \n}\nelse\n{\n  \n}",
+          "block": "if (test)\n{\n  \n}\nelse\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "if (a == b)\n{\n  \n}\nelse if (a == c)\n{\n  \n}",
+          "block": "if (test)\n{\n  \n}\nelse if (a == c)\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "while (a < b)\n{\n  \n}",
+          "block": "while (test)\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>while -- do something repeatedly</p>\n<p>Repeatedly executes the code inside <code>{ }</code> until the condition\ninside the parentheses <code>( )</code> is false.</p>\n"
         },
@@ -40,12 +40,12 @@
           "title": "<p>Break out of a loop before it finishes.</p>\n"
         },
         {
-            "block": "switch (var)\n{\n  case a:\n    break;\n}",
+            "block": "switch (var)\n{\n  case 1:\n    break;\n}",
             "context": "blockItem",
             "title": "switch (TODO WRITE ME)"
         },
         {
-            "block": "switch (var)\n{\n  case a:\n    break;\n  default:\n   break;\n}",
+            "block": "switch (var)\n{\n  case 1:\n    break;\n  default:\n   break;\n}",
             "context": "blockItem",
             "title": "switch with default (TODO WRITE ME)"
         }
@@ -121,7 +121,7 @@
           "title": "<p>pointer/array access</p>\n<p>Access the <code>i</code>th element of the array <code>variable</code>, or the <code>i</code>th thing after the pointer <code>variable</code>. Remember that    indices start at <code>0</code>, not <code>1</code>!</p>\n"
         },
         {
-          "block": "*variable",
+          "block": "*pointer",
           "context": "expression",
           "title": "<p>dereference a pointer into a value</p>\n<p>Look up the value at the pointer <code>variable</code>. This is the same as doing <code>variable[0]</code>.</p>"
         },
@@ -142,12 +142,12 @@
           "title": "<p>declare a variable</p>\n<p>Declare a variable of type <code>type</code> and name <code>variable</code> with an\ninitial value of <code>0</code>.</p>\n"
         },
         {
-          "block": "type *v = NULL;",
+          "block": "type *pointer = NULL;",
           "context": "blockItem",
           "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. Hint: a string is <code>char*</     code>.</p>\n"
         },
         {
-          "block": "type v[len] = {0};",
+          "block": "type array[length] = {0};",
           "context": "blockItem",
           "title": "<p>declare an array</p>\n<p>Declare an array of type <code>type</code> and size <code>len</code> with name <code>v</code>. Arrays and pointers work much the same, except that arrays do not    need to be allocated first, because they are automatically allocated when they are declared.</p>"
         },
@@ -167,17 +167,17 @@
           "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/calloc\" target=\"_blank\">calloc</a> - allocate memory and set it to zero</p>\n<p><code>calloc</code> allocates the requested memory and sets it all to zero. So, it will\nallocate  <code>size</code> bytes <code>items</code> number of times. For example, if <code>size</code> is\n4 bytes, and <code>items</code> 10, then <code>calloc</code> will allocate a total of 40 bytes. \nThis differs from <code>malloc</code> which doesn&#39;t set the memory to zero.</p>\n"
         },
         {
-          "block": "typedef struct\n{\n  type structVariable;\n}\nmyStruct;",
+          "block": "typedef struct\n{\n  type member;\n}\nname;",
           "context": "externalDeclaration",
           "title": "<p><code>struct</code> -- bundle together data</p>\n<p>A <code>struct</code> defines a package of data made up of a set of data fields. Each data field should be declared in the <code>{ }</   code> like a variable."
         },
         {
-          "block": "myStruct.structVariable",
+          "block": "struct_name.member_name",
           "context": "expression",
           "title": "<p>struct property access</p>\n<p>Extract one of the data fields packaged into a struct.</p>\n"
         },
         {
-          "block": "type structVariable;",
+          "block": "type member;",
           "context": "structDeclaration",
           "title": "<p>declare struct data field</p>"
         }
@@ -193,7 +193,7 @@
           "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run.</p>\n"
         },
         {
-          "block": "int main(int n, char *args[])\n{\n  \n}",
+          "block": "int main(int n, char *argv[])\n{\n  \n}",
           "context": "externalDeclaration",
           "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run. This version knows how to accept command line arguments; there are <code>n</code> of them, stored in the variable <code>args</code>.</p>\n"
         },
