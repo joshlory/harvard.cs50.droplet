@@ -474,7 +474,7 @@
           "title": "<p><code>#include</code> -- include library files</p>\n<p>Put this at the top of your program to include the necessary files to use a library. Examples: <code>#include &lt;stdio.h&gt;</code> or <code>#include &lt;cs50.h&gt;</code></p>"
         },
         {
-          "block": "#define MACRO_NAME macro_value"
+          "block": "#define MACRO_NAME macro_value",
           "context": "externalDeclaration",
           "title": "<p><code>#define</code> -- define a macro</p>\n<p>Put this at the top of your program to define a macro. The compiler will go through your program and replace all instances of <code>MACRO_NAME</code> with the value. Most often, this is used for defining constants.</p>"
         }
