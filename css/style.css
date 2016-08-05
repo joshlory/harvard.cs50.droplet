@@ -20,3 +20,6 @@
 }
 .droplet-palette-group-header.harvard { border-left: 10px solid #c90016; }
 .droplet-palette-group-header-selected.harvard { background-color: #c90016; }
+
+.droplet-palette-group-header.droplet-palette-data { border-left: 10px solid #f3a55d; }
+.droplet-palette-group-header-selected.droplet-palette-data { background-color: #f3a55d; }

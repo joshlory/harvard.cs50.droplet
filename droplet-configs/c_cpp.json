@@ -154,18 +154,8 @@
     },
     {
       "name": "Data",
-      "color": "teal",
+      "color": "droplet-palette-data",
       "blocks": [
-        {
-          "block": "typedef struct {\n  type structVariable;\n} myStruct;",
-          "context": "externalDeclaration",
-          "title": "<p><code>struct</code> -- bundle together data</p>\n<p>A <code>struct</code> defines a package of data made up of a set of data fields. Each data field should be declared in the <code>{ }</   code> like a variable."
-        },
-        {
-          "block": "type structVariable;",
-          "context": "structDeclaration",
-          "title": "<p>declare struct data field</p>"
-        },
         {
           "block": "type v[len] = {0};",
           "context": "blockItem",
@@ -177,14 +167,24 @@
           "title": "<p>declare a pointer</p>\n<p>Declare pointer to a a variable of type <code>type</code> and name <code>v</code> with an\ninitial value of <code>NULL</code>. You will need to allocate memory    for this pointer in order to use it.</p>\n"
         },
         {
+          "block": "(type*)calloc(length, sizeof(type))",
+          "context": "expression",
+          "title": "<p>allocate memory for a pointer</p>\n<p>Allocates enough space to store <code>length</code> items of type <code>type</code>, filling it with zeroes to start.</p>"
+        },
+        {
+          "block": "typedef struct {\n  type structVariable;\n} myStruct;",
+          "context": "externalDeclaration",
+          "title": "<p><code>struct</code> -- bundle together data</p>\n<p>A <code>struct</code> defines a package of data made up of a set of data fields. Each data field should be declared in the <code>{ }</   code> like a variable."
+        },
+        {
           "block": "myStruct.structVariable",
           "context": "expression",
           "title": "<p>struct property access</p>\n<p>Extract one of the data fields packaged into a struct.</p>\n"
         },
         {
-          "block": "(type*)calloc(length, sizeof(type))",
-          "context": "expression",
-          "title": "<p>allocate memory for a pointer</p>\n<p>Allocates enough space to store <code>length</code> items of type <code>type</code>, filling it with zeroes to start.</p>"
+          "block": "type structVariable;",
+          "context": "structDeclaration",
+          "title": "<p>declare struct data field</p>"
         }
       ]
     },
@@ -450,11 +450,12 @@
         "value": "#94c096",
         "assign": "#f3a55d",
         "declaration": "#f3a55d",
+        "type": "#f3a55d",
         "control": "#ecc35b",
         "function": "#b593e6",
         "functionCall": "#889ee3",
         "logic": "#6fc2eb",
-        "type": "#f3a55d",
+        "struct": "#f58c4f",
         "return": "#b593e6"
     },
     "functions": {
