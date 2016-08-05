@@ -129,6 +129,11 @@
           "block": "&variable",
           "context": "expression",
           "title": "<p>get pointer to variable</p>\n<p>Get a pointer to a variable you have already declared as something else.</p>"
+        },
+        {
+          "block": "sizeof(type)",
+          "context": "expression",
+          "title": "<p>get the size of a type -- (TODO WRITEME)</p>"
         }
       ]
     },
