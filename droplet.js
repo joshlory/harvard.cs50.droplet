@@ -180,10 +180,20 @@ define(function(require, exports, module) {
 
         // Set up the toggle button to toggle the Droplet editor block mode.
         button.click(function() {
-          dropletEditor.toggleBlocks();
-          useBlocksByDefault = dropletEditor.session.currentlyUsingBlocks;
-          settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
-          button.text(useBlocksByDefault ? 'Blocks' : 'Text');
+           dropletEditor.toggleBlocks(function() {
+             // In case of failure, set the button text to always
+             // reflect the actual blocks/text state of the editor.
+             //
+             // The editor state flag will be set to reflect the true state of the
+             // editor after the toggle animation is done.
+             button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
+           });
+
+           // However, udpate the default blocks/text setting to always reflect what the user
+           // expected the editor state to ultimately be.
+           useBlocksByDefault = dropletEditor.session.currentlyUsingBlocks;
+           settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
+           button.text(useBlocksByDefault ? 'Blocks' : 'Text');
         });
 
         // Set up tooltips. Every time the Droplet palette changes, we will go through
