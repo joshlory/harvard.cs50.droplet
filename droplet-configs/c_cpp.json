@@ -6,7 +6,7 @@
   },
   "palette": [
     {
-      "name": "Control Flow",
+      "name": "Control",
       "color": "orange",
       "blocks": [
         {
@@ -20,7 +20,7 @@
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "if (condition)\n{\n  \n}\nelse if (a == c)\n{\n  \n}",
+          "block": "if (condition1)\n{\n  \n}\nelse if (condition2)\n{\n  \n}\nelse\n{\n  \n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
@@ -42,12 +42,12 @@
         {
             "block": "switch (variable)\n{\n  case 1:\n    break;\n}",
             "context": "blockItem",
-            "title": "switch (TODO WRITE ME)"
+            "title": "<p>switch -- do different things based on value</p>\n<p>Jumps to the case corresponding to the value of <code>variable</code>. Remember to put <code>break</code> at the end of each case; otherwise more cases will run than you think!</p>"
         },
         {
             "block": "switch (variable)\n{\n  case 1:\n    break;\n  default:\n   break;\n}",
             "context": "blockItem",
-            "title": "switch with default (TODO WRITE ME)"
+            "title": "<p>switch -- do different things based on value</p>\n<p>Jumps to the case corresponding to the value of <code>variable</code>. If none of the cases fit, jumps to <code>default</code> instead.</p>"
         }
       ]
     },
@@ -133,7 +133,7 @@
         {
           "block": "sizeof(type)",
           "context": "expression",
-          "title": "<p>get the size of a type -- (TODO WRITEME)</p>"
+          "title": "<p>sizeof</p>\n<p>Get the size of a type in bytes. Most commonly used in <code>malloc(sizeof(type))</code> to allocate memory for a pointer to a specific type.</p>"
         }
       ]
     },
@@ -463,6 +463,33 @@
           "title": "<p><a href=\"https://reference.cs50.net/ctype.h/toupper\" target=\"_blank\">toupper</a> - converts letter to uppercase</p>\n<p>Converts a lowercase letter to uppercase.</p>\n"
         }
       ]
+    },
+    {
+      "name": "Preprocessor",
+      "color": "purple",
+      "blocks": [
+        {
+          "block": "#include <header.h>",
+          "context": "compilationUnit",
+          "title": "<p><code>#include</code> -- include library files</p>\n<p>Put this at the top of your program to include the necessary files to use a library. Examples: <code>#include &lt;stdio.h&gt;</code> or <code>#include &lt;cs50.h&gt;</code></p>"
+        },
+        {
+          "block": "#define MACRO_NAME macro_value",
+          "context": "compilationUnit",
+          "title": "<p><code>#define</code> -- define a macro</p>\n<p>Put this at the top of your program to define a macro. The compiler will go through your program and replace all instances of <code>MACRO_NAME</code> with the value. Most often, this is used for defining constants.</p>"
+        }
+      ]
+    },
+    {
+      "name": "Comments",
+      "color": "grey",
+      "blocks": [
+        {
+          "block": "// comment",
+          "context": "compilationUnit",
+          "title": "<p>comment</p>\n<p>Add some text to explain part of your code. This block can go anywhere.</p>"
+        }
+      ]
     }
   ],
   "modeOptions": {
@@ -557,7 +584,8 @@
       "fprintf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "fprintf(fp, format);"
+        "prototype": "fprintf(fp, format);",
+        "minArgs": 2
       },
       "fputc": {
         "color": "blue",
@@ -577,7 +605,8 @@
       "fscanf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "fscanf(fp, format);"
+        "prototype": "fscanf(fp, format);",
+        "minArgs": 2
       },
       "fseek": {
         "color": "blue",
@@ -622,7 +651,8 @@
       "printf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "printf(format);"
+        "prototype": "printf(format);",
+        "minArgs": 1
       },
       "putc": {
         "color": "blue",
@@ -652,7 +682,8 @@
       "scanf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "scanf(format);"
+        "prototype": "scanf(format);",
+        "minArgs": 1
       },
       "setbuf": {
         "color": "blue",
@@ -667,19 +698,20 @@
       "snprintf": {
         "color": "blue",
         "shape": "block-only",
-        "minArgs": 3,
-        "prototype": "snprintf(str, size, format, ___);"
+        "prototype": "snprintf(str, size, format);",
+        "minArgs": 3
       },
       "sprintf": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "sprintf(ptr, format);"
+        "prototype": "sprintf(ptr, format);",
+        "minArgs": 2
       },
       "sscanf": {
         "color": "blue",
         "shape": "block-only",
-        "minArgs": 2,
-        "prototype": "sscanf(str, format, ___);"
+        "prototype": "sscanf(str, format);",
+        "minArgs": 2
       },
       "ungetc": {
         "color": "blue",
