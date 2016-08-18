@@ -1,8 +1,24 @@
-define(function(require, exports, module) {
-  var droplet = require('./lib/droplet/droplet-full.js');
-  require('./lib/jquery.min.js');
+define([
+    './lib/droplet/droplet-full.js',
+    './lib/jquery.min.js',
+    './lib/tooltipster/dist/js/tooltipster.bundle.js',
+    'text!./lib/droplet/droplet.css',
+    'text!./lib/tooltipster/dist/css/tooltipster.bundle.min.css',
+    'text!./css/style.css',
+    'text!./lib/droplet/worker.js',
+    'text!./droplet-configs/c_cpp.json'
+],
+function(
+    droplet,
+    _,
+    tooltipster,
+    dropletStyleText,
+    tooltipsterStyleText,
+    pluginStyleText,
+    workerScriptText,
+    dropletConfigText
+) {
   var $ = jQuery;
-  var tooltipster = require('./lib/tooltipster/dist/js/tooltipster.bundle.js');
 
   var worker = null;
 
@@ -12,42 +28,24 @@ define(function(require, exports, module) {
   // we are not allowed to request the worker URL, create a worker with just
   // an importScripts() call to it, which should get around cross-domain
   // security.
-  function createWorker(mod) {
-    // Get the URL of the worker from its module name
-    if (require.nameToUrl && !require.toUrl)
-      require.toUrl = require.nameToUrl;
+  function createWorker(text) {
+      var blob = workerBlob(text);
+      var URL = window.URL || window.webkitURL;
+      var blobURL = URL.createObjectURL(blob);
 
-    var workerUrl = workerUrl || require.toUrl(mod);
+      var worker = new Worker(blobURL);
 
-    // Try instantiating it
-    try {
-      return new Worker(workerUrl);
-    } catch(e) {
-      if (e instanceof window.DOMException) {
-        // Likely same origin problem. Use importScripts from a shim Worker
-        var blob = workerBlob(workerUrl);
-        var URL = window.URL || window.webkitURL;
-        var blobURL = URL.createObjectURL(blob);
-
-        var worker = new Worker(blobURL);
-
-        setTimeout(function() { // IE EDGE needs a timeout here
+      setTimeout(function() { // IE EDGE needs a timeout here
           URL.revokeObjectURL(blobURL);
-        });
+      });
 
-        return worker;
-      } else {
-        // Some other unknown error
-        throw e;
-      }
-    }
+      return worker;
   };
 
   // workerBlob
   //
   // Create the importScripts() shim for use in createWorker()
-  function workerBlob(url) {
-    var script = "importScripts('" + url + "');";
+  function workerBlob(script) {
     try {
       return new Blob([script], {"type": "application/javascript"});
     } catch (e) { // Backwards-compatibility
@@ -61,7 +59,7 @@ define(function(require, exports, module) {
   // Map from Ace language modes to Droplet options
   // objects. Currently only C is supported.
   var OPT_MAP = {
-    'ace/mode/c_cpp': JSON.parse(require("text!./droplet-configs/c_cpp.json"))
+    'ace/mode/c_cpp': JSON.parse(dropletConfigText)
   };
 
   var useBlocksByDefault = true;
@@ -120,15 +118,17 @@ define(function(require, exports, module) {
       // Hack to add necessary stylesheets, because ui.insertCss
       // does not work here for some reason. Append
       // <link> elements to the top of the page.
-      function forceAddCss(mod) {
+      function forceAddCss(text) {
         var linkElement = document.createElement('link');
         linkElement.setAttribute('rel', 'stylesheet');
-        linkElement.setAttribute('href', require.toUrl(mod));
+        linkElement.setAttribute('href', 
+          URL.createObjectURL(new Blob([text], {'type': 'text/css'}))
+        );
         document.head.appendChild(linkElement);
       }
-      forceAddCss("./lib/droplet/droplet.css");
-      forceAddCss("./lib/tooltipster/dist/css/tooltipster.bundle.min.css");
-      forceAddCss("./css/style.css");
+      forceAddCss(dropletStyleText);
+      forceAddCss(tooltipsterStyleText);
+      forceAddCss(pluginStyleText);
 
       // Load user setting for whether to open new files
       // in blocks mode or not
@@ -150,8 +150,7 @@ define(function(require, exports, module) {
     // Create a single worker thread to do background
     // parses for Droplet. All instances of Droplet will share
     // this worker.
-    var worker = createWorker('./lib/droplet/worker.js');
-
+    var worker = createWorker(workerScriptText);
 
     // attachToAce
     //
