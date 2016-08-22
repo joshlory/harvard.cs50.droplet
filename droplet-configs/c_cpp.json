@@ -213,94 +213,9 @@
           "title": "<p>A method call.</p>\n"
         },
         {
-          "block": "atoi(str);",
+          "block": "eprintf(format);",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/atoi\" target=\"_blank\">atoi</a> - convert a string to an integer</p>\n<p>Use to convert some string <code>str</code> to an integer.</p>\n"
-        },
-        {
-          "block": "calloc(items, size);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/calloc\" target=\"_blank\">calloc</a> - allocate memory and set it to zero</p>\n<p><code>calloc</code> allocates the requested memory and sets it all to zero. So, it will\nallocate  <code>size</code> bytes <code>items</code> number of times. For example, if <code>size</code> is\n4 bytes, and <code>items</code> 10, then <code>calloc</code> will allocate a total of 40 bytes. \nThis differs from <code>malloc</code> which doesn&#39;t set the memory to zero.</p>\n"
-        },
-        {
-          "block": "ceil(x);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/math.h/ceil\" target=\"_blank\">ceil</a> - rounds up value</p>\n<p>Rounds <code>x</code> upward.</p>\n"
-        },
-        {
-          "block": "drand48();",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/drand48\" target=\"_blank\">drand48</a> - returns a pseudorandom integer using 48-bit integer arithmetic</p>\n<p>The function <code>drand48()</code> returns a pseudorandom non-negative double-precision floating-point value over the interval [0.0, 1.0).</p>\n"
-        },
-        {
-          "block": "fclose(fp);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fclose\" target=\"_blank\">fclose</a> - close an open file</p>\n<p>Closes the current file pointed to by file pointer <code>fp</code>.</p>\n"
-        },
-        {
-          "block": "feof(fp);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/feof\" target=\"_blank\">feof</a> - checks whether pointer to file has reached the end of the file</p>\n<p>Checks whether pointer to file has reached the end of the file.</p>\n"
-        },
-        {
-          "block": "fgetc(fp);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fgetc\" target=\"_blank\">fgetc</a> - get the next character from a file</p>\n<p>Gets the next character from a file.</p>\n"
-        },
-        {
-          "block": "fgets(s, i, fp);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fgets\" target=\"_blank\">fgets</a> - get the next string from a file</p>\n<p><code>fgets</code> reads in, at most, <code>i</code> characters from file <code>fp</code>, storing them \ntemporarily in buffer <code>s</code>.</p>\n"
-        },
-        {
-          "block": "floor(x);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/math.h/floor\" target=\"_blank\">floor</a> - rounds down value</p>\n<p>Rounds <code>x</code> down.</p>\n"
-        },
-        {
-          "block": "fopen(filename, mode);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fopen\" target=\"_blank\">fopen</a> - opens a file</p>\n<p><code>fopen</code> opens file <code>filename</code> in the specified <code>mode</code>. The <code>mode</code> can be a\nnumber of things, however, the most common are <code>r</code> for reading, <code>w</code> for\nwriting, and <code>a</code> for appending. It should be noted, if you are opening a file\nto read using <code>r</code> then that file MUST exist, otherwise <code>fopen</code> will return \n<code>NULL</code>, something you should check for. Writing with <code>w</code> will create an empty \nfile even if one of the same name already exists, so be careful! Appending \nwith <code>a</code> will append data to the end of an already present file, or create an \nempty file if <code>filename</code> doesn&#39;t exist.</p>\n"
-        },
-        {
-          "block": "fprintf(fp, format);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fprintf\" target=\"_blank\">fprintf</a> - print out a formatted string</p>\n<p>Used to print to a file in a specific, formatted fashion, <code>fprintf</code> prints\nto the file <code>fp</code> as the string <code>format</code> indicates.</p>\n"
-        },
-        {
-          "block": "fputc(character, fp);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fputc\" target=\"_blank\">fputc</a> - write a character to a file</p>\n<p>Used to write a single character to a file.</p>\n"
-        },
-        {
-          "block": "fputs(s, fp);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fputs\" target=\"_blank\">fputs</a> - write a string to a file</p>\n<p><code>fputs</code> is used to write a null terminated string <code>s</code> to file <code>fp</code>.</p>\n"
-        },
-        {
-          "block": "fread(ptr, size, blocks, fp);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fread\" target=\"_blank\">fread</a> - read from a file</p>\n<p><code>fread</code> reads in from file <code>fp</code> an element of <code>size</code> bytes <code>blocks</code> number of\ntimes. So, for example, if <code>size</code> is 50 and <code>blocks</code> 10, then <code>fread</code> will read\nin from <code>fp</code> 10 times, each time reading in 50 bytes (for a total of 500 bytes).\nOn each <code>fread</code>, it will store the bytes in a buffer pointer to by <code>ptr</code>.</p>\n"
-        },
-        {
-          "block": "free(ptr);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/free\" target=\"_blank\">free</a> - free dynamically allocated memory</p>\n<p>Free takes a pointer to a block of memory on the heap and frees it for future\nuse. Whenever you dynamically allocate memory with something like <code>calloc</code>, \n<code>malloc</code>,or <code>realloc</code>, you have to, when done with the memory, <code>free</code> it. \nOtherwise, you&#39;ll end up with memory leaks.</p>\n"
-        },
-        {
-          "block": "fscanf(fp, format);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fscanf\" target=\"_blank\">fscanf</a> - read in a formatted string</p>\n<p><code>fscanf</code> reads in from file <code>fp</code> input that matches <code>format</code>.</p>\n"
-        },
-        {
-          "block": "fseek(fp, offset, from_where);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fseek\" target=\"_blank\">fseek</a> - sets file position</p>\n<p>Use <code>fseek</code> when you want to change the offset of the file pointer <code>fp</code>.\nThis is an extremely useful tool. Normally, when reading in from a file, \nthe pointer continues in one direction, from the start of the file to the\nend. <code>fseek</code>, however, allows you to change the location of the file pointer. (<a href=\"https://reference.cs50.net/stdio.h/fseek\" target=\"_blank\">read more</a>)</p>\n"
-        },
-        {
-          "block": "fwrite(ptr, size, blocks, fp);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/fwrite\" target=\"_blank\">fwrite</a> - write to a file</p>\n<p>Similar to <code>fread</code>, <code>fwrite</code> writes out to file <code>fp</code> an element of <code>size</code> bytes \n<code>blocks</code> number of times. So, for example, if <code>size</code> is 50 and <code>blocks</code> 10, then \n<code>fwrite</code> will write to <code>fp</code> 10 times, each time a &quot;chunk&quot; of 50 bytes (for a total \nof 500 bytes). On each <code>fwrite</code>, it will write from the buffer pointer to by <code>ptr</code>.</p>\n"
+          "title": "eprintf"
         },
         {
           "block": "get_char();",
@@ -333,134 +248,9 @@
           "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetString\" target=\"_blank\">GetString</a> - returns a string from stdin</p>\n<p>Reads a line of text from standard input and returns it as a <code>string</code> (<code>char *</code>), sans trailing newline character. (Ergo, \nif user inputs only <code>&quot;\\n&quot;</code>, returns &quot;&quot; not <code>NULL</code>.)  Returns <code>NULL</code> upon error or no input whatsoever (i.e., just <code>EOF</code>). \nLeading and trailing whitespace is not ignored. Stores <code>string</code> on heap (via <code>malloc</code>); memory must be freed by caller to \navoid leak.</p>\n"
         },
         {
-          "block": "isalnum(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isalnum\" target=\"_blank\">isalnum</a> - checks if character is alphanumeric</p>\n<p>Checks if the given character is alphanumeric.</p>\n"
-        },
-        {
-          "block": "isalpha(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isalpha\" target=\"_blank\">isalpha</a> - checks if character is an alphabetic letter.</p>\n<p>Checks if the given character is an alphabetic letter.</p>\n"
-        },
-        {
-          "block": "isblank(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isblank\" target=\"_blank\">isblank</a> - checks if character is blank</p>\n<p>Checks if the given character is blank, which means either a space <code>&#39; &#39;</code> or a tab <code>&#39;\\t&#39;</code>.</p>\n"
-        },
-        {
-          "block": "iscntrl(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/iscntrl\" target=\"_blank\">iscntrl</a> - checks if character is control</p>\n<p>Checks if the given character is a control character. A control character is a character that is not displayed on the screen when printed. This is the opposite of a printable character (see <code>isprint()</code>). (<a href=\"https://reference.cs50.net/ctype.h/iscntrl\" target=\"_blank\">read more</a>)</p>\n"
-        },
-        {
-          "block": "isdigit(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isdigit\" target=\"_blank\">isdigit</a> - checks if character is a digit</p>\n<p>Checks if the given character is a numeric digit. Note that, per the ASCII table, the character <code>&#39;5&#39;</code> and the integer <code>5</code> are different and only the first one constitutes a numeric digit. </p>\n"
-        },
-        {
-          "block": "isgraph(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isgraph\" target=\"_blank\">isgraph</a> - checks if character is graphical</p>\n<p>Checks if the given character has a graphical representation. The characters with graphical representation are all those given by <code>isprint()</code> except the space character <code>&#39; &#39;</code>.</p>\n"
-        },
-        {
-          "block": "islower(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/islower\" target=\"_blank\">islower</a> - checks if character is lowercase</p>\n<p>Checks if the given character is a lowercase alphabetic letter.</p>\n"
-        },
-        {
-          "block": "isprint(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isprint\" target=\"_blank\">isprint</a> - checks if character is printable</p>\n<p>Checks if the given character is a printable character. A printable character is a character that is displayed on the screen when printed. This is the opposite of a control character (see <code>iscntrl()</code>). (<a href=\"https://reference.cs50.net/ctype.h/isprint\" target=\"_blank\">read more</a>)</p>\n"
-        },
-        {
-          "block": "ispunct(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/ispunct\" target=\"_blank\">ispunct</a> - checks if character is a punctuation mark</p>\n<p>Checks if the given character is a punctuation character. C considers every graphic character (see <code>isgraph()</code>) that is not alphanumeric to be a punctuation.</p>\n"
-        },
-        {
-          "block": "isspace(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isspace\" target=\"_blank\">isspace</a> - checks if character is a white-space</p>\n<p>Checks if the given character is a white-space character. C considers white-space characters to be <code>&#39; &#39;</code>,<code>&#39;\\n&#39;</code>,<code>\\t</code>,<code>&#39;\\v&#39;</code>,<code>\\f</code>,<code>&#39;\\r&#39;</code>.</p>\n"
-        },
-        {
-          "block": "isupper(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isupper\" target=\"_blank\">isupper</a> - checks if character is uppercase</p>\n<p>Checks if the given character is an uppercase alphabetic letter.</p>\n"
-        },
-        {
-          "block": "isxdigit(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/isxdigit\" target=\"_blank\">isxdigit</a> - checks if character is hexadecimal</p>\n<p>Checks if the given character is a hexadecimal digit. (<a href=\"https://reference.cs50.net/ctype.h/isxdigit\" target=\"_blank\">read more</a>)</p>\n"
-        },
-        {
-          "block": "malloc(size);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/malloc\" target=\"_blank\">malloc</a> - allocate memory</p>\n<p>Allocate <code>size</code> bytes of memory. Unlike <code>calloc</code>, <code>malloc</code> will not pre-set all\nallocated memory to zero.</p>\n"
-        },
-        {
           "block": "printf(format);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/stdio.h/printf\" target=\"_blank\">printf</a> - prints to stdout</p>\n<p><code>printf</code> prints some formatted output to <code>stdout</code> (your computer terminal).\nYou specify the format with a <code>%</code> followed by a <code>c</code> for a character, <code>d</code> for\na digit, and <code>s</code> for a string. There are a number of other identifiers, the\naformentioned, however, are the most used. (<a href=\"https://reference.cs50.net/stdio.h/printf\" target=\"_blank\">read more</a>)</p>\n"
-        },
-        {
-          "block": "rand();",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/rand\" target=\"_blank\">rand</a> - returns a pseudorandom integer</p>\n<p>The function rand() returns a pseudorandom integer between zero and RAND_MAX.</p>\n"
-        },
-        {
-          "block": "realloc(ptr, size);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/realloc\" target=\"_blank\">realloc</a> - reallocate memory previously allocated</p>\n<p>Reallocate memory that was previously allocated with <code>calloc</code> or <code>malloc</code>. You\ntake the memory block pointed to by <code>ptr</code> and give it a new <code>size</code>.</p>\n"
-        },
-        {
-          "block": "round(x);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/math.h/round\" target=\"_blank\">round</a> - rounds value</p>\n<p>Rounds the <code>double</code> <code>x</code> to the nearest integer value.</p>\n"
-        },
-        {
-          "block": "scanf(format);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/scanf\" target=\"_blank\">scanf</a> - read in a formatted string from stdin</p>\n<p><code>scanf</code> reads in from <code>stdin</code> (usually your keyboard) input that matches \n<code>format</code>. Notice, this function is almost identical to <code>fscanf</code> except it \nis missing the first argument <code>FILE* fp</code>. This is because <code>scanf</code> just assumes \nthe input is going to be coming from the keyboard. (<a href=\"https://reference.cs50.net/stdio.h/scanf\" target=\"_blank\">read more</a>)</p>\n"
-        },
-        {
-          "block": "sprintf(ptr, format);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdio.h/sprintf\" target=\"_blank\">sprintf</a> - send formatted output to a string</p>\n<p><code>sprintf</code> stores in <code>ptr</code> a string formatted along the lines of <code>format</code>.</p>\n"
-        },
-        {
-          "block": "srand(seed);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/srand\" target=\"_blank\">srand</a> - seed the pseudorandom generator <code>rand</code></p>\n<p>The thing about the function <code>rand</code> is it will generate a &quot;random&quot; integer,\nhowever, if you seed it with the same number, you will get the same &quot;random&quot;\nsequence of numbers. Therefore, we want to seed <code>rand</code> with something that\nalways changes. Often, it makes sense to seed <code>rand</code> with <code>time</code>, as it\nis a variable that will always be changing. We seed the <code>rand</code> function with\n<code>srand</code>.</p>\n"
-        },
-        {
-          "block": "srand48(seedval);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/stdlib.h/srand48\" target=\"_blank\">srand48</a> - seeds the pseudorandom generator drand48()</p>\n<p>The function <code>srand48()</code> is used to seed, or initialize, the internal buffer of functions such as <code>drand48()</code>. You normally seed <code>drand48()</code> with \nsomething like <code>time(NULL)</code> since this value will always change. If you were to simply call <code>drand48()</code> without seeding it, you&#39;d get the same string\nof &#39;random&#39; doubles back.</p>\n"
-        },
-        {
-          "block": "strcmp(str1, str2);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/string.h/strcmp\" target=\"_blank\">strcmp</a> - compare two strings</p>\n<p><code>strcmp</code> compares two strings: <code>str1</code> and <code>str2</code>.</p>\n"
-        },
-        {
-          "block": "strcpy(destination, source);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/string.h/strcpy\" target=\"_blank\">strcpy</a> - copy a string</p>\n<p><code>strcpy</code> copys string <code>source</code> into string <code>destination</code>.</p>\n"
-        },
-        {
-          "block": "strlen(str);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/string.h/strlen\" target=\"_blank\">strlen</a> - return length of a string</p>\n<p>Return the length of a string.</p>\n"
-        },
-        {
-          "block": "tolower(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/tolower\" target=\"_blank\">tolower</a> - converts letter to lowercase</p>\n<p>Converts an uppercase letter to lowercase.</p>\n"
-        },
-        {
-          "block": "toupper(c);",
-          "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/ctype.h/toupper\" target=\"_blank\">toupper</a> - converts letter to uppercase</p>\n<p>Converts a lowercase letter to uppercase.</p>\n"
         }
       ]
     },
@@ -652,6 +442,12 @@
         "color": "blue",
         "shape": "block-only",
         "prototype": "printf(format);",
+        "minArgs": 1
+      },
+      "eprintf": {
+        "color": "blue",
+        "shape": "block-only",
+        "prototype": "eprintf(format);",
         "minArgs": 1
       },
       "putc": {
