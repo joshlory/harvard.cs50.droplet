@@ -177,6 +177,8 @@ function(
         // Create the Droplet editor.
         var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
 
+        button.css('display', (dropletEditor.session ? 'inline' : 'none'));
+
         // Set up the toggle button to toggle the Droplet editor block mode.
         button.click(function() {
            dropletEditor.toggleBlocks(function() {
@@ -248,7 +250,12 @@ function(
             if (option != null) {
               aceEditor._dropletEditor.bindNewSession(option);
             }
+            else {
+              aceEditor._dropletEditor.session = null;
+              aceEditor.updateNewSession();
+            }
           }
+          button.css('display', (dropletEditor.session ? 'inline' : 'none'));
 
           var aceSession = e.session;
 
@@ -267,6 +274,11 @@ function(
               if (option != null) {
                 aceEditor._dropletEditor.bindNewSession(option);
               }
+              else {
+                aceEditor._dropletEditor.session = null;
+                aceEditor.updateNewSession();
+              }
+              button.css('display', (dropletEditor.session ? 'inline' : 'none'));
             }
           });
         });
