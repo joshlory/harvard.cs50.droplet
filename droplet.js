@@ -252,7 +252,7 @@ function(
             }
             else {
               aceEditor._dropletEditor.session = null;
-              aceEditor.updateNewSession();
+              aceEditor._dropletEditor.updateNewSession();
             }
           }
           button.css('display', (dropletEditor.session ? 'inline' : 'none'));
@@ -276,7 +276,7 @@ function(
               }
               else {
                 aceEditor._dropletEditor.session = null;
-                aceEditor.updateNewSession();
+                aceEditor._dropletEditor.updateNewSession();
               }
               button.css('display', (dropletEditor.session ? 'inline' : 'none'));
             }
