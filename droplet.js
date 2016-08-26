@@ -251,8 +251,7 @@ function(
               aceEditor._dropletEditor.bindNewSession(option);
             }
             else {
-              aceEditor._dropletEditor.session = null;
-              aceEditor._dropletEditor.updateNewSession();
+              aceEditor._dropletEditor.updateNewSession(null);
             }
           }
           button.css('display', (dropletEditor.session ? 'inline' : 'none'));
@@ -275,8 +274,7 @@ function(
                 aceEditor._dropletEditor.bindNewSession(option);
               }
               else {
-                aceEditor._dropletEditor.session = null;
-                aceEditor._dropletEditor.updateNewSession();
+                aceEditor._dropletEditor.updateNewSession(null);
               }
               button.css('display', (dropletEditor.session ? 'inline' : 'none'));
             }
