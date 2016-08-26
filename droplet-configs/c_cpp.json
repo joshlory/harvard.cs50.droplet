@@ -220,32 +220,32 @@
         {
           "block": "get_char();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetChar\" target=\"_blank\">GetChar</a> - returns a char from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>char</code>; if text does not represent a <code>char</code>, user is \nprompted to retry. Leading and trailing whitespace is ignored. If line can&#39;t be read, returns <code>CHAR_MAX</code>.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_char\" target=\"_blank\">get_char</a> - returns a char from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>char</code>; if text does not represent a <code>char</code>, user is \nprompted to retry. Leading and trailing whitespace is ignored. If line can&#39;t be read, returns <code>CHAR_MAX</code>.</p>\n"
         },
         {
           "block": "get_double();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetDouble\" target=\"_blank\">GetDouble</a> - returns a double from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>double</code> as precisely as possible; if text does not \nrepresent a <code>double</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected. If line can&#39;t be read, returns <code>DBL_MAX</code>.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_double\" target=\"_blank\">get_double</a> - returns a double from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>double</code> as precisely as possible; if text does not \nrepresent a <code>double</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected. If line can&#39;t be read, returns <code>DBL_MAX</code>.</p>\n"
         },
         {
           "block": "get_float();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetFloat\" target=\"_blank\">GetFloat</a> - returns a float from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>float</code> as precisely as possible; if text does not \nrepresent a <code>float</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected.  If line can&#39;t be read, returns <code>FLT_MAX</code>.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_float\" target=\"_blank\">get_float</a> - returns a float from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>float</code> as precisely as possible; if text does not \nrepresent a <code>float</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected.  If line can&#39;t be read, returns <code>FLT_MAX</code>.</p>\n"
         },
         {
           "block": "get_int();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetInt\" target=\"_blank\">GetInt</a> - returns an int from stdin</p>\n<p>Reads a line of text from standard input and returns it as an <code>int</code> in the range of [-2^31^ + 1, 2^31^ - 2], if possible; \nif text does not represent such an <code>int</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For \nsimplicity, overflow is not detected. If line can&#39;t be read, returns <code>INT_MAX</code>.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_int\" target=\"_blank\">get_int</a> - returns an int from stdin</p>\n<p>Reads a line of text from standard input and returns it as an <code>int</code> in the range of [-2^31^ + 1, 2^31^ - 2], if possible; \nif text does not represent such an <code>int</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For \nsimplicity, overflow is not detected. If line can&#39;t be read, returns <code>INT_MAX</code>.</p>\n"
         },
         {
           "block": "get_long_long();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetLongLong\" target=\"_blank\">GetLongLong</a> - returns a long long from stdin</p>\n<p>Reads a line of text from standard input and returns an equivalent <code>long long</code> in the range [-2^63^ + 1, 2^63^ - 2], if \npossible; if text does not represent such a <code>long long</code>, user is prompted to retry. Leading and trailing whitespace is \nignored. For simplicity, overflow is not detected. If line can&#39;t be read, returns <code>LLONG_MAX</code>.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_long_long\" target=\"_blank\">get_long_long</a> - returns a long long from stdin</p>\n<p>Reads a line of text from standard input and returns an equivalent <code>long long</code> in the range [-2^63^ + 1, 2^63^ - 2], if \npossible; if text does not represent such a <code>long long</code>, user is prompted to retry. Leading and trailing whitespace is \nignored. For simplicity, overflow is not detected. If line can&#39;t be read, returns <code>LLONG_MAX</code>.</p>\n"
         },
         {
           "block": "get_string();",
           "context": "blockItem",
-          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/GetString\" target=\"_blank\">GetString</a> - returns a string from stdin</p>\n<p>Reads a line of text from standard input and returns it as a <code>string</code> (<code>char *</code>), sans trailing newline character. (Ergo, \nif user inputs only <code>&quot;\\n&quot;</code>, returns &quot;&quot; not <code>NULL</code>.)  Returns <code>NULL</code> upon error or no input whatsoever (i.e., just <code>EOF</code>). \nLeading and trailing whitespace is not ignored. Stores <code>string</code> on heap (via <code>malloc</code>); memory must be freed by caller to \navoid leak.</p>\n"
+          "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_string\" target=\"_blank\">get_string</a> - returns a string from stdin</p>\n<p>Reads a line of text from standard input and returns it as a <code>string</code> (<code>char *</code>), sans trailing newline character. (Ergo, \nif user inputs only <code>&quot;\\n&quot;</code>, returns &quot;&quot; not <code>NULL</code>.)  Returns <code>NULL</code> upon error or no input whatsoever (i.e., just <code>EOF</code>). \nLeading and trailing whitespace is not ignored. Stores <code>string</code> on heap (via <code>malloc</code>); memory must be freed by caller to \navoid leak.</p>\n"
         },
         {
           "block": "printf(format);",
@@ -296,35 +296,35 @@
         "return": "#b593e6"
     },
     "functions": {
-      "GetChar": {
+      "get_char": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "GetChar();"
+        "prototype": "get_char();"
       },
-      "GetDouble": {
+      "get_double": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "GetDouble();"
+        "prototype": "get_double();"
       },
-      "GetFloat": {
+      "get_float": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "GetFloat();"
+        "prototype": "get_float();"
       },
-      "GetInt": {
+      "get_int": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "GetInt();"
+        "prototype": "get_int();"
       },
-      "GetLongLong": {
+      "get_long_long": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "GetLongLong();"
+        "prototype": "get_long_long();"
       },
-      "GetString": {
+      "get_string": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "GetString();"
+        "prototype": "get_string();"
       },
       "clearerr": {
         "color": "blue",
