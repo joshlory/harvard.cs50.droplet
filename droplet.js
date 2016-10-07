@@ -22,6 +22,32 @@ function(
 
   var worker = null;
 
+  var DAY_COLORS = {
+    "value": "#94c096",
+    "assign": "#f3a55d",
+    "declaration": "#f3a55d",
+    "type": "#f3a55d",
+    "control": "#ecc35b",
+    "function": "#b593e6",
+    "functionCall": "#889ee3",
+    "logic": "#6fc2eb",
+    "struct": "#f58c4f",
+    "return": "#b593e6"
+  };
+
+  var NIGHT_COLORS = {
+    "value": "#5CB712",
+    "assign": "#EE7D16",
+    "declaration": "#EE7D16",
+    "type": "#EE7D16",
+    "control": "#c78f00",
+    "function": "#632D99",
+    "functionCall": "#4A6CD4",
+    "logic": "#2CA5E2",
+    "struct": "#C88330",
+    "return": "#632D99"
+  };
+
   // createWorker
   //
   // Worker hack to avoid cross-domain issues. In the case where
@@ -121,7 +147,7 @@ function(
       function forceAddCss(text) {
         var linkElement = document.createElement('link');
         linkElement.setAttribute('rel', 'stylesheet');
-        linkElement.setAttribute('href', 
+        linkElement.setAttribute('href',
           URL.createObjectURL(new Blob([text], {'type': 'text/css'}))
         );
         document.head.appendChild(linkElement);
@@ -133,6 +159,34 @@ function(
       // Load user setting for whether to open new files
       // in blocks mode or not
       useBlocksByDefault = settings.get("user/cs50/droplet/@useBlocksByDefault");
+
+      updateNight();
+
+      settings.on("user/general/@skin", updateNight, plugin);
+    }
+
+    // Bind to changes in skin. When we switch to/from dark/light mode,
+    // update the "invert" flag on Droplet and swap color schemes.
+    function updateNight() {
+      night = settings.get('user/general/@skin').indexOf('dark') !== -1;
+      tabManager.getTabs().forEach(function(tab) {
+        if (tab.path && tab.editor.ace && tab.editorType === 'ace') {
+          // Toggle all existing sessions
+          tab.editor.ace._dropletEditor.sessions.forEach(function(session) {
+            session.views.forEach(function(view) {
+              view.opts.invert = night;
+              view.opts.colors = (night ? NIGHT_COLORS : DAY_COLORS);
+            });
+          });
+          // Rerender current session
+          tab.editor.ace._dropletEditor.updateNewSession(tab.editor.ace._dropletEditor.session);
+        }
+      });
+      // Update default for new creations
+      for (var mode in OPT_MAP) {
+        OPT_MAP[mode].viewSettings.invert = night;
+        OPT_MAP[mode].viewSettings.colors = (night ? NIGHT_COLORS : DAY_COLORS);
+      }
     }
 
     function unload() {
@@ -356,7 +410,6 @@ function(
       function lookupPalette(id) {
         return (OPT_MAP[id] || {palette: null}).palette;
       }
-
     }
 
     // Destroy function for Droplet. TODO

@@ -3,6 +3,18 @@
   "viewSettings": {
     "padding": 10,
     "textPadding": 5
+    "colors": {
+        "value": "#94c096",
+        "assign": "#f3a55d",
+        "declaration": "#f3a55d",
+        "type": "#f3a55d",
+        "control": "#ecc35b",
+        "function": "#b593e6",
+        "functionCall": "#889ee3",
+        "logic": "#6fc2eb",
+        "struct": "#f58c4f",
+        "return": "#b593e6"
+    }
   },
   "palette": [
     {
@@ -283,18 +295,6 @@
     }
   ],
   "modeOptions": {
-    "categories": {
-        "value": "#94c096",
-        "assign": "#f3a55d",
-        "declaration": "#f3a55d",
-        "type": "#f3a55d",
-        "control": "#ecc35b",
-        "function": "#b593e6",
-        "functionCall": "#889ee3",
-        "logic": "#6fc2eb",
-        "struct": "#f58c4f",
-        "return": "#b593e6"
-    },
     "functions": {
       "get_char": {
         "color": "blue",
