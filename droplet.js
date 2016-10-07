@@ -175,7 +175,11 @@ function(
           tab.editor.ace._dropletEditor.sessions.forEach(function(session) {
             session.views.forEach(function(view) {
               view.opts.invert = night;
-              view.opts.colors = (night ? NIGHT_COLORS : DAY_COLORS);
+              var target_colors = (night ? NIGHT_COLORS : DAY_COLORS);
+              for (key in target_colors) {
+                  view.opts.colors[key] = target_colors[key];
+              }
+              view.clearCache();
             });
           });
           // Rerender current session
@@ -185,7 +189,10 @@ function(
       // Update default for new creations
       for (var mode in OPT_MAP) {
         OPT_MAP[mode].viewSettings.invert = night;
-        OPT_MAP[mode].viewSettings.colors = (night ? NIGHT_COLORS : DAY_COLORS);
+          var target_colors = (night ? NIGHT_COLORS : DAY_COLORS);
+          for (key in target_colors) {
+              OPT_MAP[mode].viewSettings.colors[key] = target_colors[key];
+          }
       }
     }
 

@@ -2,7 +2,7 @@
   "mode": "c_cpp",
   "viewSettings": {
     "padding": 10,
-    "textPadding": 5
+    "textPadding": 5,
     "colors": {
         "value": "#94c096",
         "assign": "#f3a55d",
