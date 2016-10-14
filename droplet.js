@@ -141,31 +141,6 @@ function(
             }, plugin);
 
         });
-                
-        function(session, doc) {
-            if (session._dropletSession) {
-                return session._dropletSession.floatingBlocks.map(function(record) {
-                    return {
-                        doc_context: record.block.parseContext,
-                        doc: record.block.stringify(),
-                        pos: record.position
-                    };
-                });
-            }
-            else {
-                return null
-            }
-        },
-        
-        function(blocks, session, ace) {
-            if (blocks != null && session._dropletSession) {
-                blocks.forEach(function(obj) {
-                    session._dropletSession.addFloatingBlock(obj);
-                });
-            }`
-        }
-
-        });
 
       // Hack to add necessary stylesheets, because ui.insertCss
       // does not work here for some reason. Append
