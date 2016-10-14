@@ -90,7 +90,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "closeconfirmation"];
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
                 // updateDropletMode
@@ -116,6 +116,30 @@ define([
                     var emit = plugin.getEmitter();
 
                     window._lastEditor = null; // This is a debug variable/
+
+                    var previousOnBeforeUnload = window.onbeforeUnload;
+
+                    window.onbeforeunload = function() {
+
+                        var prev = previousOnBeforeUnload();
+
+                        if (prev != null) return prev;
+
+                        var corruptTabs = tabManager.getTabs().filter(function(tab) {
+                            return (tab.path &&
+                                tab.editorType === "ace" &&
+                                tab.editor.ace &&
+                                tab.editor.ace._dropletEditor && 
+                                tab.editor.ace._dropletEditor.floatingBlocks.length > 0)
+                        }).length;
+
+                        if (corruptTabs.length > 0) {
+                            return "You have " + corruptTabs + " tabs open with pieces of code that are not attached to your programs. If you leave this page, those pieces will disappear. Are you sure you want to leave this page?";
+                        }
+                        else {
+                            return null;
+                        }
+                    };
 
                     settings.on("read", function() {
                         settings.setDefaults("user/cs50/droplet", [
@@ -463,25 +487,6 @@ define([
                             aceEditor._signal("changeStatus");
                         }
 
-
-                        console.log("Binding to onbeforeunload");
-                        document.body.onbeforeunload = function() {
-
-                            var corruptTabs = tabManager.getTabs().filter(function(tab) {
-                                return (tab.path &&
-                                    tab.editorType === "ace" &&
-                                    tab.editor.ace &&
-                                    tab.editor.ace._dropletEditor && 
-                                    tab.editor.ace._dropletEditor.floatingBlocks.length > 0)
-                            }).length;
-
-                            if (corruptTabs.length > 0) {
-                                return "You have " + corruptTabs + " tabs open with pieces of code that are not attached to your programs. If you leave this page, those pieces will disappear. Are you sure you want to leave this page?";
-                            }
-                            else {
-                                return null;
-                            }
-                        };
 
                         // lookupOptions
                         //
