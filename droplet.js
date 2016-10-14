@@ -90,7 +90,7 @@ function(
 
   var useBlocksByDefault = true;
 
-  main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings"];
+  main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm"];
   main.provides = ["c9.ide.cs50.droplet"];
   return main;
     // updateDropletMode
@@ -108,6 +108,7 @@ function(
     var commands = imports.commands;
     var menus = imports.menus;
     var settings = imports.settings;
+    var confirm = imports["dialog.confirm"].show;
 
     /***** Initialization *****/
 
@@ -173,6 +174,7 @@ function(
         if (tab.path && tab.editor.ace && tab.editorType === 'ace') {
           // Toggle all existing sessions
           tab.editor.ace._dropletEditor.sessions.forEach(function(session) {
+            console.log('Updating session', session.tree.stringify());
             session.views.forEach(function(view) {
               view.opts.invert = night;
               var target_colors = (night ? NIGHT_COLORS : DAY_COLORS);
@@ -213,6 +215,50 @@ function(
     // this worker.
     var worker = createWorker(workerScriptText);
 
+    tabManager.getTabs().forEach(bindToClose);
+    tabManager.on("open", function(e) {
+        bindToClose(e.tab);
+    });
+
+    function bindToClose(tab) {
+        tab.on('beforeClose', function() {
+            // If the tab has already been checked by us, continue
+            if (tab.meta._floatingBlockDoomed) {
+                return true;
+            }
+
+            // Otherwise, if we should pop up a dialog, do so
+            if (tab.path && tab.editorType === "ace" && tab.editor.ace && tab.editor.ace._dropletEditor) {
+                var aceEditor = tab.editor.ace;
+
+                // Count the number of floating blocks
+                var nBlocks = aceEditor._dropletEditor.session.floatingBlocks.length;
+
+                if (nBlocks > 0) {
+                    confirm(
+                        "Confirm close",
+                        "Are you sure you want to close this tab?",
+                        "You have " +
+                        nBlocks +
+                        " " + (nBlocks === 1 ? "piece" : "pieces") +
+                        " of code not connected to your program. If you close the tab, these pieces will disappear. Are you sure you want to close this tab?",
+
+                        function() {
+                            tab.meta._floatingBlockDoomed = true;
+                            tab.close();
+                        },
+
+                        function() {
+                            // pass
+                        }
+                    );
+
+                    return false;
+                }
+            }
+        });
+    }
+
     // attachToAce
     //
     // Called initially on all ace editors and then again
@@ -242,20 +288,46 @@ function(
 
         // Set up the toggle button to toggle the Droplet editor block mode.
         button.click(function() {
-           dropletEditor.toggleBlocks(function() {
-             // In case of failure, set the button text to always
-             // reflect the actual blocks/text state of the editor.
-             //
-             // The editor state flag will be set to reflect the true state of the
-             // editor after the toggle animation is done.
-             button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
-           });
+           // Toggle, but we might want to do some confirmations first.
+           var continueToggle = function() {
+               dropletEditor.toggleBlocks(function() {
+                 // In case of failure, set the button text to always
+                 // reflect the actual blocks/text state of the editor.
+                 //
+                 // The editor state flag will be set to reflect the true state of the
+                 // editor after the toggle animation is done.
+                 button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
+               });
 
-           // However, udpate the default blocks/text setting to always reflect what the user
-           // expected the editor state to ultimately be.
-           useBlocksByDefault = dropletEditor.session.currentlyUsingBlocks;
-           settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
-           button.text(useBlocksByDefault ? 'Blocks' : 'Text');
+               // However, udpate the default blocks/text setting to always reflect what the user
+               // expected the editor state to ultimately be.
+               useBlocksByDefault = dropletEditor.session.currentlyUsingBlocks;
+               settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
+               button.text(useBlocksByDefault ? 'Blocks' : 'Text');
+           }
+
+           // If there are floating blocks, confirm
+           if (dropletEditor.session.currentlyUsingBlocks && dropletEditor.session.floatingBlocks.length > 0) {
+                var nBlocks = dropletEditor.session.floatingBlocks.length;
+                confirm(
+                    "Confirm toggle",
+                    "Are you sure you want to switch to text?",
+                    "You have " +
+                    nBlocks +
+                    " " + (nBlocks === 1 ? "piece" : "pieces") +
+                    " of code not connected to your program. If you switch to text, these pieces will disappear. Are you sure you want to switch to text?",
+
+                    continueToggle,
+
+                    function() {
+                        // pass
+                    }
+                );
+            }
+
+            else {
+                continueToggle();
+            }
         });
 
         // Set up tooltips. Every time the Droplet palette changes, we will go through
