@@ -117,27 +117,31 @@ define([
 
                     window._lastEditor = null; // This is a debug variable/
 
-                    var previousOnBeforeUnload = window.onbeforeUnload;
+                    var previousOnBeforeUnload = window.onbeforeunload;
 
-                    window.onbeforeunload = function() {
+                    window.onbeforeunload = function(e) {
 
-                        var prev = previousOnBeforeUnload();
+                        if (previousOnBeforeUnload != null) {
+                            var prev = previousOnBeforeUnload();
 
-                        if (prev != null) return prev;
+                            if (prev != null) return prev;
+                        }
 
                         var corruptTabs = tabManager.getTabs().filter(function(tab) {
                             return (tab.path &&
                                 tab.editorType === "ace" &&
                                 tab.editor.ace &&
                                 tab.editor.ace._dropletEditor && 
-                                tab.editor.ace._dropletEditor.floatingBlocks.length > 0)
+                                tab.editor.ace._dropletEditor.hasSessionFor(tab.document.getSession().session) &&
+                                tab.editor.ace._dropletEditor.sessions.get(tab.document.getSession().session).floatingBlocks.length > 0);
                         }).length;
 
-                        if (corruptTabs.length > 0) {
-                            return "You have " + corruptTabs + " tabs open with pieces of code that are not attached to your programs. If you leave this page, those pieces will disappear. Are you sure you want to leave this page?";
+                        if (corruptTabs > 0) {
+                            e.returnValue = "You have " + corruptTabs + " tabs open with pieces of code that are not attached to your programs. If you leave this page, those pieces will disappear. Are you sure you want to leave this page?";
+                            return e.returnValue;
                         }
                         else {
-                            return null;
+                            return null; 
                         }
                     };
 
@@ -252,11 +256,11 @@ define([
                             }
 
                             // Otherwise, if we should pop up a dialog, do so
-                            if (tab.path && tab.editorType === "ace" && tab.editor.ace && tab.editor.ace._dropletEditor) {
+                            if (tab.path && tab.editorType === "ace" && tab.editor.ace && tab.editor.ace._dropletEditor && tab.editor.ace._dropletEditor.hasSessionFor(tab.document.getSession().session)) {
                                 var aceEditor = tab.editor.ace;
 
                                 // Count the number of floating blocks
-                                var nBlocks = aceEditor._dropletEditor.session.floatingBlocks.length;
+                                var nBlocks = tab.editor.ace._dropletEditor.sessions.get(tab.document.getSession().session).floatingBlocks.length;
 
                                 if (nBlocks > 0) {
                                     dialogConfirm(
