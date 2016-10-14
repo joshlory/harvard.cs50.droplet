@@ -125,48 +125,6 @@ function(
 
     function load() {
 
-        // Wrap all existent Ace instances in a Droplet
-        // instance.
-        tabManager.once("ready", function() {
-
-            tabManager.getTabs().forEach(function(tab) {
-              var ace = tab.path && tab.editor.ace;
-              if (ace && tab.editorType == "ace") {
-                attachToAce(tab.editor.ace);
-              }
-            });
-
-            ace.on("create", function(e) {
-              e.editor.on("createAce", attachToAce, plugin);
-            }, plugin);
-
-        });
-                
-        function(session, doc) {
-            if (session._dropletSession) {
-                return session._dropletSession.floatingBlocks.map(function(record) {
-                    return {
-                        doc_context: record.block.parseContext,
-                        doc: record.block.stringify(),
-                        pos: record.position
-                    };
-                });
-            }
-            else {
-                return null
-            }
-        },
-        
-        function(blocks, session, ace) {
-            if (blocks != null && session._dropletSession) {
-                blocks.forEach(function(obj) {
-                    session._dropletSession.addFloatingBlock(obj);
-                });
-            }`
-        }
-
-        });
-
       // Hack to add necessary stylesheets, because ui.insertCss
       // does not work here for some reason. Append
       // <link> elements to the top of the page.
