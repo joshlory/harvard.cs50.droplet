@@ -108,7 +108,7 @@ function(
     var commands = imports.commands;
     var menus = imports.menus;
     var settings = imports.settings;
-    var confirm = imports["dialog.confirm"].show;
+    var dialogConfirm = imports["dialog.confirm"].show;
 
     /***** Initialization *****/
 
@@ -125,22 +125,47 @@ function(
 
     function load() {
 
-      // Wrap all existent Ace instances in a Droplet
-      // instance.
-      tabManager.once("ready", function() {
+        // Wrap all existent Ace instances in a Droplet
+        // instance.
+        tabManager.once("ready", function() {
 
-        tabManager.getTabs().forEach(function(tab) {
-          var ace = tab.path && tab.editor.ace;
-          if (ace && tab.editorType == "ace") {
-            attachToAce(tab.editor.ace);
-          }
+            tabManager.getTabs().forEach(function(tab) {
+              var ace = tab.path && tab.editor.ace;
+              if (ace && tab.editorType == "ace") {
+                attachToAce(tab.editor.ace);
+              }
+            });
+
+            ace.on("create", function(e) {
+              e.editor.on("createAce", attachToAce, plugin);
+            }, plugin);
+
         });
+                
+        function(session, doc) {
+            if (session._dropletSession) {
+                return session._dropletSession.floatingBlocks.map(function(record) {
+                    return {
+                        doc_context: record.block.parseContext,
+                        doc: record.block.stringify(),
+                        pos: record.position
+                    };
+                });
+            }
+            else {
+                return null
+            }
+        },
+        
+        function(blocks, session, ace) {
+            if (blocks != null && session._dropletSession) {
+                blocks.forEach(function(obj) {
+                    session._dropletSession.addFloatingBlock(obj);
+                });
+            }`
+        }
 
-        ace.on("create", function(e) {
-          e.editor.on("createAce", attachToAce, plugin);
-        }, plugin);
-
-      });
+        });
 
       // Hack to add necessary stylesheets, because ui.insertCss
       // does not work here for some reason. Append
@@ -235,7 +260,7 @@ function(
                 var nBlocks = aceEditor._dropletEditor.session.floatingBlocks.length;
 
                 if (nBlocks > 0) {
-                    confirm(
+                    dialogConfirm(
                         "Confirm close",
                         "Are you sure you want to close this tab?",
                         "You have " +
@@ -309,7 +334,7 @@ function(
            // If there are floating blocks, confirm
            if (dropletEditor.session.currentlyUsingBlocks && dropletEditor.session.floatingBlocks.length > 0) {
                 var nBlocks = dropletEditor.session.floatingBlocks.length;
-                confirm(
+                dialogConfirm(
                     "Confirm toggle",
                     "Are you sure you want to switch to text?",
                     "You have " +
@@ -462,6 +487,26 @@ function(
 
         aceEditor._signal("changeStatus");
       }
+
+
+      console.log("Binding to onbeforeunload");
+      document.body.onbeforeunload = function() {
+
+        var corruptTabs = tabManager.getTabs().filter(function(tab) {
+            return (tab.path &&
+                tab.editorType === "ace" &&
+                tab.editor.ace &&
+                tab.editor.ace._dropletEditor && 
+                tab.editor.ace._dropletEditor.floatingBlocks.length > 0)
+        }).length;
+
+        if (corruptTabs.length > 0) {
+            return "You have " + corruptTabs + " tabs open with pieces of code that are not attached to your programs. If you leave this page, those pieces will disappear. Are you sure you want to leave this page?";
+        }
+        else {
+            return null;
+        }
+      };
 
       // lookupOptions
       //
