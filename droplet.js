@@ -213,6 +213,34 @@ function(
     // this worker.
     var worker = createWorker(workerScriptText);
 
+    // Also bind to the associated close event, to prompt
+    // in case there are floating blocks
+    tabManager.on("open", function(e) {
+      console.log('Open tab fired');
+      bindToClose(e.tab);
+    }
+
+    tabManager.getTabs().forEach(function(tab) {
+      console.log('Found any tab at all');
+      bindToClose(tab)
+    });
+
+    function bindToClose(tab) {
+      console.log('binding to close');
+      tab.on('beforeClose', function(e) {
+        console.log('beforeClose fired', tab, tab.editorType, tab.editor);
+        if (tab.path && tab.editorType == 'ace' && tab.editor.ace._dropletEditor) {
+          console('Checked out');
+          var aceEditor = tab.editor.ace;
+          var nBlocks = aceEditor._dropletEditor.session.floatingBlocks.length;
+          if (nBlocks > 0) {
+            return confirm("You have " + nBlocks + " " + (nBlocks == 1 ? "piece" : "pieces") + " of code that are not connected to your program. If you close this editor, these pieces will disappear. Are you sure you want to close?");
+          }
+        }
+        return true;
+      });
+    }
+
     // attachToAce
     //
     // Called initially on all ace editors and then again
