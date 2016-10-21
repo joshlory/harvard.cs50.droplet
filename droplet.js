@@ -108,6 +108,57 @@ define([
                     var settings = imports.settings;
                     var dialogConfirm = imports["dialog.confirm"].show;
 
+                    ace.extendSerializedState(
+
+                        // Serialize
+                        function(session) {
+                            // Find the Droplet tab that owns this session, if it
+                            // exists
+                            var tab = tabManager.getTabs().filter(function(tab) {
+                                return (tab.path && tab.editor.ace &&
+                                        tab.editorType === "ace" && tab.editor.ace._dropletEditor &&
+                                        tab.editor.ace._dropletEditor.hasSessionFor(session));
+                            })[0];
+
+                            // If it does, serialize its floating blocks
+                            if (tab != null) {
+                                var editor = tab.editor.ace._dropletEditor;
+                                return editor.sessions.get(session).floatingBlocks.map(function(block) {
+                                    return {
+                                        text: block.block.stringify(),
+                                        context: block.block.indentContext,
+                                        pos: {
+                                            x: block.position.x,
+                                            y: block.position.y
+                                        }
+                                    }
+                                }
+                            }
+
+                            // If the Droplet session hasn't been initialized, but
+                            // we've preserved some floating blocks from last time, return them again
+                            else if (session.on._droplet_floatingBlocks) {
+                                return session.on._droplet_floatingBlocks;
+                            }
+
+                            // Otherwise, there aren't any floating blocks
+                            else {
+                                return null;
+                            }
+                        },
+
+                        // Deserialize
+                        function(state, session) {
+                            // At this point, we don't expect the Droplet session to have been initialized.
+                            // Simply put a marker on the Ace session state which will be read off at Droplet
+                            // session initialization.
+                            //
+                            // The Ace session is largely a frozen JS object, so we attach it hackily to the "on"
+                            // function.
+                            session.on._droplet_floatingBlocks = state;
+                        }
+                    )
+
                     /***** Initialization *****/
 
                     var plugin = new Plugin("CS50", main.consumes);
@@ -256,7 +307,6 @@ define([
                             }
                         });
                     }
->>>>>>> b9b5ebb736b6b0f6ee134199092caf5601f87662
 
                     // attachToAce
                     //
@@ -282,6 +332,13 @@ define([
 
                             // Create the Droplet editor.
                             var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
+
+                            if (aceEditor.getSession().on._droplet_floatingBlocks != null) {
+                                dropletEditor.session.setFloatingBlocks(
+                                    aceEditor.getSession().on._droplet_floatingBlocks
+                                );
+                                dropletEditor.redrawMain();
+                            }
 
                             button.css('display', (dropletEditor.session ? 'inline' : 'none'));
 
@@ -381,6 +438,12 @@ define([
                                     var option = lookupOptions(e.session.$modeId);
                                     if (option != null) {
                                         aceEditor._dropletEditor.bindNewSession(option);
+                                        if (e.session.on._droplet_floatingBlocks != null) {
+                                            dropletEditor.session.setFloatingBlocks(
+                                                e.session.on._droplet_floatingBlocks
+                                            );
+                                            dropletEditor.redrawMain();
+                                        }
                                     }
                                     else {
                                         aceEditor._dropletEditor.updateNewSession(null);
