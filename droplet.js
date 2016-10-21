@@ -134,7 +134,7 @@ define([
                                             y: block.position.y
                                         }
                                     }
-                                }
+                                });
                             }
 
                             // If the Droplet session hasn't been initialized, but
