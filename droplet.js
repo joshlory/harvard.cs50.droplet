@@ -1,4 +1,6 @@
 define([
+        './lib/droplet/droplet-full.js',
+        './lib/jquery.min.js',
         './lib/tooltipster/dist/js/tooltipster.bundle.js',
         'text!./lib/droplet/droplet.css',
         'text!./lib/tooltipster/dist/css/tooltipster.bundle.min.css',
