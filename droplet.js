@@ -469,11 +469,16 @@ define([
                                         var option = lookupOptions(aceEditor.getSession().$modeId);
                                         if (option != null) {
                                             aceEditor._dropletEditor.bindNewSession(option);
+                                            button.css('display', 'inline');
                                         }
+
+                                        // If we're switching to a language we don't recognize, destroy the current
+                                        // session.
                                         else {
+                                            aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
                                             aceEditor._dropletEditor.updateNewSession(null);
+                                            button.css('display', 'none');
                                         }
-                                button.css('display', (dropletEditor.session ? 'inline' : 'none'));
                                     }
                                 });
                             });
@@ -491,6 +496,15 @@ define([
                                     var option = lookupOptions(aceEditor.getSession().$modeId);
                                     if (option != null) {
                                         aceEditor._dropletEditor.bindNewSession(option);
+                                        button.css('display', 'inline');
+                                    }
+
+                                    // If we're switching to a language we don't recognize, destroy the current
+                                    // session.
+                                    else {
+                                        aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
+                                        aceEditor._dropletEditor.updateNewSession(null);
+                                        button.css('display', 'none');
                                     }
                                 }
                             });
