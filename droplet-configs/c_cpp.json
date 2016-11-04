@@ -93,6 +93,11 @@
           "title": "<p>modulo</p>\n<p>Take the modulo of two numbers. This is the remainder\nwhen you divide <code>a</code> by <code>b</code>.</p>\n"
         },
         {
+          "block": "a++",
+          "context": "expression",
+          "title": "<p>increment</p>\n<p>Increase a variable by one, and return its original value. So if <code>a = 1</code>, and we do <code>b = a++</code>, then afterward, <code>a = 2</code> and <code>b = 1</code>."
+        },
+        {
           "block": "a == b",
           "context": "expression",
           "title": "test if two numbers are equal"
@@ -111,6 +116,16 @@
           "block": "a > b",
           "context": "expression",
           "title": "<p>compare two numbers</p>\n<p>Test if <code>a</code> &gt; <code>b</code>.</p>\n"
+        },
+        {
+          "block": "a <= b",
+          "context": "expression",
+          "title": "<p>compare two numbers</p>\n<p>Test if <code>a</code> &le; <code>b</code>.</p>\n"
+        },
+        {
+          "block": "a >= b",
+          "context": "expression",
+          "title": "<p>compare two numbers</p>\n<p>Test if <code>a</code> &ge; <code>b</code>.</p>\n"
         },
         {
           "block": "a || b",
