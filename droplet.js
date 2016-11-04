@@ -90,7 +90,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "closeconfirmation"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "closeconfirmation", "callstack"];
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
                 // updateDropletMode
@@ -108,7 +108,35 @@ define([
                     var commands = imports.commands;
                     var menus = imports.menus;
                     var settings = imports.settings;
+                    var callstack = imports.callstack;
                     var dialogConfirm = imports["dialog.confirm"].show;
+
+                    callstack.overrideAddMark(function(session, type, row, editor) {
+                        if (editor._dropletEditor != null &&
+                                editor._dropletEditor.hasSessionFor(session) &&
+                                editor._dropletEditor.sessions.get(session).currentlyUsingBlocks) {
+                            editor._dropletEditor.sessions.get(session).markLine(row, {color: "#FF0"});
+                            editor._dropletEditor.redrawMain();
+                            return false;
+                        }
+
+                        return true;
+                    });
+
+                    callstack.overrideClearMarks(
+                            function(session, editor) {
+                                if (editor._dropletEditor != null &&
+                                        editor._dropletEditor.session != null &&
+                                        editor._dropletEditor.sessions.get(session).currentlyUsingBlocks) {
+                                    editor._dropletEditor.clearLineMarks();
+                                    //editor._dropletEditor.sessions.get(session).clearLineMarks();
+                                    //redrawMain();
+                                    return false;
+                                }
+
+                                return true;
+                            }
+                    );
 
                     ace.extendSerializedState(
 
