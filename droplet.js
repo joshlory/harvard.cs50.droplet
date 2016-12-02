@@ -90,7 +90,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "closeconfirmation", "callstack"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "closeconfirmation", "debugger"];
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
                 // updateDropletMode
@@ -108,35 +108,34 @@ define([
                     var commands = imports.commands;
                     var menus = imports.menus;
                     var settings = imports.settings;
-                    var callstack = imports.callstack;
+                    var debug = imports.debugger;
                     var dialogConfirm = imports["dialog.confirm"].show;
 
-                    callstack.overrideAddMark(function(session, type, row, editor) {
-                        if (editor._dropletEditor != null &&
-                                editor._dropletEditor.hasSessionFor(session) &&
-                                editor._dropletEditor.sessions.get(session).currentlyUsingBlocks) {
-                            editor._dropletEditor.sessions.get(session).markLine(row, {color: "#FF0"});
-                            editor._dropletEditor.redrawMain();
-                            return false;
-                        }
+                    debug.on('frameActivate', function(event) {
+                        if (event.frame != null) {
+                            console.log(event.frame.data.path, tabManager.getTabs());
 
-                        return true;
-                    });
+                            var tab = tabManager.getTabs().filter(function(tab) { return tab.path === event.frame.data.path })[0];
 
-                    callstack.overrideClearMarks(
-                            function(session, editor) {
-                                if (editor._dropletEditor != null &&
-                                        editor._dropletEditor.session != null &&
-                                        editor._dropletEditor.sessions.get(session).currentlyUsingBlocks) {
-                                    editor._dropletEditor.clearLineMarks();
-                                    //editor._dropletEditor.sessions.get(session).clearLineMarks();
-                                    //redrawMain();
-                                    return false;
+                            if (tab != null && tab.editorType == "ace" && tab.editor.ace._dropletEditor != null) {
+                                var editor = tab.editor.ace._dropletEditor;
+                                var session = editor.sessions.get(tab.editor.ace.getSession());
+                                if (session.currentlyUsingBlocks) {
+                                    editor.redrawMain();
+                                    editor.clearLineMarks();
+                                    session.markLine(event.frame.data.line, {color: '#FF0'});
+                                    editor.redrawMain();
                                 }
-
-                                return true;
                             }
-                    );
+                        }
+                        else {
+                            tabManager.getTabs().forEach(function(tab) {
+                                if (tab != null && tab.editorType == "ace" && tab.editor.ace._dropletEditor != null) {
+                                    tab.editor.ace._dropletEditor.clearLineMarks();
+                                }
+                            });
+                        }
+                    });
 
                     ace.extendSerializedState(
 
