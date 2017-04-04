@@ -410,14 +410,19 @@ define([
                             dropletEditor.on('change', function() {
                                 dropletEditor._c9CurrentlySettingAce = true;
 
-                                findAssociatedTab(dropletEditor.session._aceSession, function(tab) {
-                                    var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
-                                    if (floatingBlocks != null) {
-                                        dropletEditor.session.setFloatingBlocks(
-                                            floatingBlocks
-                                        );
-                                        dropletEditor.redrawMain();
-                                    }
+                                findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
+                                    var state = tab.document.getState();
+                                    state.meta.dropletFloatingBlocks = dropletEditor.session.floatingBlocks.map(function(block) {
+                                        return {
+                                            text: block.block.stringify(),
+                                            context: block.block.indentContext,
+                                            pos: {
+                                                x: block.position.x,
+                                                y: block.position.y
+                                            }
+                                        }
+                                    });
+                                    tab.document.setState(state);
                                 });
 
                                 setTimeout(function() {
