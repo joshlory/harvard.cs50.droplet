@@ -2,7 +2,7 @@ define([
         './lib/droplet/droplet-full.js',
         './lib/jquery.min.js',
         './lib/tooltipster/dist/js/tooltipster.bundle.js',
-        'text!./lib/droplet/droplet.css',
+        'text!./lib/droplet/droplet.c_ss',
         'text!./lib/tooltipster/dist/css/tooltipster.bundle.min.css',
         'text!./css/style.css',
         'text!./lib/droplet/worker.js',
@@ -410,7 +410,7 @@ define([
                             dropletEditor.on('change', function() {
                                 dropletEditor._c9CurrentlySettingAce = true;
 
-                                findAssociatedTab(droplet.session._aceSession, function(tab) {
+                                findAssociatedTab(dropletEditor.session._aceSession, function(tab) {
                                     var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
                                     if (floatingBlocks != null) {
 

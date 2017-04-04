@@ -1,4 +1,4 @@
-cp ~/Projects/droplet/css/droplet.css .
+cp ~/Projects/droplet/css/droplet.css droplet.c_ss
 cp ~/Projects/droplet/dist/droplet-full.js .
 cp ~/Projects/droplet/dist/worker.js .
 uglify -s droplet-full.js -o droplet-full.min.js
