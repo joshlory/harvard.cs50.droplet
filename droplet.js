@@ -289,7 +289,7 @@ define([
                     function findAssociatedTab(aceEditSession, fn) {
                         var tabs = tabManager.getTabs();
                         for (var i = 0; i < tabs.length; i++) {
-                            if (tabs[i].document.getSession().editSession == aceEditSession) {
+                            if (tabs[i].document.getSession().session == aceEditSession) {
                                 return fn(tabs[i]);
                             }
                         }
