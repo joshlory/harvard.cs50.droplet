@@ -413,7 +413,9 @@ define([
                                 findAssociatedTab(dropletEditor.session._aceSession, function(tab) {
                                     var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
                                     if (floatingBlocks != null) {
-
+                                        dropletEditor.session.setFloatingBlocks(
+                                            floatingBlocks
+                                        );
                                         dropletEditor.redrawMain();
                                     }
                                 });
