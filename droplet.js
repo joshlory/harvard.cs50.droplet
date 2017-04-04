@@ -48,6 +48,21 @@ define([
                     "return": "#632D99"
                 };
 
+                var BIGGER_CONTEXTS = {
+                    "labeledStatement": "blockItemList",
+                    "compoundStatement": "blockItemList",
+                    "expressionStatement": "blockItemList",
+                    "selectionStatement": "blockItemList",
+                    "iterationStatement": "blockItemList",
+                    "jumpStatement": "blockItemList",
+                    "statement": "blockItemList",
+                    "declaration": "blockItemList",
+                    "specialMethodCall": "blockItemList",
+                    "structDeclaration": "structDeclarationList",
+                    "externalDeclaration": "translationUnit",
+                    "functionDefinition": "translationUnit"
+                }
+
                 // createWorker
                 //
                 // Worker hack to avoid cross-domain issues. In the case where
@@ -415,7 +430,7 @@ define([
                                     state.meta.dropletFloatingBlocks = dropletEditor.session.floatingBlocks.map(function(block) {
                                         return {
                                             text: block.block.stringify(),
-                                            context: block.block.indentContext,
+                                            context: BIGGER_CONTEXTS[block.block.indentContext] || block.block.indentContext,
                                             pos: {
                                                 x: block.position.x,
                                                 y: block.position.y
