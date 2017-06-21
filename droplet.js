@@ -105,7 +105,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "closeconfirmation", "debugger"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "closeconfirmation", "debugger"];
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
                 // updateDropletMode
@@ -125,6 +125,7 @@ define([
                     var settings = imports.settings;
                     var debug = imports.debugger;
                     var dialogConfirm = imports["dialog.confirm"].show;
+                    var dialogError = imports["dialog.error"].show;
 
                     debug.on('frameActivate', function(event) {
                         if (event.frame != null) {
@@ -352,7 +353,10 @@ define([
                             button.click(function() {
                                 // Toggle, but we might want to do some confirmations first.
                                 var continueToggle = function() {
-                                    dropletEditor.toggleBlocks(function() {
+                                    dropletEditor.toggleBlocks(function(result) {
+                                        if (result.success === false) {
+                                            dialogError("Cannot convert to blocks! Does your code compile? Does it contain a syntax error?");
+                                        }
                                         // In case of failure, set the button text to always
                                         // reflect the actual blocks/text state of the editor.
                                         //
