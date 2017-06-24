@@ -105,7 +105,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "closeconfirmation", "debugger"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.alert", "closeconfirmation", "debugger"];
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
                 // updateDropletMode
