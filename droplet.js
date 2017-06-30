@@ -106,6 +106,7 @@ define([
                 var useBlocksByDefault = true;
 
                 main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger"];
+
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
                 // updateDropletMode
@@ -128,8 +129,6 @@ define([
                     var dialogConfirm = imports["dialog.confirm"].show;
                     var dialogError = imports["dialog.error"].show;
                     var dialogAlert = imports["dialog.alert"].show;
-
-                    console.log('asdljfhasdlfkjhdflkjh');
 
                     debug.on('frameActivate', function(event) {
                         if (event.frame != null) {
@@ -316,7 +315,8 @@ define([
                         return null;
                     }
 
-                    var alreadyAddedMenuItem = false;
+
+                    var item, correctItemDisplay;
 
                     // attachToAce
                     //
@@ -325,26 +325,161 @@ define([
                     // in a Droplet instance and sets up that Droplet instance to mimic
                     // the ace editor.
                     function attachToAce(aceEditor) {
-                        /*
-                        if (!alreadyAddedMenuItem) {
-                            // Poll until the 
-                            setTimeout(function() {
-                                menus.addItemByPath("View/Syntax/Blocks", new ui.item({
-                                    type: "checkbox",
-                                    caption: "Blocks"
-                                }), 150, plugin);
-                            }, 10000);
-                            alreadyAddedMenuItem = true;
-                        } */
+
+                        var associatedMenu;
+
                         // (Do no actions if there is already
                         // a Droplet instance attached to this ace
                         // editor)
                         if (!aceEditor._dropletEditor) {
+                            // Flash the menu really fast.
+                            // This is the only way of getting a pointer to the appropriate
+                            // menu.
+                            var associatedMenu = menus.expand('View/Syntax');
+                            menus.collapse('View');
 
-                            // Add the toggle button to the lower-right corner
-                            var button = $('<div class="label droplet-toggle-button" style="cursor:pointer; margin: 1px 10px 4px 3px; min-height: 15px;">')
-                                .text(useBlocksByDefault ? 'Blocks' : 'Text')
-                                .insertBefore($(aceEditor.container.parentElement).find('.bar-status').find('.label').last());
+                            // Dangerous surgery!
+                            // To prevent errors when the toggle button is clicked caused by
+                            // parent event handler.
+                            var previousEventHandler = associatedMenu.$events.onitemclick;
+                            debugger;
+                            associatedMenu.removeEventListener('itemclick', previousEventHandler);
+                            associatedMenu.addEventListener('itemclick', function(e) {
+                                if (e.value != 'droplet_useblocks') {
+                                    previousEventHandler(e);
+                                }
+                            });
+
+                            associatedMenu.addEventListener('onprop.visible', function() {
+                                if (item) {
+                                    correctItemDisplay();
+                                    return;
+                                }
+
+                                function onClickToggle() {
+                                    var tab = tabManager.focussedTab;
+                                    var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                                    if (!focusedDropletEditor) return;
+
+                                    console.log('toggling', focusedDropletEditor);
+
+                                    // Toggle, but we might want to do some confirmations first.
+                                    var continueToggle = function() {
+                                        focusedDropletEditor.toggleBlocks(function(result) {
+                                            if (result && result.success === false) {
+                                                dialogError("Cannot convert to blocks! Does your code compile? Does it contain a syntax error?");
+                                            }
+                                            // In case of failure, set the button text to always
+                                            // reflect the actual blocks/text state of the editor.
+                                            //
+                                            // The editor state flag will be set to reflect the true state of the
+                                            // editor after the toggle animation is done.
+                                            correctItemDisplay();
+                                        });
+
+                                        // However, udpate the default blocks/text setting to always reflect what the user
+                                        // expected the editor state to ultimately be.
+                                        useBlocksByDefault = focusedDropletEditor.session.currentlyUsingBlocks;
+                                        settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
+                                    }
+
+                                    // If there are floating blocks, confirm
+                                    if (focusedDropletEditor.session.currentlyUsingBlocks && focusedDropletEditor.session.floatingBlocks.length > 0) {
+                                        var nBlocks = focusedDropletEditor.session.floatingBlocks.length;
+
+                                        if (focusedDropletEditor.session._c9_dontshowagain) {
+                                            continueToggle();
+                                        }
+                                        else {
+                                            //dialogAlert("asdf", "asdf", "wasdf", function(){}, {showDontShow: true});
+                                            dialogConfirm(
+                                                    "Confirm toggle",
+                                                    "Are you sure you want to switch to text?",
+                                                    "You have " +
+                                                    nBlocks +
+                                                    " " + (nBlocks === 1 ? "piece" : "pieces") +
+                                                    " of code not connected to your program. If you switch to text, these pieces will disappear. Are you sure you want to switch to text?" +
+                                                    "<div class='cbcontainer cbblack' id='_fake_cbcontainer'>" +
+                                                    "<div id='_droplet_dontshow' class='checkbox' style='' type='checkbox' class='checkbox'></div>" +
+                                                    "<span>Don't ask again for this tab</span>" +
+                                                    "</div>",
+
+                                                    function() {
+                                                        if ($('#_droplet_dontshow').is(':checked')) {
+                                                            focusedDropletEditor.session._c9_dontshowagain = true;
+                                                        }
+                                                        continueToggle();
+                                                    },
+
+                                                    function() {
+                                                        // pass
+                                                    },
+
+                                                    {isHTML: true}
+                                            );
+
+                                            dialogConfirmPlugin.once('show', function() {
+                                                $('#_fake_cbcontainer').mouseover(function() {
+                                                    $(this).addClass('cbcontainerOver');
+                                                }).mouseout(function() {
+                                                    $(this).removeClass('cbcontainerOver');
+                                                }).click(function() {
+                                                    focusedDropletEditor.session._c9_dontshowagain = !focusedDropletEditor.session._c9_dontshowagain;
+                                                    if (focusedDropletEditor.session._c9_dontshowagain) {
+                                                        $(this).addClass('cbcontainerChecked');
+                                                    }
+                                                    else {
+                                                        $(this).removeClass('cbcontainerChecked');
+                                                    }
+                                                });
+                                            });
+                                        }
+                                    }
+
+                                    else {
+                                        continueToggle();
+                                    }
+                                }
+
+                                item = new ui.item({
+                                    type: "checkbox",
+                                    value: 'droplet_useblocks',
+                                    caption: 'Blocks',
+                                    onclick: onClickToggle,
+                                });
+
+                                window.__item = item;
+
+                                correctItemDisplay = function() {
+                                    var tab = tabManager.focussedTab;
+                                    var focusedDropletEditor = (tab.path && tab.editor.ace)._dropletEditor;
+                                    
+                                    console.log('The focused droplet editor is', focusedDropletEditor);
+
+                                    if (!focusedDropletEditor) {
+                                        item.$html && $(item.$html).css('display', 'none');
+                                        return
+                                    }
+
+                                    if (!focusedDropletEditor.session) {
+                                        item.$html && $(item.$html).css('display', 'none');
+                                    }
+                                    else {
+                                        item.$html && $(item.$html).css('display', '');
+                                        if (focusedDropletEditor.session.currentlyUsingBlocks) {
+                                            item.$html && $(item.$html).addClass('checked');
+                                        }
+                                        else {
+                                            item.$html && $(item.$html).removeClass('checked');
+                                        }
+                                    }
+                                }
+
+                                correctItemDisplay();
+
+                                menus.addItemByPath("View/Syntax/Blocks", item, 150, plugin);
+                            });
 
                             // Store the value of ace, which could change as the result of
                             // mutations we do to it and its associated Droplet. We will restore
@@ -356,7 +491,7 @@ define([
 
                             findAssociatedTab(aceEditor.getSession(), function(tab) {
                                 var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
-                                if (floatingBlocks != null) {
+                                if (floatingBlocks != null && dropletEditor.session) {
                                     dropletEditor.session.setFloatingBlocks(
                                         floatingBlocks
                                     );
@@ -364,90 +499,6 @@ define([
                                 }
                             });
 
-                            button.css('display', (dropletEditor.session ? 'inline' : 'none'));
-
-                            // Set up the toggle button to toggle the Droplet editor block mode.
-                            button.click(function() {
-                                // Toggle, but we might want to do some confirmations first.
-                                var continueToggle = function() {
-                                    dropletEditor.toggleBlocks(function(result) {
-                                        if (result && result.success === false) {
-                                            dialogError("Cannot convert to blocks! Does your code compile? Does it contain a syntax error?");
-                                        }
-                                        // In case of failure, set the button text to always
-                                        // reflect the actual blocks/text state of the editor.
-                                        //
-                                        // The editor state flag will be set to reflect the true state of the
-                                        // editor after the toggle animation is done.
-                                        button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
-                                    });
-
-                                    // However, udpate the default blocks/text setting to always reflect what the user
-                                    // expected the editor state to ultimately be.
-                                    useBlocksByDefault = dropletEditor.session.currentlyUsingBlocks;
-                                    settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
-                                    button.text(useBlocksByDefault ? 'Blocks' : 'Text');
-                                }
-
-                                // If there are floating blocks, confirm
-                                if (dropletEditor.session.currentlyUsingBlocks && dropletEditor.session.floatingBlocks.length > 0) {
-                                    var nBlocks = dropletEditor.session.floatingBlocks.length;
-
-                                    if (dropletEditor.session._c9_dontshowagain) {
-                                        continueToggle();
-                                    }
-                                    else {
-                                        //dialogAlert("asdf", "asdf", "wasdf", function(){}, {showDontShow: true});
-                                        dialogConfirm(
-                                                "Confirm toggle",
-                                                "Are you sure you want to switch to text?",
-                                                "You have " +
-                                                nBlocks +
-                                                " " + (nBlocks === 1 ? "piece" : "pieces") +
-                                                " of code not connected to your program. If you switch to text, these pieces will disappear. Are you sure you want to switch to text?" +
-                                                "<div class='cbcontainer cbblack' id='_fake_cbcontainer'>" +
-                                                "<div id='_droplet_dontshow' class='checkbox' style='' type='checkbox' class='checkbox'></div>" +
-                                                "<span>Don't ask again for this tab</span>" +
-                                                "</div>",
-
-                                                function() {
-                                                    if ($('#_droplet_dontshow').is(':checked')) {
-                                                        dropletEditor.session._c9_dontshowagain = true;
-                                                    }
-                                                    continueToggle();
-                                                },
-
-                                                function() {
-                                                    // pass
-                                                },
-
-                                                {isHTML: true}
-                                        );
-
-                                        dialogConfirmPlugin.once('show', function() {
-                                            console.log('Binding now!', $('#_fake_cbcontainer'));
-
-                                            $('#_fake_cbcontainer').mouseover(function() {
-                                                $(this).addClass('cbcontainerOver');
-                                            }).mouseout(function() {
-                                                $(this).removeClass('cbcontainerOver');
-                                            }).click(function() {
-                                                dropletEditor.session._c9_dontshowagain = !dropletEditor.session._c9_dontshowagain;
-                                                if (dropletEditor.session._c9_dontshowagain) {
-                                                    $(this).addClass('cbcontainerChecked');
-                                                }
-                                                else {
-                                                    $(this).removeClass('cbcontainerChecked');
-                                                }
-                                            });
-                                        });
-                                    }
-                                }
-
-                                else {
-                                    continueToggle();
-                                }
-                            });
 
                             // Set up tooltips. Every time the Droplet palette changes, we will go through
                             // all the elements in it and add a Reference50 tooltip to it.
@@ -533,7 +584,8 @@ define([
                                         aceEditor._dropletEditor.updateNewSession(null);
                                     }
                                 }
-                                button.css('display', (dropletEditor.session ? 'inline' : 'none'));
+
+                                correctItemDisplay();
 
                                 var aceSession = e.session;
 
@@ -541,9 +593,21 @@ define([
                                 // as well.
                                 e.session.on('changeMode', function(event) {
                                     if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
-                                        // Set the mode and the palette
-                                        aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-                                        aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+                                        // Set the mode and the palette, if there are some
+                                        var option = lookupOptions(aceEditor.getSession().$modeId);
+                                        if (option != null) {
+                                            aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
+                                            aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+                                        }
+
+                                        // Otherwise, destroy the session.
+                                        else {
+                                            debugger;
+                                            aceEditor._dropletEditor.setEditorState(false);
+                                            aceEditor._dropletEditor.updateNewSession(null);
+                                            aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
+                                            correctItemDisplay();
+                                        }
                                     } else {
                                         // If we didn't originally bind a session (i.e. the editor
                                         // started out in a language that wasn't supported by Droplet),
@@ -551,15 +615,17 @@ define([
                                         var option = lookupOptions(aceEditor.getSession().$modeId);
                                         if (option != null) {
                                             aceEditor._dropletEditor.bindNewSession(option);
-                                            button.css('display', 'inline');
+                                            correctItemDisplay();
                                         }
 
                                         // If we're switching to a language we don't recognize, destroy the current
                                         // session.
                                         else {
-                                            aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
+                                            debugger;
+                                            aceEditor._dropletEditor.setEditorState(false);
                                             aceEditor._dropletEditor.updateNewSession(null);
-                                            button.css('display', 'none');
+                                            aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
+                                            correctItemDisplay();
                                         }
                                     }
                                 });
@@ -568,9 +634,21 @@ define([
                             // Similarly bind to mode changes on the original session.
                             aceEditor.getSession().on('changeMode', function(e) {
                                 if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
-                                    // Set the mode and the palette
-                                    aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-                                    aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+                                    // Set the mode and the palette, if there are some
+                                    var option = lookupOptions(aceEditor.getSession().$modeId);
+                                    if (option != null) {
+                                        aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
+                                        aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+                                    }
+
+                                    // Otherwise, destroy the session.
+                                    else {
+                                        debugger;
+                                        aceEditor._dropletEditor.setEditorState(false);
+                                        aceEditor._dropletEditor.updateNewSession(null);
+                                        aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
+                                        correctItemDisplay();
+                                    }
                                 } else {
                                     // If we didn't originally bind a session (i.e. the editor
                                     // started out in a language that wasn't supported by Droplet),
@@ -578,15 +656,17 @@ define([
                                     var option = lookupOptions(aceEditor.getSession().$modeId);
                                     if (option != null) {
                                         aceEditor._dropletEditor.bindNewSession(option);
-                                        button.css('display', 'inline');
+                                        correctItemDisplay();
                                     }
 
                                     // If we're switching to a language we don't recognize, destroy the current
                                     // session.
                                     else {
-                                        aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
+                                        debugger;
+                                        aceEditor._dropletEditor.setEditorState(false);
                                         aceEditor._dropletEditor.updateNewSession(null);
-                                        button.css('display', 'none');
+                                        aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
+                                        correctItemDisplay();
                                     }
                                 }
                             });
