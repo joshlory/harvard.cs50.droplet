@@ -199,6 +199,11 @@
           "title": "<p>struct property access</p>\n<p>Extract one of the data fields packaged into a struct.</p>\n"
         },
         {
+          "block": "struct_name->member_name",
+          "context": "expression",
+          "title": "<p>struct pointer property access</p>\n<p>Extract one of the data fields packaged into a pointer to a struct.</p>\n"
+        },
+        {
           "block": "type member;",
           "context": "structDeclaration",
           "title": "<p>declare struct data field</p>"

@@ -105,7 +105,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "closeconfirmation", "debugger"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger"];
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
                 // updateDropletMode
@@ -124,8 +124,12 @@ define([
                     var menus = imports.menus;
                     var settings = imports.settings;
                     var debug = imports.debugger;
+                    var dialogConfirmPlugin = imports["dialog.confirm"];
                     var dialogConfirm = imports["dialog.confirm"].show;
                     var dialogError = imports["dialog.error"].show;
+                    var dialogAlert = imports["dialog.alert"].show;
+
+                    console.log('asdljfhasdlfkjhdflkjh');
 
                     debug.on('frameActivate', function(event) {
                         if (event.frame != null) {
@@ -294,7 +298,7 @@ define([
                                         function() {
                                             // pass
                                         }
-                                        );
+                                    );
 
                                     return false;
                                 }
@@ -312,6 +316,8 @@ define([
                         return null;
                     }
 
+                    var alreadyAddedMenuItem = false;
+
                     // attachToAce
                     //
                     // Called initially on all ace editors and then again
@@ -319,6 +325,17 @@ define([
                     // in a Droplet instance and sets up that Droplet instance to mimic
                     // the ace editor.
                     function attachToAce(aceEditor) {
+                        /*
+                        if (!alreadyAddedMenuItem) {
+                            // Poll until the 
+                            setTimeout(function() {
+                                menus.addItemByPath("View/Syntax/Blocks", new ui.item({
+                                    type: "checkbox",
+                                    caption: "Blocks"
+                                }), 150, plugin);
+                            }, 10000);
+                            alreadyAddedMenuItem = true;
+                        } */
                         // (Do no actions if there is already
                         // a Droplet instance attached to this ace
                         // editor)
@@ -354,7 +371,7 @@ define([
                                 // Toggle, but we might want to do some confirmations first.
                                 var continueToggle = function() {
                                     dropletEditor.toggleBlocks(function(result) {
-                                        if (result.success === false) {
+                                        if (result && result.success === false) {
                                             dialogError("Cannot convert to blocks! Does your code compile? Does it contain a syntax error?");
                                         }
                                         // In case of failure, set the button text to always
@@ -375,20 +392,56 @@ define([
                                 // If there are floating blocks, confirm
                                 if (dropletEditor.session.currentlyUsingBlocks && dropletEditor.session.floatingBlocks.length > 0) {
                                     var nBlocks = dropletEditor.session.floatingBlocks.length;
-                                    dialogConfirm(
-                                            "Confirm toggle",
-                                            "Are you sure you want to switch to text?",
-                                            "You have " +
-                                            nBlocks +
-                                            " " + (nBlocks === 1 ? "piece" : "pieces") +
-                                            " of code not connected to your program. If you switch to text, these pieces will disappear. Are you sure you want to switch to text?",
 
-                                            continueToggle,
+                                    if (dropletEditor.session._c9_dontshowagain) {
+                                        continueToggle();
+                                    }
+                                    else {
+                                        //dialogAlert("asdf", "asdf", "wasdf", function(){}, {showDontShow: true});
+                                        dialogConfirm(
+                                                "Confirm toggle",
+                                                "Are you sure you want to switch to text?",
+                                                "You have " +
+                                                nBlocks +
+                                                " " + (nBlocks === 1 ? "piece" : "pieces") +
+                                                " of code not connected to your program. If you switch to text, these pieces will disappear. Are you sure you want to switch to text?" +
+                                                "<div class='cbcontainer cbblack' id='_fake_cbcontainer'>" +
+                                                "<div id='_droplet_dontshow' class='checkbox' style='' type='checkbox' class='checkbox'></div>" +
+                                                "<span>Don't ask again for this tab</span>" +
+                                                "</div>",
 
-                                            function() {
-                                                // pass
-                                            }
-                                            );
+                                                function() {
+                                                    if ($('#_droplet_dontshow').is(':checked')) {
+                                                        dropletEditor.session._c9_dontshowagain = true;
+                                                    }
+                                                    continueToggle();
+                                                },
+
+                                                function() {
+                                                    // pass
+                                                },
+
+                                                {isHTML: true}
+                                        );
+
+                                        dialogConfirmPlugin.once('show', function() {
+                                            console.log('Binding now!', $('#_fake_cbcontainer'));
+
+                                            $('#_fake_cbcontainer').mouseover(function() {
+                                                $(this).addClass('cbcontainerOver');
+                                            }).mouseout(function() {
+                                                $(this).removeClass('cbcontainerOver');
+                                            }).click(function() {
+                                                dropletEditor.session._c9_dontshowagain = !dropletEditor.session._c9_dontshowagain;
+                                                if (dropletEditor.session._c9_dontshowagain) {
+                                                    $(this).addClass('cbcontainerChecked');
+                                                }
+                                                else {
+                                                    $(this).removeClass('cbcontainerChecked');
+                                                }
+                                            });
+                                        });
+                                    }
                                 }
 
                                 else {
