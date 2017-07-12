@@ -105,7 +105,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger", "clipboard"];
 
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
@@ -129,6 +129,7 @@ define([
                     var dialogConfirm = imports["dialog.confirm"].show;
                     var dialogError = imports["dialog.error"].show;
                     var dialogAlert = imports["dialog.alert"].show;
+                    var clipboard = imports.clipboard;
 
                     debug.on('frameActivate', function(event) {
                         if (event.frame != null) {
@@ -317,6 +318,49 @@ define([
 
 
                     var item, correctItemDisplay;
+
+                    // Bind to copy/paste/cut
+                    clipboard.on('copy', function(e) {
+                        if (e.native) return;
+
+                        // Get the active tab
+                        var tab = tabManager.focussedTab;
+                        var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        // Copy
+                        if (focusedDropletEditor.lassoSelection != null) {
+                            e.clipboardData.setData('text/plain', focusedDropletEditor.lassoSelection.stringifyInPlace());
+                        }
+
+                    });
+
+                    clipboard.on('paste', function(e) {
+                        if (e.native) return;
+
+                        // Get the active tab
+                        var tab = tabManager.focussedTab;
+                        var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        if (!focusedDropletEditor) return;
+
+                        // Paste
+                        var data = e.clipboardData.getData('text/plain');
+                        focusedDropletEditor.pasteTextAtCursor(data):
+                    });
+
+                    clipboard.on('cut', function() {
+                        // Get the active tab
+                        var tab = tabManager.focussedTab;
+                        var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        // Copy
+                        if (focusedDropletEditor.lassoSelection != null) {
+                            e.clipboardData.setData('text/plain', focusedDropletEditor.lassoSelection.stringifyInPlace());
+
+                            // Delete
+                            focusedDropletEditor.deleteSelection();
+                        }
+                    });
 
                     // attachToAce
                     //
