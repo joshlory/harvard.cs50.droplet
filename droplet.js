@@ -345,7 +345,7 @@ define([
 
                         // Paste
                         var data = e.clipboardData.getData('text/plain');
-                        focusedDropletEditor.pasteTextAtCursor(data):
+                        focusedDropletEditor.pasteTextAtCursor(data);
                     });
 
                     clipboard.on('cut', function() {
