@@ -386,7 +386,6 @@ define([
                             // To prevent errors when the toggle button is clicked caused by
                             // parent event handler.
                             var previousEventHandler = associatedMenu.$events.onitemclick;
-                            debugger;
                             associatedMenu.removeEventListener('itemclick', previousEventHandler);
                             associatedMenu.addEventListener('itemclick', function(e) {
                                 if (e.value != 'droplet_useblocks') {
@@ -646,7 +645,6 @@ define([
 
                                         // Otherwise, destroy the session.
                                         else {
-                                            debugger;
                                             aceEditor._dropletEditor.setEditorState(false);
                                             aceEditor._dropletEditor.updateNewSession(null);
                                             aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
@@ -665,7 +663,6 @@ define([
                                         // If we're switching to a language we don't recognize, destroy the current
                                         // session.
                                         else {
-                                            debugger;
                                             aceEditor._dropletEditor.setEditorState(false);
                                             aceEditor._dropletEditor.updateNewSession(null);
                                             aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
@@ -687,7 +684,6 @@ define([
 
                                     // Otherwise, destroy the session.
                                     else {
-                                        debugger;
                                         aceEditor._dropletEditor.setEditorState(false);
                                         aceEditor._dropletEditor.updateNewSession(null);
                                         aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
@@ -706,7 +702,6 @@ define([
                                     // If we're switching to a language we don't recognize, destroy the current
                                     // session.
                                     else {
-                                        debugger;
                                         aceEditor._dropletEditor.setEditorState(false);
                                         aceEditor._dropletEditor.updateNewSession(null);
                                         aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
