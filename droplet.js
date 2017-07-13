@@ -317,7 +317,7 @@ define([
                     }
 
 
-                    var item, correctItemDisplay;
+                    var item, correctItemDisplay = function() {};
 
                     // Bind to copy/paste/cut
                     clipboard.on('copy', function(e) {
@@ -498,8 +498,6 @@ define([
                                     var tab = tabManager.focussedTab;
                                     var focusedDropletEditor = (tab.path && tab.editor.ace)._dropletEditor;
                                     
-                                    console.log('The focused droplet editor is', focusedDropletEditor);
-
                                     if (!focusedDropletEditor) {
                                         item.$html && $(item.$html).css('display', 'none');
                                         return
