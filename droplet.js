@@ -348,7 +348,7 @@ define([
                         focusedDropletEditor.pasteTextAtCursor(data);
                     });
 
-                    clipboard.on('cut', function() {
+                    clipboard.on('cut', function(e) {
                         // Get the active tab
                         var tab = tabManager.focussedTab;
                         var focusedDropletEditor = tab.editor.ace._dropletEditor;
