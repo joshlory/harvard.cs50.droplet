@@ -316,7 +316,7 @@ define([
                     }
 
 
-                    var item, correctItemDisplay;
+                    var item, correctItemDisplay = function() {};
 
                     // attachToAce
                     //
