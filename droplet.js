@@ -105,7 +105,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger", "clipboard"];
 
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
@@ -129,6 +129,7 @@ define([
                     var dialogConfirm = imports["dialog.confirm"].show;
                     var dialogError = imports["dialog.error"].show;
                     var dialogAlert = imports["dialog.alert"].show;
+                    var clipboard = imports.clipboard;
 
                     debug.on('frameActivate', function(event) {
                         if (event.frame != null) {
@@ -318,6 +319,49 @@ define([
 
                     var item, correctItemDisplay = function() {};
 
+                    // Bind to copy/paste/cut
+                    clipboard.on('copy', function(e) {
+                        if (e.native) return;
+
+                        // Get the active tab
+                        var tab = tabManager.focussedTab;
+                        var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        // Copy
+                        if (focusedDropletEditor.lassoSelection != null) {
+                            e.clipboardData.setData('text/plain', focusedDropletEditor.lassoSelection.stringifyInPlace());
+                        }
+
+                    });
+
+                    clipboard.on('paste', function(e) {
+                        if (e.native) return;
+
+                        // Get the active tab
+                        var tab = tabManager.focussedTab;
+                        var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        if (!focusedDropletEditor) return;
+
+                        // Paste
+                        var data = e.clipboardData.getData('text/plain');
+                        focusedDropletEditor.pasteTextAtCursor(data);
+                    });
+
+                    clipboard.on('cut', function(e) {
+                        // Get the active tab
+                        var tab = tabManager.focussedTab;
+                        var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        // Copy
+                        if (focusedDropletEditor.lassoSelection != null) {
+                            e.clipboardData.setData('text/plain', focusedDropletEditor.lassoSelection.stringifyInPlace());
+
+                            // Delete
+                            focusedDropletEditor.deleteSelection();
+                        }
+                    });
+
                     // attachToAce
                     //
                     // Called initially on all ace editors and then again
@@ -342,7 +386,6 @@ define([
                             // To prevent errors when the toggle button is clicked caused by
                             // parent event handler.
                             var previousEventHandler = associatedMenu.$events.onitemclick;
-                            debugger;
                             associatedMenu.removeEventListener('itemclick', previousEventHandler);
                             associatedMenu.addEventListener('itemclick', function(e) {
                                 if (e.value != 'droplet_useblocks') {
@@ -602,7 +645,6 @@ define([
 
                                         // Otherwise, destroy the session.
                                         else {
-                                            debugger;
                                             aceEditor._dropletEditor.setEditorState(false);
                                             aceEditor._dropletEditor.updateNewSession(null);
                                             aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
@@ -621,7 +663,6 @@ define([
                                         // If we're switching to a language we don't recognize, destroy the current
                                         // session.
                                         else {
-                                            debugger;
                                             aceEditor._dropletEditor.setEditorState(false);
                                             aceEditor._dropletEditor.updateNewSession(null);
                                             aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
@@ -643,7 +684,6 @@ define([
 
                                     // Otherwise, destroy the session.
                                     else {
-                                        debugger;
                                         aceEditor._dropletEditor.setEditorState(false);
                                         aceEditor._dropletEditor.updateNewSession(null);
                                         aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
@@ -662,7 +702,6 @@ define([
                                     // If we're switching to a language we don't recognize, destroy the current
                                     // session.
                                     else {
-                                        debugger;
                                         aceEditor._dropletEditor.setEditorState(false);
                                         aceEditor._dropletEditor.updateNewSession(null);
                                         aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
