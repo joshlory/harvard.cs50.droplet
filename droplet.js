@@ -318,6 +318,54 @@ define([
 
                     var item, correctItemDisplay = function() {};
 
+                    // Bind to copy/paste/cut
+                    clipboard.on('copy', function(e) {
+                        if (e.native) return;
+
+                        // Get the active tab
+                        var tab = tabManager.focussedTab;
+                        if (!tab || !tab.editor || !tab.editor.ace) return;
+                        var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        // Copy
+                        if (focusedDropletEditor.lassoSelection != null) {
+                            e.clipboardData.setData('text/plain', focusedDropletEditor.lassoSelection.stringifyInPlace());
+                        }
+
+                    });
+
+                    clipboard.on('paste', function(e) {
+                        if (e.native) return;
+
+                        // Get the active tab
+                        var tab = tabManager.focussedTab;
+                        if (!tab || !tab.editor || !tab.editor.ace) return;
+
+                        var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        if (!focusedDropletEditor) return;
+
+                        // Paste
+                        var data = e.clipboardData.getData('text/plain');
+                        focusedDropletEditor.pasteTextAtCursor(data);
+                    });
+
+                    clipboard.on('cut', function(e) {
+                        // Get the active tab
+                        var tab = tabManager.focussedTab;
+                        if (!tab || !tab.editor || !tab.editor.ace) return;
+
+                        var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        // Copy
+                        if (focusedDropletEditor.lassoSelection != null) {
+                            e.clipboardData.setData('text/plain', focusedDropletEditor.lassoSelection.stringifyInPlace());
+
+                            // Delete
+                            focusedDropletEditor.deleteSelection();
+                        }
+                    });
+
                     // attachToAce
                     //
                     // Called initially on all ace editors and then again
@@ -358,6 +406,7 @@ define([
 
                                 function onClickToggle() {
                                     var tab = tabManager.focussedTab;
+                                    if (!tab || !tab.editor || !tab.editor.ace) return;
                                     var focusedDropletEditor = tab.editor.ace._dropletEditor;
 
                                     if (!focusedDropletEditor) return;
@@ -453,10 +502,9 @@ define([
 
                                 correctItemDisplay = function() {
                                     var tab = tabManager.focussedTab;
+                                    if (!tab || !tab.editor || !tab.editor.ace) return;
                                     var focusedDropletEditor = (tab.path && tab.editor.ace)._dropletEditor;
                                     
-                                    console.log('The focused droplet editor is', focusedDropletEditor);
-
                                     if (!focusedDropletEditor) {
                                         item.$html && $(item.$html).css('display', 'none');
                                         return
@@ -557,7 +605,11 @@ define([
                             })
 
                             // Now restore the original value.
-                            aceEditor._dropletEditor.setValueAsync(currentValue);
+                            if (aceEditor._dropletEditor.session.currentlyUsingBlocks) {
+                                aceEditor._dropletEditor.setValueAsync(currentValue);
+                            } else {
+                                aceEditor._dropletEditor.setValue(currentValue);
+                            }
 
                             // Bind to session changes to change or create
                             // Droplet sessions as necessary
@@ -692,7 +744,11 @@ define([
                                         e.doc.on('changed', function() {
                                             setTimeout(function() {
                                                 if (e.doc.value != aceEditor._dropletEditor.getValue()) {
-                                                    aceEditor._dropletEditor.setValueAsync(e.doc.value);
+                                                    if (aceEditor._dropletEditor.session.currentlyUsingBlocks) {
+                                                        aceEditor._dropletEditor.setValueAsync(currentValue);
+                                                    } else {
+                                                        aceEditor._dropletEditor.setValue(currentValue);
+                                                    }
                                                 }
                                             }, 0);
                                         });
