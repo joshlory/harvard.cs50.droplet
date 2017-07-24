@@ -164,11 +164,13 @@ define([
 
                     window._lastEditor = null; // This is a debug variable/
 
+                    /*
                     settings.on("read", function() {
                         settings.setDefaults("user/cs50/droplet", [
                             ["useBlocksByDefault", false]
                             ]);
                     });
+                    */
 
                     function load() {
 
@@ -206,7 +208,7 @@ define([
 
                         // Load user setting for whether to open new files
                         // in blocks mode or not
-                        useBlocksByDefault = settings.get("user/cs50/droplet/@useBlocksByDefault");
+                        // useBlocksByDefault = settings.get("user/cs50/droplet/@useBlocksByDefault");
 
                         updateNight();
 
@@ -423,12 +425,20 @@ define([
                                             // The editor state flag will be set to reflect the true state of the
                                             // editor after the toggle animation is done.
                                             correctItemDisplay();
+
+                                            findAssociatedTab(focusedDropletEditor.sessions.getReverse(focusedDropletEditor.session), function(tab) {
+                                                var state = tab.document.getState();
+                                                state.meta.usingBlocks = focusedDropletEditor.session.currentlyUsingBlocks;
+                                                tab.document.setState(state);
+                                            });
                                         });
 
                                         // However, udpate the default blocks/text setting to always reflect what the user
                                         // expected the editor state to ultimately be.
-                                        useBlocksByDefault = focusedDropletEditor.session.currentlyUsingBlocks;
-                                        settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
+
+                                        // (Never use blocks by default)
+                                        // useBlocksByDefault = focusedDropletEditor.session.currentlyUsingBlocks;
+                                        // settings.set("user/cs50/droplet/@useBlocksByDefault", useBlocksByDefault);
                                     }
 
                                     // If there are floating blocks, confirm
@@ -536,6 +546,10 @@ define([
                             var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
 
                             findAssociatedTab(aceEditor.getSession(), function(tab) {
+                                if (tab.document.getState().meta.usingBlocks) {
+                                    dropletEditor.setEditorState(true);
+                                }
+
                                 var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
                                 if (floatingBlocks != null && dropletEditor.session) {
                                     dropletEditor.session.setFloatingBlocks(
@@ -621,6 +635,10 @@ define([
 
                                         // Populate with floating blocks if necessary
                                         findAssociatedTab(e.session, function(tab) {
+                                            if (tab.document.getState().meta.usingBlocks) {
+                                                dropletEditor.setEditorState(true);
+                                            }
+
                                             var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
                                             if (floatingBlocks != null) {
                                                 dropletEditor.session.setFloatingBlocks(
@@ -761,7 +779,7 @@ define([
                         function lookupOptions(mode) {
                             if (mode in OPT_MAP) {
                                 var result = OPT_MAP[mode];
-                                result.textModeAtStart = !useBlocksByDefault;
+                                result.textModeAtStart = true // !useBlocksByDefault;
                                 return result;
                             }
                             else {
