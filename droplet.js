@@ -105,7 +105,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger", "clipboard"];
 
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
@@ -129,6 +129,7 @@ define([
                     var dialogConfirm = imports["dialog.confirm"].show;
                     var dialogError = imports["dialog.error"].show;
                     var dialogAlert = imports["dialog.alert"].show;
+                    var clipboard = imports.clipboard;
 
                     debug.on('frameActivate', function(event) {
                         if (event.frame != null) {
@@ -340,7 +341,6 @@ define([
                         // Get the active tab
                         var tab = tabManager.focussedTab;
                         if (!tab || !tab.editor || !tab.editor.ace) return;
-
                         var focusedDropletEditor = tab.editor.ace._dropletEditor;
 
                         if (!focusedDropletEditor) return;
@@ -354,7 +354,6 @@ define([
                         // Get the active tab
                         var tab = tabManager.focussedTab;
                         if (!tab || !tab.editor || !tab.editor.ace) return;
-
                         var focusedDropletEditor = tab.editor.ace._dropletEditor;
 
                         // Copy
@@ -390,7 +389,6 @@ define([
                             // To prevent errors when the toggle button is clicked caused by
                             // parent event handler.
                             var previousEventHandler = associatedMenu.$events.onitemclick;
-                            debugger;
                             associatedMenu.removeEventListener('itemclick', previousEventHandler);
                             associatedMenu.addEventListener('itemclick', function(e) {
                                 if (e.value != 'droplet_useblocks') {
@@ -654,7 +652,6 @@ define([
 
                                         // Otherwise, destroy the session.
                                         else {
-                                            debugger;
                                             aceEditor._dropletEditor.setEditorState(false);
                                             aceEditor._dropletEditor.updateNewSession(null);
                                             aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
@@ -673,7 +670,6 @@ define([
                                         // If we're switching to a language we don't recognize, destroy the current
                                         // session.
                                         else {
-                                            debugger;
                                             aceEditor._dropletEditor.setEditorState(false);
                                             aceEditor._dropletEditor.updateNewSession(null);
                                             aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
@@ -695,7 +691,6 @@ define([
 
                                     // Otherwise, destroy the session.
                                     else {
-                                        debugger;
                                         aceEditor._dropletEditor.setEditorState(false);
                                         aceEditor._dropletEditor.updateNewSession(null);
                                         aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
@@ -714,7 +709,6 @@ define([
                                     // If we're switching to a language we don't recognize, destroy the current
                                     // session.
                                     else {
-                                        debugger;
                                         aceEditor._dropletEditor.setEditorState(false);
                                         aceEditor._dropletEditor.updateNewSession(null);
                                         aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
