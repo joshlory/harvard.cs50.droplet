@@ -105,7 +105,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger", "clipboard"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger", "clipboard", "timeslider"];
 
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
@@ -130,6 +130,7 @@ define([
                     var dialogError = imports["dialog.error"].show;
                     var dialogAlert = imports["dialog.alert"].show;
                     var clipboard = imports.clipboard;
+                    var timeslider = imports.timeslider;
 
                     debug.on('frameActivate', function(event) {
                         if (event.frame != null) {
@@ -328,6 +329,8 @@ define([
                         if (!tab || !tab.editor || !tab.editor.ace) return;
                         var focusedDropletEditor = tab.editor.ace._dropletEditor;
 
+                        if (!focusedDropletEditor || !focusedDropletEditor.session.currentlyUsingBlocks) return;
+
                         // Copy
                         if (focusedDropletEditor.lassoSelection != null) {
                             e.clipboardData.setData('text/plain', focusedDropletEditor.lassoSelection.stringifyInPlace());
@@ -343,7 +346,7 @@ define([
                         if (!tab || !tab.editor || !tab.editor.ace) return;
                         var focusedDropletEditor = tab.editor.ace._dropletEditor;
 
-                        if (!focusedDropletEditor) return;
+                        if (!focusedDropletEditor || !focusedDropletEditor.session.currentlyUsingBlocks) return;
 
                         // Paste
                         var data = e.clipboardData.getData('text/plain');
@@ -355,6 +358,8 @@ define([
                         var tab = tabManager.focussedTab;
                         if (!tab || !tab.editor || !tab.editor.ace) return;
                         var focusedDropletEditor = tab.editor.ace._dropletEditor;
+
+                        if (!focusedDropletEditor || !focusedDropletEditor.session.currentlyUsingBlocks) return;
 
                         // Copy
                         if (focusedDropletEditor.lassoSelection != null) {
@@ -396,8 +401,6 @@ define([
                                             state.meta.usingBlocks = dropletEditor.session.currentlyUsingBlocks;
                                             tab.document.setState(state);
                                         });
-
-                                        correctButtonDisplay();
 
                                         correctButtonDisplay();
                                     });
@@ -463,6 +466,10 @@ define([
                                 }
                             }
 
+                            settings.on("user/collab/@timeslider-visible", function(value) {
+                                dropletEditor.session.setEditorState(false);
+                            });
+
                             // Store the value of ace, which could change as the result of
                             // mutations we do to it and its associated Droplet. We will restore
                             // the original value of the editor after we are done.
@@ -494,6 +501,28 @@ define([
                                 el = el.parentElement;
                             }
 
+                            el.addEventListener('contextmenu', function() {
+                                var items = ace.contextMenu.items;
+                                if (dropletEditor.session.currentlyUsingBlocks) {
+                                    items[0].disabled = true;
+                                    items[1].disabled = true;
+                                    items[2].disabled = true;
+                                    items[4].disabled = true;
+                                    setTimeout(function() {
+                                        items[0].disabled = true;
+                                        items[1].disabled = true;
+                                        items[2].disabled = true;
+                                        items[4].disabled = true;
+                                    }, 0);
+                                }
+                                else {
+                                    items[0].disabled = false;
+                                    items[1].disabled = false;
+                                    items[2].disabled = false;
+                                    items[4].disabled = false;
+                                }
+                            });
+
                             // Find the gear button and insert before it
                             button.insertAfter(
                                 $(el)
@@ -502,9 +531,14 @@ define([
                             );
 
                             function correctButtonDisplay() {
-                                button.css('display', (dropletEditor.session ? 'inline' : 'none'));
-                                if (dropletEditor.session) {
-                                    button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
+                                if (timeslider.visible) {
+                                    button.css('display', 'none');
+                                }
+                                else {
+                                    button.css('display', (dropletEditor.session ? 'inline' : 'none'));
+                                    if (dropletEditor.session) {
+                                        button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
+                                    }
                                 }
                             }
 
