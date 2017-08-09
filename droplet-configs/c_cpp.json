@@ -16,6 +16,7 @@
         "return": "#b593e6"
     }
   },
+  "blockBackspaceEnabled": false,
   "palette": [
     {
       "name": "Control",
