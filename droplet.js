@@ -131,6 +131,7 @@ define([
                     var dialogAlert = imports["dialog.alert"].show;
                     var clipboard = imports.clipboard;
                     var timeslider = imports.timeslider;
+                    var timeslider_visible = false;
 
                     debug.on('frameActivate', function(event) {
                         if (event.frame != null) {
@@ -467,7 +468,8 @@ define([
                             }
 
                             settings.on("user/collab/@timeslider-visible", function(value) {
-                                dropletEditor.session.setEditorState(false);
+                                timeslider_visible = value;
+                                correctButtonDisplay();
                             });
 
                             // Store the value of ace, which could change as the result of
@@ -531,10 +533,15 @@ define([
                             );
 
                             function correctButtonDisplay() {
-                                if (timeslider.visible) {
+                                if (timeslider_visible) {
+                                    console.log('hiding.');
                                     button.css('display', 'none');
+                                    if (dropletEditor.session) {
+                                        dropletEditor.setEditorState(false);
+                                    }
                                 }
                                 else {
+                                    console.log('unhiding.', dropletEditor.session != null);
                                     button.css('display', (dropletEditor.session ? 'inline' : 'none'));
                                     if (dropletEditor.session) {
                                         button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
@@ -640,46 +647,48 @@ define([
                                     }
 
                                     correctButtonDisplay();
+
+                                    var aceSession = e.session;
+
+                                    // Bind to mode changes on this new session to update the Droplet mode
+                                    // as well.
+                                    e.session.on('changeMode', function(event) {
+                                        if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
+                                            // Set the mode and the palette, if there are some
+                                            var option = lookupOptions(aceEditor.getSession().$modeId);
+                                            if (option != null) {
+                                                aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
+                                                aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+                                            }
+
+                                            // Otherwise, destroy the session.
+                                            else {
+                                                aceEditor._dropletEditor.setEditorState(false);
+                                                aceEditor._dropletEditor.updateNewSession(null);
+                                                aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
+                                            }
+                                        } else {
+                                            // If we didn't originally bind a session (i.e. the editor
+                                            // started out in a language that wasn't supported by Droplet),
+                                            // create one now before setting the language mode.
+                                            var option = lookupOptions(aceEditor.getSession().$modeId);
+                                            if (option != null) {
+                                                aceEditor._dropletEditor.bindNewSession(option);
+                                            }
+
+                                            // If we're switching to a language we don't recognize, destroy the current
+                                            // session.
+                                            else {
+                                                aceEditor._dropletEditor.setEditorState(false);
+                                                aceEditor._dropletEditor.updateNewSession(null);
+                                                aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
+                                            }
+                                        }
+                                        correctButtonDisplay();
+                                    });
                                 }
 
-                                var aceSession = e.session;
-
-                                // Bind to mode changes on this new session to update the Droplet mode
-                                // as well.
-                                e.session.on('changeMode', function(event) {
-                                    if (aceEditor._dropletEditor.hasSessionFor(aceEditor.getSession())) {
-                                        // Set the mode and the palette, if there are some
-                                        var option = lookupOptions(aceEditor.getSession().$modeId);
-                                        if (option != null) {
-                                            aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-                                            aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
-                                        }
-
-                                        // Otherwise, destroy the session.
-                                        else {
-                                            aceEditor._dropletEditor.setEditorState(false);
-                                            aceEditor._dropletEditor.updateNewSession(null);
-                                            aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
-                                        }
-                                    } else {
-                                        // If we didn't originally bind a session (i.e. the editor
-                                        // started out in a language that wasn't supported by Droplet),
-                                        // create one now before setting the language mode.
-                                        var option = lookupOptions(aceEditor.getSession().$modeId);
-                                        if (option != null) {
-                                            aceEditor._dropletEditor.bindNewSession(option);
-                                        }
-
-                                        // If we're switching to a language we don't recognize, destroy the current
-                                        // session.
-                                        else {
-                                            aceEditor._dropletEditor.setEditorState(false);
-                                            aceEditor._dropletEditor.updateNewSession(null);
-                                            aceEditor._dropletEditor.sessions.remove(aceEditor.getSession());
-                                        }
-                                    }
-                                    correctButtonDisplay();
-                                });
+                                correctButtonDisplay();
                             });
 
                             // Similarly bind to mode changes on the original session.
