@@ -7,6 +7,8 @@ define([
         'text!./css/style.css',
         'text!./lib/droplet/worker.js',
         'text!./droplet-configs/c_cpp.json'
+        'text!./images/extension.svg',
+        'text!./images/subject.svg',
         ],
         function(
             droplet,
@@ -16,7 +18,9 @@ define([
             tooltipsterStyleText,
             pluginStyleText,
             workerScriptText,
-            dropletConfigText
+            dropletConfigText,
+            extensionImage,
+            subjectImage
             ) {
                 var $ = jQuery;
 
@@ -494,7 +498,15 @@ define([
                                 }
                             });
 
-                            var button = $('<div class="label droplet-toggle-button" style="cursor:pointer; margin: 1px 10px 4px 3px; min-height: 15px;">').text('Text');
+                            var button = $('<div class="label droplet-toggle-button" style="cursor:pointer; margin: 1px 10px 4px 3px; min-height: 15px;">');
+                            var blocksButtonImage = (new DomParser()).parseFromString(subjectImage, 'image/svg+xml'); // currently blocks, allow switching to text
+                            var textButtonImage = (new DomParser()).parseFromString(extensionImage, 'image/svg+xml'); // vice versa
+
+                            blocksButtonImage.style.display = 'none'
+                            textButtonImage.style.display = 'block'
+
+                            button.append(blocksButtonImage).append(textButtonImage);
+
 
                             // Find the editor tab
                             var el = aceEditor.container.parentElement;
@@ -544,7 +556,15 @@ define([
                                     console.log('unhiding.', dropletEditor.session != null);
                                     button.css('display', (dropletEditor.session ? 'inline' : 'none'));
                                     if (dropletEditor.session) {
-                                        button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
+                                        //button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
+                                        if (dropletEditor.session.currentlyUsingBlocks) {
+                                            blocksButtonDisplay.style.display = 'block';
+                                            textButtonDisplay.style.display = 'none';
+                                        }
+                                        else {
+                                            blocksButtonDisplay.style.display = 'none';
+                                            textButtonDisplay.style.display = 'block';
+                                        }
                                     }
                                 }
                             }
