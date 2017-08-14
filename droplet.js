@@ -296,6 +296,7 @@ define([
 
                                         function() {
                                             tab.meta._floatingBlockDoomed = true;
+                                            tab.document.meta.ignoreSave = true;
                                             tab.close();
                                         },
 
@@ -488,6 +489,7 @@ define([
                                 }
 
                                 var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
+                                console.log('FLOATING BLOCKS RECEIVED:', floatingBlocks);
                                 if (floatingBlocks != null && dropletEditor.session) {
                                     dropletEditor.session.setFloatingBlocks(
                                         floatingBlocks
@@ -599,26 +601,34 @@ define([
                                 dropletEditor._c9CurrentlySettingAce = true;
 
                                 findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
-                                    var state = tab.document.getState();
-                                    state.meta.dropletFloatingBlocks = dropletEditor.session.floatingBlocks.map(function(block) {
-                                        return {
-                                            text: block.block.stringify(),
-                                            context: BIGGER_CONTEXTS[block.block.indentContext] || block.block.indentContext,
-                                            pos: {
-                                                x: block.position.x,
-                                                y: block.position.y
+
+                                    setTimeout(function() {
+                                        if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
+                                            var lastAceValue = dropletEditor.aceEditor.getValue();
+                                            if (lastAceValue !== dropletEditor.getValue()) {
+                                                dropletEditor.setAceValue(dropletEditor.getValue());
+                                                console.log('new value is', dropletEditor.aceEditor.getValue());
+                                                dropletEditor._c9CurrentlySettingAce = false;
+                                                setTimeout(function() {
+                                                    var state = tab.document.getState();
+                                                    state.meta.dropletFloatingBlocks = dropletEditor.session.floatingBlocks.map(function(block) {
+                                                        return {
+                                                            text: block.block.stringify(),
+                                                            context: BIGGER_CONTEXTS[block.block.indentContext] || block.block.indentContext,
+                                                            pos: {
+                                                                x: block.position.x,
+                                                                y: block.position.y
+                                                            }
+                                                        }
+                                                    });
+                                                    state.changed = true;
+                                                    tab.document.setState(state);
+                                                    tab.document.changed = true;
+                                                }, 0);
                                             }
                                         }
-                                    });
-                                    tab.document.setState(state);
+                                    }, 0);
                                 });
-
-                                setTimeout(function() {
-                                    if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
-                                        dropletEditor.setAceValue(dropletEditor.getValue());
-                                        dropletEditor._c9CurrentlySettingAce = false;
-                                    }
-                                }, 0);
                             })
 
                             // Now restore the original value.
@@ -645,6 +655,7 @@ define([
                                             }
 
                                             var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
+                                            console.log('FLOATING BLOCKS RECEIVED:', floatingBlocks);
                                             if (floatingBlocks != null) {
                                                 dropletEditor.session.setFloatingBlocks(
                                                     floatingBlocks
