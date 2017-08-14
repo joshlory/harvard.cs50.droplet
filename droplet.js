@@ -6,7 +6,7 @@ define([
         'text!./lib/tooltipster/dist/css/tooltipster.bundle.min.css',
         'text!./css/style.css',
         'text!./lib/droplet/worker.js',
-        'text!./droplet-configs/c_cpp.json'
+        'text!./droplet-configs/c_cpp.json',
         'text!./images/extension.svg',
         'text!./images/subject.svg',
         ],
@@ -498,15 +498,7 @@ define([
                                 }
                             });
 
-                            var button = $('<div class="label droplet-toggle-button" style="cursor:pointer; margin: 1px 10px 4px 3px; min-height: 15px;">');
-                            var blocksButtonImage = (new DomParser()).parseFromString(subjectImage, 'image/svg+xml'); // currently blocks, allow switching to text
-                            var textButtonImage = (new DomParser()).parseFromString(extensionImage, 'image/svg+xml'); // vice versa
-
-                            blocksButtonImage.style.display = 'none'
-                            textButtonImage.style.display = 'block'
-
-                            button.append(blocksButtonImage).append(textButtonImage);
-
+                            var button = $('<div class="label droplet-toggle-button" style="cursor:pointer; margin: 1px 10px 4px 3px; min-height: 15px;">').html(subjectImage);
 
                             // Find the editor tab
                             var el = aceEditor.container.parentElement;
@@ -554,9 +546,10 @@ define([
                                 }
                                 else {
                                     console.log('unhiding.', dropletEditor.session != null);
-                                    button.css('display', (dropletEditor.session ? 'inline' : 'none'));
+                                    button.css('display', (dropletEditor.session ? 'inline-block' : 'none'));
                                     if (dropletEditor.session) {
-                                        //button.text(dropletEditor.session.currentlyUsingBlocks ? 'Blocks' : 'Text');
+                                        button.html(dropletEditor.session.currentlyUsingBlocks ? subjectImage : extensionImage);
+                                        /*
                                         if (dropletEditor.session.currentlyUsingBlocks) {
                                             blocksButtonDisplay.style.display = 'block';
                                             textButtonDisplay.style.display = 'none';
@@ -564,7 +557,7 @@ define([
                                         else {
                                             blocksButtonDisplay.style.display = 'none';
                                             textButtonDisplay.style.display = 'block';
-                                        }
+                                        }*/
                                     }
                                 }
                             }
