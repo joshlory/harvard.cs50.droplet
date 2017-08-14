@@ -755,10 +755,14 @@ define([
                                     });
 
                                     tab.editor.on('documentLoad', function(e) {
-                                        var currentSession = aceEditor._dropletEditor.session;
+                                        var currentSession = aceEditor.getSession();
+                                        var alreadyDone = false;
                                         e.doc.on('changed', function() {
+                                            if (alreadyDone) return;
+                                            alreadyDone = true;
                                             setTimeout(function() {
-                                                if (e.doc.value != aceEditor._dropletEditor.getValue()) {
+                                                var dSession = aceEditor._dropletEditor.sessions.get(currentSession);
+                                                if (dSession == aceEditor._dropletEditor.session && e.doc.value != aceEditor._dropletEditor.getValue()) {
                                                     if (aceEditor._dropletEditor.session.currentlyUsingBlocks) {
                                                         aceEditor._dropletEditor.setValueAsync(currentValue, null, currentSession);
                                                     } else {
