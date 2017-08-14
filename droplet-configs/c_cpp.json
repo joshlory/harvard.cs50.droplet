@@ -17,6 +17,7 @@
     }
   },
   "blockBackspaceEnabled": false,
+  "cursorEnabled": false,
   "palette": [
     {
       "name": "Control",
