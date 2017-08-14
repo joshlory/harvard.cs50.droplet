@@ -6,9 +6,7 @@ define([
         'text!./lib/tooltipster/dist/css/tooltipster.bundle.min.css',
         'text!./css/style.css',
         'text!./lib/droplet/worker.js',
-        'text!./droplet-configs/c_cpp.json',
-        'text!./images/extension.svg',
-        'text!./images/subject.svg',
+        'text!./droplet-configs/c_cpp.json'
         ],
         function(
             droplet,
@@ -18,9 +16,7 @@ define([
             tooltipsterStyleText,
             pluginStyleText,
             workerScriptText,
-            dropletConfigText,
-            extensionImage,
-            subjectImage
+            dropletConfigText
             ) {
                 var $ = jQuery;
 
@@ -498,7 +494,7 @@ define([
                                 }
                             });
 
-                            var button = $('<div class="label droplet-toggle-button" style="cursor:pointer; margin: 1px 10px 4px 3px; min-height: 15px;">').html(subjectImage);
+                            var button = $('<div class="label droplet-toggle-button material-icons" style="cursor:pointer; margin: 1px 5px 4px 3px; min-height: 15px; font-size:18px;">').text('subject');
 
                             // Find the editor tab
                             var el = aceEditor.container.parentElement;
@@ -548,7 +544,7 @@ define([
                                     console.log('unhiding.', dropletEditor.session != null);
                                     button.css('display', (dropletEditor.session ? 'inline-block' : 'none'));
                                     if (dropletEditor.session) {
-                                        button.html(dropletEditor.session.currentlyUsingBlocks ? subjectImage : extensionImage);
+                                        button.text(dropletEditor.session.currentlyUsingBlocks ? 'subject' : 'extension');
                                         /*
                                         if (dropletEditor.session.currentlyUsingBlocks) {
                                             blocksButtonDisplay.style.display = 'block';
