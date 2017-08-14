@@ -384,6 +384,8 @@ define([
                         if (!aceEditor._dropletEditor) {
                             var dropletEditor;
 
+                            var originalSession = aceEditor.getSession();
+
                             function onClickToggle() {
                                 // Toggle, but we might want to do some confirmations first.
                                 var continueToggle = function() {
@@ -621,9 +623,9 @@ define([
 
                             // Now restore the original value.
                             if (aceEditor._dropletEditor.session && aceEditor._dropletEditor.session.currentlyUsingBlocks) {
-                                aceEditor._dropletEditor.setValueAsync(currentValue);
+                                aceEditor._dropletEditor.setValueAsync(currentValue, null, originalSession);
                             } else {
-                                aceEditor._dropletEditor.setValue(currentValue);
+                                aceEditor._dropletEditor.setValue(currentValue, originalSession);
                             }
 
                             // Bind to session changes to change or create
@@ -758,9 +760,9 @@ define([
                                             setTimeout(function() {
                                                 if (e.doc.value != aceEditor._dropletEditor.getValue()) {
                                                     if (aceEditor._dropletEditor.session.currentlyUsingBlocks) {
-                                                        aceEditor._dropletEditor.setValueAsync(currentValue);
+                                                        aceEditor._dropletEditor.setValueAsync(currentValue, null, currentSession);
                                                     } else {
-                                                        aceEditor._dropletEditor.setValue(currentValue);
+                                                        aceEditor._dropletEditor.setValue(currentValue, currentSession);
                                                     }
                                                 }
                                             }, 0);
