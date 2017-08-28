@@ -314,7 +314,7 @@ define([
                     function findAssociatedTab(aceEditSession, fn) {
                         var tabs = tabManager.getTabs();
                         for (var i = 0; i < tabs.length; i++) {
-                            if (tabs[i].document.getSession().session == aceEditSession) {
+                            if (tabs[i].document && tabs[i].document.getSession() && tabs[i].document.getSession().session == aceEditSession) {
                                 return fn(tabs[i]);
                             }
                         }
