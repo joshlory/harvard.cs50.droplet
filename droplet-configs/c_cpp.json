@@ -326,32 +326,38 @@
       "get_char": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_char();"
+        "prototype": "get_char();",
+        "minArgs": 0
       },
       "get_double": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_double();"
+        "prototype": "get_double();",
+        "minArgs": 0
       },
       "get_float": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_float();"
+        "prototype": "get_float();",
+        "minArgs": 0
       },
       "get_int": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_int();"
+        "prototype": "get_int();",
+        "minArgs": 0
       },
       "get_long_long": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_long_long();"
+        "prototype": "get_long_long();",
+        "minArgs": 0
       },
       "get_string": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_string();"
+        "prototype": "get_string();",
+        "minArgs": 1
       },
       "clearerr": {
         "color": "blue",
