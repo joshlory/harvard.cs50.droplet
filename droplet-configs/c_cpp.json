@@ -227,7 +227,7 @@
           "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run.</p>\n"
         },
         {
-          "block": "int main(int n, char *argc[])\n{\n    \n}",
+          "block": "int main(int argc, char *argv[])\n{\n    \n}",
           "context": "externalDeclaration",
           "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run. This version knows how to accept command line arguments; there are <code>n</code> of them, stored in the variable <code>args</code>.</p>\n"
         },
