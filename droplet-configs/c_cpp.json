@@ -247,32 +247,32 @@
           "title": "eprintf"
         },
         {
-          "block": "get_char();",
+          "block": "get_char(format);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_char\" target=\"_blank\">get_char</a> - returns a char from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>char</code>; if text does not represent a <code>char</code>, user is \nprompted to retry. Leading and trailing whitespace is ignored. If line can&#39;t be read, returns <code>CHAR_MAX</code>.</p>\n"
         },
         {
-          "block": "get_double();",
+          "block": "get_double(format);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_double\" target=\"_blank\">get_double</a> - returns a double from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>double</code> as precisely as possible; if text does not \nrepresent a <code>double</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected. If line can&#39;t be read, returns <code>DBL_MAX</code>.</p>\n"
         },
         {
-          "block": "get_float();",
+          "block": "get_float(format);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_float\" target=\"_blank\">get_float</a> - returns a float from stdin</p>\n<p>Reads a line of text from standard input and returns the equivalent <code>float</code> as precisely as possible; if text does not \nrepresent a <code>float</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For simplicity, overflow \nand underflow are not detected.  If line can&#39;t be read, returns <code>FLT_MAX</code>.</p>\n"
         },
         {
-          "block": "get_int();",
+          "block": "get_int(format);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_int\" target=\"_blank\">get_int</a> - returns an int from stdin</p>\n<p>Reads a line of text from standard input and returns it as an <code>int</code> in the range of [-2^31^ + 1, 2^31^ - 2], if possible; \nif text does not represent such an <code>int</code>, user is prompted to retry. Leading and trailing whitespace is ignored. For \nsimplicity, overflow is not detected. If line can&#39;t be read, returns <code>INT_MAX</code>.</p>\n"
         },
         {
-          "block": "get_long_long();",
+          "block": "get_long_long(format);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_long_long\" target=\"_blank\">get_long_long</a> - returns a long long from stdin</p>\n<p>Reads a line of text from standard input and returns an equivalent <code>long long</code> in the range [-2^63^ + 1, 2^63^ - 2], if \npossible; if text does not represent such a <code>long long</code>, user is prompted to retry. Leading and trailing whitespace is \nignored. For simplicity, overflow is not detected. If line can&#39;t be read, returns <code>LLONG_MAX</code>.</p>\n"
         },
         {
-          "block": "get_string();",
+          "block": "get_string(format);",
           "context": "blockItem",
           "title": "<p><a href=\"https://reference.cs50.net/cs50.h/get_string\" target=\"_blank\">get_string</a> - returns a string from stdin</p>\n<p>Reads a line of text from standard input and returns it as a <code>string</code> (<code>char *</code>), sans trailing newline character. (Ergo, \nif user inputs only <code>&quot;\\n&quot;</code>, returns &quot;&quot; not <code>NULL</code>.)  Returns <code>NULL</code> upon error or no input whatsoever (i.e., just <code>EOF</code>). \nLeading and trailing whitespace is not ignored. Stores <code>string</code> on heap (via <code>malloc</code>); memory must be freed by caller to \navoid leak.</p>\n"
         },
@@ -326,37 +326,37 @@
       "get_char": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_char();",
-        "minArgs": 0
+        "prototype": "get_char(format);",
+        "minArgs": 1
       },
       "get_double": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_double();",
-        "minArgs": 0
+        "prototype": "get_double(format);",
+        "minArgs": 1
       },
       "get_float": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_float();",
-        "minArgs": 0
+        "prototype": "get_float(format);",
+        "minArgs": 1
       },
       "get_int": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_int();",
-        "minArgs": 0
+        "prototype": "get_int(format);",
+        "minArgs": 1
       },
       "get_long_long": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_long_long();",
-        "minArgs": 0
+        "prototype": "get_long_long(format);",
+        "minArgs": 1
       },
       "get_string": {
         "color": "blue",
         "shape": "block-only",
-        "prototype": "get_string();",
+        "prototype": "get_string(format);",
         "minArgs": 1
       },
       "clearerr": {
