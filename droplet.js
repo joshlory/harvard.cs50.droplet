@@ -609,6 +609,7 @@ define([
                                                 dropletEditor.setAceValue(dropletEditor.getValue());
                                                 console.log('new value is', dropletEditor.aceEditor.getValue());
                                                 dropletEditor._c9CurrentlySettingAce = false;
+                                                tab.document.undoManager.add({undo: function() {} , redo: function() {}});
                                                 setTimeout(function() {
                                                     var state = tab.document.getState();
                                                     state.meta.dropletFloatingBlocks = dropletEditor.session.floatingBlocks.map(function(block) {
@@ -623,8 +624,6 @@ define([
                                                     });
                                                     state.changed = true;
                                                     tab.document.setState(state);
-                                                    tab.document.changed = true;
-                                                    tab.document.ignoreSave = false; //changed = true;
                                                 }, 0);
                                             }
                                         }
