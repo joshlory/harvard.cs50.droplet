@@ -105,7 +105,7 @@ define([
 
                 var useBlocksByDefault = true;
 
-                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger", "clipboard", "timeslider"];
+                main.consumes = ["Plugin", "tabManager", "ace", "ui", "commands", "menus", "settings", "dialog.confirm", "dialog.error", "dialog.alert", "closeconfirmation", "debugger", "clipboard", "timeslider", "save"];
 
                 main.provides = ["c9.ide.cs50.droplet"];
                 return main;
@@ -296,7 +296,7 @@ define([
 
                                         function() {
                                             tab.meta._floatingBlockDoomed = true;
-                                            tab.document.meta.ignoreSave = true;
+                                            //tab.document.meta.ignoreSave = true;
                                             tab.close();
                                         },
 
@@ -509,7 +509,7 @@ define([
 
                             el.addEventListener('contextmenu', function() {
                                 var items = ace.contextMenu.items;
-                                if (dropletEditor.session.currentlyUsingBlocks) {
+                                if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
                                     items[0].disabled = true;
                                     items[1].disabled = true;
                                     items[2].disabled = true;
@@ -624,6 +624,7 @@ define([
                                                     state.changed = true;
                                                     tab.document.setState(state);
                                                     tab.document.changed = true;
+                                                    tab.document.ignoreSave = false; //changed = true;
                                                 }, 0);
                                             }
                                         }
