@@ -222,11 +222,12 @@ define([
                     function updateNight() {
                         night = settings.get('user/general/@skin').indexOf('dark') !== -1;
                         tabManager.getTabs().forEach(function(tab) {
-                            if (tab.path && tab.editor.ace && tab.editorType === 'ace') {
+                            if (tab.path && tab.editor.ace && tab.editorType === 'ace' && tab.editor.ace._dropletEditor) {
                                 // Toggle all existing sessions
                                 tab.editor.ace._dropletEditor.sessions.forEach(function(session) {
                                     console.log('Updating session', session.tree.stringify());
                                     session.views.forEach(function(view) {
+                                        console.log('swapping to invert mode', night);
                                         view.opts.invert = night;
                                         var target_colors = (night ? NIGHT_COLORS : DAY_COLORS);
                                         for (key in target_colors) {
@@ -248,6 +249,8 @@ define([
                             }
                         }
                     }
+
+                    updateNight();
 
                     function unload() {
                         // Destroy Droplet editors
@@ -760,6 +763,7 @@ define([
                             // in Droplet's session switching code, it will be loading an empty document, and won't know
                             // to update block mode when it changes again (we don't listen for changes in the Ace editor).
                             // So, on document load, listen once for a change event, and immediately update.
+                        
                             tabManager.getTabs().forEach(function(tab) {
                                 var ace = tab.path && tab.editor.ace;
                                 if (ace == aceEditor && tab.editorType == 'ace') {
@@ -767,6 +771,7 @@ define([
                                         dropletEditor.resize();
                                     });
 
+                                    /*
                                     tab.editor.on('documentLoad', function(e) {
                                         var currentSession = aceEditor.getSession();
                                         var alreadyDone = false;
@@ -785,6 +790,9 @@ define([
                                             }, 0);
                                         });
                                     });
+                                    // This code is no longer necessary as documents are never loaded
+                                    // in blocks mode. TODO: this will need to be fixed if documents get loaded in blocks mode.
+                                    */
                                 }
                             });
 
@@ -792,7 +800,7 @@ define([
                         }
 
                         function deepCopy(object) {
-                            if (typeof object == 'string' || typeof object == 'number'
+                            if (typeof object == 'string' || typeof object == 'number' || typeof object == 'boolean'
                                 || object instanceof String || object instanceof Number) {
                                 return object;
                             }
@@ -853,6 +861,7 @@ define([
                                 var result = deepCopy(OPT_MAP[mode]);
                                 result.textModeAtStart = true; //!useBlocksByDefault
                                 result.palette = formatPaletteTabs(result.palette);
+                                console.log('Invert is:', result.viewSettings.invert);
                                 return result;
                             }
                             else {
