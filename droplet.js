@@ -824,7 +824,8 @@ define([
                                     var rblock = deepCopy(block);
                                     rblock.block = rblock.block.replace(/\t/g, softtab);
                                     return rblock;
-                                })
+                                });
+                                return result;
                             });
                         }
 
