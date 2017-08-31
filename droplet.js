@@ -296,7 +296,7 @@ define([
 
                                         function() {
                                             tab.meta._floatingBlockDoomed = true;
-                                            //tab.document.meta.ignoreSave = true;
+                                            tab.document.meta.ignoreSave = true;
                                             tab.close();
                                         },
 
@@ -612,6 +612,7 @@ define([
                                                 dropletEditor.setAceValue(dropletEditor.getValue());
                                                 dropletEditor._c9CurrentlySettingAce = false;
                                                 tab.document.undoManager.add({undo: function() {} , redo: function() {}});
+                                                tab.document.meta.ignoreSave = false;
                                                 setTimeout(function() {
                                                     var state = tab.document.getState();
                                                     state.meta.dropletFloatingBlocks = dropletEditor.session.floatingBlocks.map(function(block) {
