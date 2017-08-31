@@ -815,6 +815,7 @@ define([
                         }
 
                         function formatPaletteTabs(palette) {
+                            if (!palette) return palette;
                             var softtab = getCurrentSoftTab();
                             return palette.map(function(category) {
                                 var result = deepCopy(category);
@@ -830,7 +831,14 @@ define([
                         settings.on("project/ace/@tabSize", function(value){
                             tabManager.getTabs().forEach(function(tab) {
                                 var ace = tab.path && tab.editor.ace;
-                                if (ace == aceEditor && tab.editorType == 'ace') {
+                                if (ace && tab.editorType == 'ace' && ace._dropletEditor &&
+                                        ace._dropletEditor.hasSessionFor(tab.document.getSession().session)) {
+                                    ace._dropletEditor.setPalette(
+                                        lookupPalette(tab.document.getSession().session.$modeId),
+                                        ace._dropletEditor.sessions.get(
+                                            tab.document.getSession().session
+                                        )
+                                    );
                                 }
                             });
                         }, plugin);
