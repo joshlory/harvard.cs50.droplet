@@ -500,7 +500,7 @@ define([
 
                             var button = $('<div class="label droplet-toggle-button material-icons"' +
                                 'style="cursor:pointer; margin: 1px 5px 4px 3px;' +
-                                'min-height: 15px; max-width: 40px; overflow: hidden;' +
+                                'min-height: 15px; max-width: 40px; overflow: hidden; font-family: \'Material Icons\';' +
                                 'font-size:18px;">').text('subject');
 
                             // Find the editor tab
@@ -610,7 +610,6 @@ define([
                                             var lastAceValue = dropletEditor.aceEditor.getValue();
                                             if (lastAceValue !== dropletEditor.getValue()) {
                                                 dropletEditor.setAceValue(dropletEditor.getValue());
-                                                console.log('new value is', dropletEditor.aceEditor.getValue());
                                                 dropletEditor._c9CurrentlySettingAce = false;
                                                 tab.document.undoManager.add({undo: function() {} , redo: function() {}});
                                                 setTimeout(function() {
@@ -658,7 +657,6 @@ define([
                                             }
 
                                             var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
-                                            console.log('FLOATING BLOCKS RECEIVED:', floatingBlocks);
                                             if (floatingBlocks != null) {
                                                 dropletEditor.session.setFloatingBlocks(
                                                     floatingBlocks

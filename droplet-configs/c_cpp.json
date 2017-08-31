@@ -24,27 +24,27 @@
       "color": "orange",
       "blocks": [
         {
-          "block": "if (condition)\n{\n    \n}",
+          "block": "if (condition)\n{\n\t\n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "if (condition)\n{\n    \n}\nelse\n{\n    \n}",
+          "block": "if (condition)\n{\n\t\n}\nelse\n{\n\t\n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "if (condition1)\n{\n    \n}\nelse if (condition2)\n{\n    \n}\nelse\n{\n    \n}",
+          "block": "if (condition1)\n{\n\t\n}\nelse if (condition2)\n{\n\t\n}\nelse\n{\n\t\n}",
           "context": "blockItem",
           "title": "<p>if -- do something only if a test is true</p>\n<p>An <code>if</code> statement. Only executes the code inside <code>{ }</code>\nif the condition in the parentheses <code>( )</code> is      true. Add\nan <code>else</code> or <code>else if</code> using the arrow at the bottom, which\nwill run if the statement isn&#39;t true.</p>\n"
         },
         {
-          "block": "while (condition)\n{\n    \n}",
+          "block": "while (condition)\n{\n\t\n}",
           "context": "blockItem",
           "title": "<p>while -- do something repeatedly</p>\n<p>Repeatedly executes the code inside <code>{ }</code> until the condition\ninside the parentheses <code>( )</code> is false.</p>\n"
         },
         {
-          "block": "for (type variable = init; condition; update)\n{\n    \n}",
+          "block": "for (type variable = init; condition; update)\n{\n\t\n}",
           "context": "blockItem",
           "title": "<p>for -- iterate over a range</p>\n<p>Repeats the code inside <code>{ }</code> <code>n</code> times. It does this by\nmaking a variable <code>i</code> which increases every repeition until   it reaches\n<code>n</code>. You can use <code>i</code> inside the code to tell how many times the loop\nhas already run.</p>\n"
         },
@@ -54,12 +54,12 @@
           "title": "<p>Break out of a loop before it finishes.</p>\n"
         },
         {
-            "block": "switch (variable)\n{\n    case 1:\n        break;\n}",
+            "block": "switch (variable)\n{\n\tcase 1:\n\t\tbreak;\n}",
             "context": "blockItem",
             "title": "<p>switch -- do different things based on value</p>\n<p>Jumps to the case corresponding to the value of <code>variable</code>. Remember to put <code>break</code> at the end of each case; otherwise more cases will run than you think!</p>"
         },
         {
-            "block": "switch (variable)\n{\n    case 1:\n        break;\n    default:\n     break;\n}",
+            "block": "switch (variable)\n{\n\tcase 1:\n\t\tbreak;\n\tdefault:\n\t break;\n}",
             "context": "blockItem",
             "title": "<p>switch -- do different things based on value</p>\n<p>Jumps to the case corresponding to the value of <code>variable</code>. If none of the cases fit, jumps to <code>default</code> instead.</p>"
         }
@@ -191,7 +191,7 @@
           "title": "<p>reassign a variable</p>\n<p>Assign a new value <code>value</code> to the variable with name <code>variable</code>. You must\ndeclare your variable before you can do this.</p>\n"
         },
         {
-          "block": "typedef struct\n{\n    type member;\n}\nname;",
+          "block": "typedef struct\n{\n\ttype member;\n}\nname;",
           "context": "externalDeclaration",
           "title": "<p><code>struct</code> -- bundle together data</p>\n<p>A <code>struct</code> defines a package of data made up of a set of data fields. Each data field should be declared in the <code>{ }</   code> like a variable."
         },
@@ -222,17 +222,17 @@
           "title": "<p>function prototype declaration</p>\n<p>Declare a function's inputs and outputs without defining what it does.</p>"
         },
         {
-          "block": "int main(void)\n{\n    \n}",
+          "block": "int main(void)\n{\n\t\n}",
           "context": "externalDeclaration",
           "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run.</p>\n"
         },
         {
-          "block": "int main(int argc, char *argv[])\n{\n    \n}",
+          "block": "int main(int argc, char *argv[])\n{\n\t\n}",
           "context": "externalDeclaration",
           "title": "<p><code>main</code> -- starting point for the program</p>\n<p>The <code>main</code> method. Code inside here <code>{ }</code>\nwill run when your program is run. You must\ninclude a main     method in order for your program executable\nto do anything when run. This version knows how to accept command line arguments; there are <code>n</code> of them, stored in the variable <code>args</code>.</p>\n"
         },
         {
-          "block": "type function(void)\n{\n    \n}",
+          "block": "type function(void)\n{\n\t\n}",
           "context": "externalDeclaration",
           "title": "<p>method -- reusable procedure</p>\n<p>Defines a method accepting a <code>void</code> (no arguments) and returning\na <code>type</code>. The code inside <code>{ }</code> will not run at      first, but will run every time\nyou call <code>function(arguments...)</code>. Use a <code>return</code> statement inside the method\nto pass information back to whoever called it.</p>\n"
         },
