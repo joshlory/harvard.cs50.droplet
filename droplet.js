@@ -225,9 +225,7 @@ define([
                             if (tab.path && tab.editor.ace && tab.editorType === 'ace' && tab.editor.ace._dropletEditor) {
                                 // Toggle all existing sessions
                                 tab.editor.ace._dropletEditor.sessions.forEach(function(session) {
-                                    console.log('Updating session', session.tree.stringify());
                                     session.views.forEach(function(view) {
-                                        console.log('swapping to invert mode', night);
                                         view.opts.invert = night;
                                         var target_colors = (night ? NIGHT_COLORS : DAY_COLORS);
                                         for (key in target_colors) {
@@ -492,7 +490,6 @@ define([
                                 }
 
                                 var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
-                                console.log('FLOATING BLOCKS RECEIVED:', floatingBlocks);
                                 if (floatingBlocks != null && dropletEditor.session) {
                                     dropletEditor.session.setFloatingBlocks(
                                         floatingBlocks
@@ -544,14 +541,12 @@ define([
 
                             function correctButtonDisplay() {
                                 if (timeslider_visible) {
-                                    console.log('hiding.');
                                     button.css('display', 'none');
                                     if (dropletEditor.session) {
                                         dropletEditor.setEditorState(false);
                                     }
                                 }
                                 else {
-                                    console.log('unhiding.', dropletEditor.session != null);
                                     button.css('display', (dropletEditor.session ? 'inline-block' : 'none'));
                                     if (dropletEditor.session) {
                                         button.text(dropletEditor.session.currentlyUsingBlocks ? 'subject' : 'extension');
@@ -861,7 +856,6 @@ define([
                                 var result = deepCopy(OPT_MAP[mode]);
                                 result.textModeAtStart = true; //!useBlocksByDefault
                                 result.palette = formatPaletteTabs(result.palette);
-                                console.log('Invert is:', result.viewSettings.invert);
                                 return result;
                             }
                             else {
