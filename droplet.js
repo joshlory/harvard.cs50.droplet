@@ -204,9 +204,9 @@ define([
                                     );
                             document.head.appendChild(linkElement);
                         }
+                        forceAddCss(pluginStyleText);
                         forceAddCss(dropletStyleText);
                         forceAddCss(tooltipsterStyleText);
-                        forceAddCss(pluginStyleText);
 
                         // Load user setting for whether to open new files
                         // in blocks mode or not
@@ -498,7 +498,10 @@ define([
                                 }
                             });
 
-                            var button = $('<div class="label droplet-toggle-button material-icons" style="cursor:pointer; margin: 1px 5px 4px 3px; min-height: 15px; font-size:18px;">').text('subject');
+                            var button = $('<div class="label droplet-toggle-button material-icons"' +
+                                'style="cursor:pointer; margin: 1px 5px 4px 3px;' +
+                                'min-height: 15px; max-width: 40px; overflow: hidden;' +
+                                'font-size:18px;">').text('subject');
 
                             // Find the editor tab
                             var el = aceEditor.container.parentElement;
@@ -789,6 +792,49 @@ define([
                             aceEditor._signal("changeStatus");
                         }
 
+                        function deepCopy(object) {
+                            if (typeof object == 'string' || typeof object == 'number'
+                                || object instanceof String || object instanceof Number) {
+                                return object;
+                            }
+                            else if (object instanceof Array) {
+                                return object.map(deepCopy);
+                            }
+                            else {
+                                var result = {};
+                                for (var key in object) {
+                                    result[key] = deepCopy(object[key]);
+                                }
+                                return result;
+                            }
+                        }
+
+                        function getCurrentSoftTab() {
+                            var n = settings.getNumber("project/ace/@tabSize");
+                            var result = '';
+                            for (var i = 0; i < n; i++) result += ' ';
+                            return result;
+                        }
+
+                        function formatPaletteTabs(palette) {
+                            var softtab = getCurrentSoftTab();
+                            return palette.map(function(category) {
+                                var result = deepCopy(category);
+                                result.blocks = result.blocks.map(function(block) {
+                                    var rblock = deepCopy(block);
+                                    rblock.block = rblock.block.replace(/\t/g, softtab);
+                                    return rblock;
+                                })
+                            });
+                        }
+
+                        settings.on("project/ace/@tabSize", function(value){
+                            tabManager.getTabs().forEach(function(tab) {
+                                var ace = tab.path && tab.editor.ace;
+                                if (ace == aceEditor && tab.editorType == 'ace') {
+                                }
+                            });
+                        }, plugin);
 
                         // lookupOptions
                         //
@@ -796,8 +842,9 @@ define([
                         // with an Ace language mode.
                         function lookupOptions(mode) {
                             if (mode in OPT_MAP) {
-                                var result = OPT_MAP[mode];
-                                result.textModeAtStart = true // !useBlocksByDefault;
+                                var result = deepCopy(OPT_MAP[mode]);
+                                result.textModeAtStart = true; //!useBlocksByDefault
+                                result.palette = formatPaletteTabs(result.palette);
                                 return result;
                             }
                             else {
@@ -814,7 +861,7 @@ define([
                             return (OPT_MAP[id] || {mode: null}).modeOptions;
                         }
                         function lookupPalette(id) {
-                            return (OPT_MAP[id] || {palette: null}).palette;
+                            return formatPaletteTabs((OPT_MAP[id] || {palette: null}).palette);
                         }
                     }
 
