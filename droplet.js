@@ -389,6 +389,32 @@ define([
                             var originalSession = aceEditor.getSession();
 
                             function onClickToggle() {
+                                // <hack> This addresses an issue where droplet blocks would be at the wrong indentation level
+                                // if the cursor started at the wrong indentation level. See issue #64 (the comments).
+                                // To get around this, we calculate the appropriate indentation level (from ACE) and replace 
+                                // the current line with the proper amount of indentation.
+                                if (!dropletEditor.session.currentlyUsingBlocks) {
+                                    findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
+                                        ace = tab.editor.ace;
+                                        session = ace.getSession();
+
+                                        // Get the current and previous line
+                                        row = ace.getCursorPosition().row;
+                                        lines = session.getLines(row - 1, row);
+                                        // Abort if there is no previous line or if the current line contains non-whitespace characters
+                                        if (!lines.length || lines[1].trim()) return;
+
+                                        // Replace the current line with the proper amount of indentation
+                                        indent = session.getMode().getNextLineIndent("start", lines[0], session.getTabString());
+                                        ace.getSession().replace({
+                                            start: {row: row, column: 0},
+                                            end: {row: row, column: Number.MAX_VALUE}
+                                        }, indent);
+                                    });
+                                // </hack>
+
+                                }
+
                                 // Toggle, but we might want to do some confirmations first.
                                 var continueToggle = function() {
                                     dropletEditor.toggleBlocks(function(result) {
@@ -401,7 +427,10 @@ define([
                                         // The editor state flag will be set to reflect the true state of the
                                         // editor after the toggle animation is done.
 
-                                        findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
+                                        var x = dropletEditor.sessions.getReverse(dropletEditor.session);
+                                        console.log(x);
+                                        console.log("test");
+                                        findAssociatedTab(x, function(tab) {
                                             var state = tab.document.getState();
                                             state.meta.usingBlocks = dropletEditor.session.currentlyUsingBlocks;
                                             tab.document.setState(state);
