@@ -427,10 +427,7 @@ define([
                                         // The editor state flag will be set to reflect the true state of the
                                         // editor after the toggle animation is done.
 
-                                        var x = dropletEditor.sessions.getReverse(dropletEditor.session);
-                                        console.log(x);
-                                        console.log("test");
-                                        findAssociatedTab(x, function(tab) {
+                                        findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
                                             var state = tab.document.getState();
                                             state.meta.usingBlocks = dropletEditor.session.currentlyUsingBlocks;
                                             tab.document.setState(state);
