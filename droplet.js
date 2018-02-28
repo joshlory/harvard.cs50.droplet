@@ -406,7 +406,7 @@ define([
 
                                         // Replace the current line with the proper amount of indentation
                                         indent = session.getMode().getNextLineIndent("start", lines[0], session.getTabString());
-                                        ace.getSession().replace({
+                                        session.replace({
                                             start: {row: row, column: 0},
                                             end: {row: row, column: Number.MAX_VALUE}
                                         }, indent);
