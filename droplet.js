@@ -558,12 +558,19 @@ define([
                                 }
                             });
 
-                            // Find the gear button and insert before it
-                            button.insertAfter(
-                                $(el)
-                                .find('.bar-status')
-                                .find('.label').last()
-                            );
+                            // I'm sure there is a better way to inject the button than using JQuery, but this is how it was originally written.
+                            function injectButton() {
+                                button.insertAfter($(el).find('.bar-status').find('.label').last());
+                            }
+
+                            // Any time we leave presentation mode, we need to add the button back
+                            settings.on("user/ace/statusbar/@show", function(showing) {
+                                if (showing === "true") {
+                                    injectButton()
+                                }
+                            });
+
+                            injectButton()
 
                             function correctButtonDisplay() {
                                 if (timeslider_visible) {
