@@ -633,38 +633,39 @@ define([
                             // need this for getValue() to work correctly, since Cloud9 accesses
                             // ace.session.document directly, and this is difficult to intercept.
                             dropletEditor.on('change', function() {
-                                dropletEditor._c9CurrentlySettingAce = true;
-
                                 findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
-
                                     setTimeout(function() {
+                                        changed = false;
                                         if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
                                             var lastAceValue = dropletEditor.aceEditor.getValue();
                                             if (lastAceValue !== dropletEditor.getValue()) {
                                                 dropletEditor.setAceValue(dropletEditor.getValue());
-                                                dropletEditor._c9CurrentlySettingAce = false;
                                                 tab.document.undoManager.add({undo: function() {} , redo: function() {}});
                                                 tab.document.meta.ignoreSave = false;
-                                                setTimeout(function() {
-                                                    var state = tab.document.getState();
-                                                    state.meta.dropletFloatingBlocks = dropletEditor.session.floatingBlocks.map(function(block) {
-                                                        return {
-                                                            text: block.block.stringify(),
-                                                            context: BIGGER_CONTEXTS[block.block.indentContext] || block.block.indentContext,
-                                                            pos: {
-                                                                x: block.position.x,
-                                                                y: block.position.y
-                                                            }
-                                                        }
-                                                    });
-                                                    state.changed = true;
-                                                    tab.document.setState(state);
-                                                }, 0);
+                                                changed = true;
                                             }
+
+                                            // Save floating blocks
+                                            setTimeout(function() {
+                                                var state = tab.document.getState();
+                                                state.meta.dropletFloatingBlocks = dropletEditor.session.floatingBlocks.map(function(block) {
+                                                    return {
+                                                        text: block.block.stringify(),
+                                                        context: BIGGER_CONTEXTS[block.block.indentContext] || block.block.indentContext,
+                                                        pos: {
+                                                            x: block.position.x,
+                                                            y: block.position.y
+                                                        }
+                                                    }
+                                                });
+                                                state.changed = changed;
+                                                tab.document.setState(state);
+                                            }, 0);
                                         }
                                     }, 0);
                                 });
                             })
+
 
                             // Now restore the original value.
                             if (aceEditor._dropletEditor.session && aceEditor._dropletEditor.session.currentlyUsingBlocks) {
