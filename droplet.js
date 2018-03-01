@@ -537,6 +537,7 @@ define([
                             }
 
                             el.addEventListener('contextmenu', function() {
+                                if (!ace.contextMenu) return;
                                 var items = ace.contextMenu.items;
                                 if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
                                     items[0].disabled = true;
