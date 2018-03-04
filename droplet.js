@@ -435,9 +435,6 @@ define([
                                 // the current line with the proper amount of indentation.
                                 if (!dropletEditor.session.currentlyUsingBlocks) {
                                     findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
-                                        state = tab.document.getState();
-                                        state.meta.foobar = "hello";
-                                        tab.document.setState(state);
                                         ace = tab.editor.ace;
                                         session = ace.getSession();
 
