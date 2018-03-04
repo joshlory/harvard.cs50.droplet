@@ -179,11 +179,7 @@ define([
 
                         // Wrap all existent Ace instances in a Droplet
                         // instance.
-                        //tabManager.once("ready", function() {
-                            //tabManager.getTabs().forEach(function(tab) {
-                            //});
-                        //});
-                        tabManager.once("ready", function() {
+                       tabManager.once("ready", function() {
 
                             tabManager.getTabs().forEach(function(tab) {
                                 var ace = tab.path && tab.editor.ace;
@@ -462,86 +458,27 @@ define([
 
                                 }
 
-                                // Toggle, but we might want to do some confirmations first.
-                                var continueToggle = function() {
-                                    dropletEditor.toggleBlocks(function(result) {
-                                        if (result && result.success === false) {
-                                            dialogError("Cannot convert to blocks! Does your code compile? Does it contain a syntax error?");
-                                        }
-                                        // In case of failure, set the button text to always
-                                        // reflect the actual blocks/text state of the editor.
-                                        //
-                                        // The editor state flag will be set to reflect the true state of the
-                                        // editor after the toggle animation is done.
-
-                                        findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
-                                            var state = tab.document.getState();
-                                            state.meta.usingBlocks = dropletEditor.session.currentlyUsingBlocks;
-                                            tab.document.setState(state);
-                                        });
-
-                                        correctButtonDisplay();
-                                    });
-                                }
-
                                 if (!dropletEditor.session) return;
 
-                                // If there are floating blocks, confirm
-                                if (dropletEditor.session.currentlyUsingBlocks && dropletEditor.session.floatingBlocks.length > 0) {
-                                    var nBlocks = dropletEditor.session.floatingBlocks.length;
-
-                                    if (dropletEditor.session._c9_dontshowagain) {
-                                        continueToggle();
+                                dropletEditor.toggleBlocks(function(result) {
+                                    if (result && result.success === false) {
+                                        dialogError("Cannot convert to blocks! Does your code compile? Does it contain a syntax error?");
                                     }
-                                    else {
-                                        //dialogAlert("asdf", "asdf", "wasdf", function(){}, {showDontShow: true});
-                                        dialogConfirm(
-                                                "Confirm toggle",
-                                                "Are you sure you want to switch to text?",
-                                                "You have " +
-                                                nBlocks +
-                                                " " + (nBlocks === 1 ? "piece" : "pieces") +
-                                                " of code not connected to your program. If you switch to text, these pieces will disappear. Are you sure you want to switch to text?" +
-                                                "<div class='cbcontainer cbblack' id='_fake_cbcontainer'>" +
-                                                "<div id='_droplet_dontshow' class='checkbox' style='' type='checkbox' class='checkbox'></div>" +
-                                                "<span>Don't ask again for this tab</span>" +
-                                                "</div>",
+                                    // In case of failure, set the button text to always
+                                    // reflect the actual blocks/text state of the editor.
+                                    //
+                                    // The editor state flag will be set to reflect the true state of the
+                                    // editor after the toggle animation is done.
 
-                                                function() {
-                                                    if ($('#_droplet_dontshow').is(':checked')) {
-                                                        dropletEditor.session._c9_dontshowagain = true;
-                                                    }
-                                                    continueToggle();
-                                                },
+                                    findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
+                                        let state = tab.document.getState();
+                                        state.meta.usingBlocks = dropletEditor.session.currentlyUsingBlocks;
+                                        tab.document.setState(state);
+                                    });
 
-                                                function() {
-                                                    // pass
-                                                },
+                                    correctButtonDisplay();
+                                });
 
-                                                {isHTML: true}
-                                        );
-
-                                        dialogConfirmPlugin.once('show', function() {
-                                            $('#_fake_cbcontainer').mouseover(function() {
-                                                $(this).addClass('cbcontainerOver');
-                                            }).mouseout(function() {
-                                                $(this).removeClass('cbcontainerOver');
-                                            }).click(function() {
-                                                dropletEditor.session._c9_dontshowagain = !dropletEditor.session._c9_dontshowagain;
-                                                if (dropletEditor.session._c9_dontshowagain) {
-                                                    $(this).addClass('cbcontainerChecked');
-                                                }
-                                                else {
-                                                    $(this).removeClass('cbcontainerChecked');
-                                                }
-                                            });
-                                        });
-                                    }
-                                }
-
-                                else {
-                                    continueToggle();
-                                }
                             }
 
                             settings.on("user/collab/@timeslider-visible", function(value) {
