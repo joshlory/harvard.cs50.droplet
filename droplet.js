@@ -218,27 +218,29 @@ define([
                         settings.on("user/general/@skin", updateNight, plugin);
                     }
 
+                    // Toggle night theme of droplet editor associated with `tab` according to `night`.
+                    function setNightTheme(tab, night) {
+                        if (tab.path && tab.editor.ace && tab.editorType === 'ace' && tab.editor.ace._dropletEditor) {
+                            tab.editor.ace._dropletEditor.sessions.forEach(function(session) {
+                                session.views.forEach(function(view) {
+                                    view.opts.invert = night;
+                                    var target_colors = (night ? NIGHT_COLORS : DAY_COLORS);
+                                    for (key in target_colors) {
+                                        view.opts.colors[key] = target_colors[key];
+                                    }
+                                    view.clearCache();
+                                });
+                            });
+                            // Rerender current session
+                            tab.editor.ace._dropletEditor.updateNewSession(tab.editor.ace._dropletEditor.session);
+                        }
+                    }
                     // Bind to changes in skin. When we switch to/from dark/light mode,
                     // update the "invert" flag on Droplet and swap color schemes.
                     function updateNight() {
-                        night = settings.get('user/general/@skin').indexOf('dark') !== -1;
-                        tabManager.getTabs().forEach(function(tab) {
-                            if (tab.path && tab.editor.ace && tab.editorType === 'ace' && tab.editor.ace._dropletEditor) {
-                                // Toggle all existing sessions
-                                tab.editor.ace._dropletEditor.sessions.forEach(function(session) {
-                                    session.views.forEach(function(view) {
-                                        view.opts.invert = night;
-                                        var target_colors = (night ? NIGHT_COLORS : DAY_COLORS);
-                                        for (key in target_colors) {
-                                            view.opts.colors[key] = target_colors[key];
-                                        }
-                                        view.clearCache();
-                                    });
-                                });
-                                // Rerender current session
-                                tab.editor.ace._dropletEditor.updateNewSession(tab.editor.ace._dropletEditor.session);
-                            }
-                        });
+                        let night = settings.get('user/general/@skin').indexOf('dark') !== -1;
+                        // Toggle all existing sessions
+                        tabManager.getTabs().forEach(function (tab) { setNightTheme(tab, night); });
                         // Update default for new creations
                         for (var mode in OPT_MAP) {
                             OPT_MAP[mode].viewSettings.invert = night;
@@ -375,9 +377,14 @@ define([
                     });
 
                     // Takes in an EditSession and a dropletEditor instance, and copies over whether or not blocks are being used,
-                    // cursor position and floating blocks from the document associated with the EditSession to the droplet.Editor instance.
+                    // cursor position, and floating blocks from the document associated with the EditSession to the droplet.Editor instance.
+                    // Additionally, calls updateNight() to ensure that colors are correct.
                     function restoreDropletState(session, dropletEditor) {
                         findAssociatedTab(session, function(tab) {
+                            // Fix colors if necessary
+                            let night = settings.get('user/general/@skin').indexOf('dark') !== -1;
+                            setNightTheme(tab, night);
+
                             let dropletState = tab.document.getState().meta.dropletState;
                             if (dropletState == null) return;
 
