@@ -132,6 +132,7 @@ define([
                     var clipboard = imports.clipboard;
                     var timeslider = imports.timeslider;
                     var timeslider_visible = false;
+                    var _ = require('lodash');
 
                     debug.on('frameActivate', function(event) {
                         if (event.frame != null) {
@@ -178,6 +179,10 @@ define([
 
                         // Wrap all existent Ace instances in a Droplet
                         // instance.
+                        //tabManager.once("ready", function() {
+                            //tabManager.getTabs().forEach(function(tab) {
+                            //});
+                        //});
                         tabManager.once("ready", function() {
 
                             tabManager.getTabs().forEach(function(tab) {
@@ -373,6 +378,45 @@ define([
                         }
                     });
 
+                    // Takes in an EditSession and a dropletEditor instance, and copies over whether or not blocks are being used,
+                    // cursor position and floating blocks from the document associated with the EditSession to the droplet.Editor instance.
+                    function restoreDropletState(session, dropletEditor) {
+                        findAssociatedTab(session, function(tab) {
+                            let dropletState = tab.document.getState().meta.dropletState;
+                            if (dropletState == null) return;
+
+                            // Activate the droplet.Editor if the previous document is in blocks mode
+                            let usingBlocks = tab.document.getState().meta.usingBlocks;
+                            if (usingBlocks != null) {
+                                dropletEditor.setEditorState(usingBlocks);
+                            }
+
+
+                            // If dropletEditor already has the correct floating blocks, no need (yet) to redraw the main canvas
+                            let redraw = false;
+                            if (dropletState.floatingBlocks != null && !_.isEqual(dropletState.floatingBlocks, dropletEditor.session.floatingBlocks)) {
+                                dropletEditor.session.setFloatingBlocks(dropletState.floatingBlocks);
+                                redraw = true;
+                            }
+
+                            if (dropletState.cursor != null) {
+                                // dropletState.cursor may no longer be a CrossDocumentLocation object (e.g. if there was a refresh). We should restore it if so.
+                                // Comparing constructors seems like a really hackish way to determine if two instances are of the same class but that's what StackOverflow said to do.
+                                if (dropletState.cursor.constructor != dropletEditor.session.cursor.constructor) {
+                                    let cursor = dropletEditor.session.cursor;
+                                    Object.setPrototypeOf(dropletState.cursor.location, cursor.location);
+                                    Object.setPrototypeOf(dropletState.cursor, cursor);
+                                }
+                                // If dropletEditor already has the correct cursor position, no need to redraw the main canvas.
+                                if (!_.isEqual(dropletState.cursor, dropletEditor.session.cursor)) {
+                                    dropletEditor.session.cursor = dropletState.cursor;
+                                    redraw = true;
+                                }
+                            }
+                            if (redraw) dropletEditor.redrawMain();
+                        });
+                    }
+
                     // attachToAce
                     //
                     // Called initially on all ace editors and then again
@@ -395,6 +439,9 @@ define([
                                 // the current line with the proper amount of indentation.
                                 if (!dropletEditor.session.currentlyUsingBlocks) {
                                     findAssociatedTab(dropletEditor.sessions.getReverse(dropletEditor.session), function(tab) {
+                                        state = tab.document.getState();
+                                        state.meta.foobar = "hello";
+                                        tab.document.setState(state);
                                         ace = tab.editor.ace;
                                         session = ace.getSession();
 
@@ -510,19 +557,7 @@ define([
                             // Create the Droplet editor.
                             var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
 
-                            findAssociatedTab(aceEditor.getSession(), function(tab) {
-                                if (tab.document.getState().meta.usingBlocks) {
-                                    dropletEditor.setEditorState(true);
-                                }
-
-                                var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
-                                if (floatingBlocks != null && dropletEditor.session) {
-                                    dropletEditor.session.setFloatingBlocks(
-                                        floatingBlocks
-                                    );
-                                    dropletEditor.redrawMain();
-                                }
-                            });
+                            restoreDropletState(aceEditor.getSession(), dropletEditor);
 
                             var button = $('<div class="label droplet-toggle-button material-icons"' +
                                 'style="cursor:pointer; margin: 1px 5px 4px 3px;' +
@@ -637,7 +672,7 @@ define([
                                     setTimeout(function() {
                                         changed = false;
                                         if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
-                                            var lastAceValue = dropletEditor.aceEditor.getValue();
+                                            let lastAceValue = dropletEditor.aceEditor.getValue();
                                             if (lastAceValue !== dropletEditor.getValue()) {
                                                 dropletEditor.setAceValue(dropletEditor.getValue());
                                                 tab.document.undoManager.add({undo: function() {} , redo: function() {}});
@@ -647,17 +682,21 @@ define([
 
                                             // Save floating blocks
                                             setTimeout(function() {
-                                                var state = tab.document.getState();
-                                                state.meta.dropletFloatingBlocks = dropletEditor.session.floatingBlocks.map(function(block) {
-                                                    return {
-                                                        text: block.block.stringify(),
-                                                        context: BIGGER_CONTEXTS[block.block.indentContext] || block.block.indentContext,
-                                                        pos: {
-                                                            x: block.position.x,
-                                                            y: block.position.y
-                                                        }
-                                                    }
-                                                });
+                                                let state = tab.document.getState();
+                                                state.meta.dropletState = {
+                                                    cursor: dropletEditor.session.cursor,
+                                                    floatingBlocks: dropletEditor.session.floatingBlocks.map(function(block) {
+                                                                        return {
+
+                                                                            text: block.block.stringify(),
+                                                                            context: BIGGER_CONTEXTS[block.block.indentContext] || block.block.indentContext,
+                                                                            pos: {
+                                                                                x: block.position.x,
+                                                                                y: block.position.y
+                                                                            }
+                                                                        }
+                                                                    })
+                                                }
                                                 state.changed = changed;
                                                 tab.document.setState(state);
                                             }, 0);
@@ -685,21 +724,8 @@ define([
                                         aceEditor._dropletEditor.bindNewSession(option);
 
                                         // Populate with floating blocks if necessary
-                                        findAssociatedTab(e.session, function(tab) {
-                                            if (tab.document.getState().meta.usingBlocks) {
-                                                dropletEditor.setEditorState(true);
-                                            }
-
-                                            var floatingBlocks = tab.document.getState().meta.dropletFloatingBlocks;
-                                            if (floatingBlocks != null) {
-                                                dropletEditor.session.setFloatingBlocks(
-                                                    floatingBlocks
-                                                );
-                                                dropletEditor.redrawMain();
-                                            }
-                                        });
-                                    }
-                                    else {
+                                        restoreDropletState(e.session, dropletEditor);
+                                    } else {
                                         aceEditor._dropletEditor.updateNewSession(null);
                                     }
 
@@ -715,7 +741,7 @@ define([
                                             var option = lookupOptions(aceEditor.getSession().$modeId);
                                             if (option != null) {
                                                 aceEditor._dropletEditor.setMode(lookupMode(aceEditor.getSession().$modeId), lookupModeOptions(aceEditor.getSession().$modeId));
-                                                aceEditor._dropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
+                                                aceEditor._gropletEditor.setPalette(lookupPalette(aceEditor.getSession().$modeId));
                                             }
 
                                             // Otherwise, destroy the session.
@@ -743,6 +769,8 @@ define([
                                         }
                                         correctButtonDisplay();
                                     });
+                                } else {
+                                    restoreDropletState(e.session, dropletEditor);
                                 }
 
                                 correctButtonDisplay();
