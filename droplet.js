@@ -385,15 +385,14 @@ define([
                             let night = settings.get('user/general/@skin').indexOf('dark') !== -1;
                             setNightTheme(tab, night);
 
-                            let dropletState = tab.document.getState().meta.dropletState;
-                            if (dropletState == null) return;
-
                             // Activate the droplet.Editor if the previous document is in blocks mode
                             let usingBlocks = tab.document.getState().meta.usingBlocks;
                             if (usingBlocks != null) {
                                 dropletEditor.setEditorState(usingBlocks);
                             }
 
+                            let dropletState = tab.document.getState().meta.dropletState;
+                            if (dropletState == null) return;
 
                             // If dropletEditor already has the correct floating blocks, no need (yet) to redraw the main canvas
                             let redraw = false;
