@@ -621,7 +621,6 @@ define([
                                                     cursor: dropletEditor.session.cursor,
                                                     floatingBlocks: dropletEditor.session.floatingBlocks.map(function(block) {
                                                                         return {
-
                                                                             text: block.block.stringify(),
                                                                             context: BIGGER_CONTEXTS[block.block.indentContext] || block.block.indentContext,
                                                                             pos: {
