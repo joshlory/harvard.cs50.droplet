@@ -44,6 +44,11 @@
           "title": "<p>while -- do something repeatedly</p>\n<p>Repeatedly executes the code inside <code>{ }</code> until the condition\ninside the parentheses <code>( )</code> is false.</p>\n"
         },
         {
+            "block": "do\n{\n\t\n}\nwhile (condition);",
+            "context": "blockItem",
+            "title": "<p> do while -- do something repeatedly at least once</p>\n<p>Repeatedly executes the code inside <code>{ }</code> until the condition\ninside the parentheses <code>( )</code> is false.</p> Unlike the <code>while</code> loop, the body of the loop is executed before the stop condition is evaluated, so the body will always execute at least once.</p>\n"
+        },
+        {
           "block": "for (type variable = init; condition; update)\n{\n\t\n}",
           "context": "blockItem",
           "title": "<p>for -- iterate over a range</p>\n<p>Repeats the code inside <code>{ }</code> <code>n</code> times. It does this by\nmaking a variable <code>i</code> which increases every repeition until   it reaches\n<code>n</code>. You can use <code>i</code> inside the code to tell how many times the loop\nhas already run.</p>\n"
