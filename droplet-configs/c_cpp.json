@@ -95,9 +95,49 @@
           "title": "<p>modulo</p>\n<p>Take the modulo of two numbers. This is the remainder\nwhen you divide <code>a</code> by <code>b</code>.</p>\n"
         },
         {
+          "block": "a += b",
+          "context": "expression",
+          "title": "<p>add assign</p>\n<p>Add <code>a</code> and <code>b</code> and assign the result to <code>a</code>. Equivalent to <code>a = a + b</code>.</p>"
+        },
+        {
+          "block": "a -= b",
+          "context": "expression",
+          "title": "<p>subtract assign</p>\n<p>Subtract <code>b</code> from <code>a</code> and assign the result to <code>a</code>. Equivalent to <code>a = a - b</code>.</p>"
+        },
+        {
+          "block": "a *= b",
+          "context": "expression",
+          "title": "<p>multiply assign</p>\n<p>Multiply <code>a</code> and <code>b</code> and assign the result to <code>a</code>. Equivalent to <code>a = a * b</code>.</p>"
+        },
+        {
+          "block": "a /= b",
+          "context": "expression",
+          "title": "<p>divide assign</p>\n<p>Divide <code>a</code> by <code>b</code> and assign the result to <code>a</code>. Equivalent to <code>a = a / b</code>.</p>"
+        },
+        {
+          "block": "a %= b",
+          "context": "expression",
+          "title": "<p>modulo assign</p>\n<p>Divide <code>a</code> by <code>b</code> and assign the remainder to <code>a</code>. Equivalent to <code>a = a % b</code>.</p>"
+        },
+        {
           "block": "a++",
           "context": "expression",
-          "title": "<p>increment</p>\n<p>Increase a variable by one, and return its original value. So if <code>a = 1</code>, and we do <code>b = a++</code>, then afterward, <code>a = 2</code> and <code>b = 1</code>."
+          "title": "<p>increment (postfix)</p>\n<p>Increase a variable by one, and return its original value. So if <code>a = 1</code>, and we do <code>b = a++</code>, then afterward, <code>a = 2</code> and <code>b = 1</code>.</p>"
+        },
+        {
+          "block": "a--",
+          "context": "expression",
+          "title": "<p>decrement (postfix)</p>\n<p>Decrease a variable by one, and return its original value. So if <code>a = 1</code>, and we do <code>b = a--</code>, then afterward, <code>a = 0</code> and <code>b = 1</code>.</p>"
+        },
+        {
+          "block": "++a",
+          "context": "expression",
+          "title": "<p>increment (prefix)</p>\n<p>Increase a variable by one, and return the increased value. So if <code>a = 1</code>, and we do <code>b = ++a</code>, then afterward, <code>a = 2</code> and <code>b = 2</code>.</p>"
+        },
+        {
+          "block": "--a",
+          "context": "expression",
+          "title": "<p>decrement (prefix)</p>\n<p>Decrease a variable by one, and return the decreased value. So if <code>a = 1</code>, and we do <code>b = --a</code>, then afterward, <code>a = 0</code> and <code>b = 0</code>.</p>"
         },
         {
           "block": "a == b",
