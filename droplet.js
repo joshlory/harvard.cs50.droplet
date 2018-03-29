@@ -448,7 +448,7 @@ define([
                                         row = ace.getCursorPosition().row;
                                         lines = session.getLines(row - 1, row);
                                         // Abort if there is no previous line or if the current line contains non-whitespace characters
-                                        if (!lines.length || lines[1].trim()) return;
+                                        if (lines.length <= 1 || lines[1].trim()) return;
 
                                         // Replace the current line with the proper amount of indentation
                                         indent = session.getMode().getNextLineIndent("start", lines[0], session.getTabString());
@@ -496,7 +496,6 @@ define([
 
                             // Create the Droplet editor.
                             var dropletEditor = aceEditor._dropletEditor = new droplet.Editor(aceEditor, lookupOptions(aceEditor.getSession().$modeId), worker);
-
                             restoreDropletState(aceEditor.getSession(), dropletEditor);
 
                             var button = $('<div class="label droplet-toggle-button material-icons"' +
