@@ -515,7 +515,7 @@ define([
                                     e.currentTarget
                                      .childNodes
                                      .filter(function(item) {
-                                         return ["Cut", "Copy", "Paste", "Select All", "File History"].includes(item.caption)
+                                         return ["Cut", "Copy", "Paste", "Select All", "File History"].includes(item.caption);
                                      })
                                      .forEach(function(item) {
                                          if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
