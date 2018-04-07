@@ -510,27 +510,21 @@ define([
                                 el = el.parentElement;
                             }
 
-                            el.addEventListener('contextmenu', function() {
-                                if (!ace.contextMenu) return;
-                                var items = ace.contextMenu.items;
-                                if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
-                                    items[0].disabled = true;
-                                    items[1].disabled = true;
-                                    items[2].disabled = true;
-                                    items[4].disabled = true;
-                                    setTimeout(function() {
-                                        items[0].disabled = true;
-                                        items[1].disabled = true;
-                                        items[2].disabled = true;
-                                        items[4].disabled = true;
-                                    }, 0);
-                                }
-                                else {
-                                    items[0].disabled = false;
-                                    items[1].disabled = false;
-                                    items[2].disabled = false;
-                                    items[4].disabled = false;
-                                }
+                            ace.getElement("menu", function(menu) {
+                                menu.on("prop.visible", function(e) {
+                                    e.currentTarget
+                                     .childNodes
+                                     .filter(function(item) {
+                                         return ["Cut", "Copy", "Paste", "Select All", "File History"].includes(item.caption)
+                                     })
+                                     .forEach(function(item) {
+                                         if (dropletEditor.session && dropletEditor.session.currentlyUsingBlocks) {
+                                             item.disable();
+                                         } else {
+                                             item.enable();
+                                         }
+                                     }); 
+                                });
                             });
 
                             // I'm sure there is a better way to inject the button than using JQuery, but this is how it was originally written.
