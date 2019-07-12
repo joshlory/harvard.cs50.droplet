@@ -1,3 +1,6 @@
+console.log('init');
+debugger;
+
 define([
         './lib/droplet/droplet-full.js',
         './lib/jquery.min.js',
