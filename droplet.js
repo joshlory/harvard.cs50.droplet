@@ -128,10 +128,10 @@ define([
                     var menus = imports.menus;
                     var settings = imports.settings;
                     var debug = imports.debugger;
-                    var dialogConfirmPlugin = imports["dialog.confirm"];
-                    var dialogConfirm = imports["dialog.confirm"].show;
-                    var dialogError = imports["dialog.error"].show;
-                    var dialogAlert = imports["dialog.alert"].show;
+                    var dialogConfirmPlugin = imports.dialogConfirm;
+                    var dialogConfirm = imports.dialogConfirm.show;
+                    var dialogError = imports.dialogError.show;
+                    var dialogAlert = imports.dialogAlert.show;
                     var clipboard = imports.clipboard;
                     var timeslider = imports.timeslider;
                     var timeslider_visible = false;
